@@ -7,7 +7,7 @@ import styles from './App.css';
 // Import Components
 import Helmet from 'react-helmet';
 import DevTools from './components/DevTools';
-import Header from './components/Header/Header';
+import AppBar from 'material-ui/AppBar';
 import Footer from './components/Footer/Footer';
 
 // Import Actions
@@ -48,15 +48,14 @@ export class App extends Component {
               },
             ]}
           />
-          <Header
-            switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
-            intl={this.props.intl}
-            toggleAddPost={this.toggleAddPostSection}
-          />
+          <AppBar title={"StudyGenie"} />
           <div className={styles.container}>
             {this.props.children}
           </div>
-          <Footer />
+          <Footer
+            switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
+            intl={this.props.intl}
+          />
         </div>
       </div>
     );

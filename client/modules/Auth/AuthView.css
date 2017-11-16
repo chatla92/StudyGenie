@@ -1,0 +1,27 @@
+#authContainer {
+  align-items: center;
+}
+
+.paper {
+  padding: 30px;
+  overflow: 'auto';
+  box-sizing: border-box;
+  flex-basis: 60%;
+}
+
+.buttonsDiv {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+}
+
+.raisedButton {
+  height: 30px;
+}
+
+@media(min-width: 900px) {
+  #authContainer {
+      display: flex;
+      justify-content: center;
+  }
+}

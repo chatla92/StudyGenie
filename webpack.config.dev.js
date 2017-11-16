@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
+var path = require('path');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -32,6 +33,9 @@ module.exports = {
       'client',
       'node_modules',
     ],
+    alias: {
+      'images': path.resolve(__dirname, 'client/assets')
+    }
   },
 
   module: {
