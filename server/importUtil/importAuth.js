@@ -3,7 +3,9 @@ var csv = require('fast-csv');
 var stream = fs.createReadStream('../csvFiles/auth.csv');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+// import config from '../config'
 
+// console.log(config)
 mongoose.connect('mongodb://localhost:27017/StudyGenie');
 var db = mongoose.connection;
 
@@ -22,7 +24,7 @@ csv.fromStream(stream, {headers:true})
 
 const authSchema = new Schema({
   // _id: mongoose.Schema.Types.ObjectId,
-  name: {
+  username: {
     type: String,
     required: true
   },

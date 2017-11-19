@@ -39,7 +39,9 @@ import serverConfig from './config';
 
 // Import required models
 import posts from './routes/post.router';
-// import auth from './routes/auth.router';
+import auth from './routes/auth.router';
+
+var session = require('express-session')
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -59,9 +61,18 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
+
+// Middleware
+app.use(session({secret:'sd34124S4@4D5#FD6A6&7Sgkdlf!',
+  resave:false,
+  saveUninitialized:true,
+  cookie: { httpOnly: false }
+}));
+
+// Routes
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
-app.use('/api', posts);
-// app.use('/auth', auth);
+app.use('/api/posts', posts);
+app.use('/api/auth', auth);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
@@ -107,6 +118,8 @@ const renderError = err => {
     `:<br><br><pre style="color:red">${softTab}${err.stack.replace(/\n/g, `<br>${softTab}`)}</pre>` : '';
   return renderFullPage(`Server Error${errTrace}`, {});
 };
+
+
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {

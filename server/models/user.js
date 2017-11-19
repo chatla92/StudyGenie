@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   _id: Schema.Types.ObjectId,
-  name: { type: String, required: true },
+  username: { type: String, required: true },
+  fullName: String,
   geo: {
   	city: String,
   	country: String

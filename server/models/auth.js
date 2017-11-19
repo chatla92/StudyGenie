@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 var authSchema = new Schema({
   // _id: mongoose.Schema.Types.ObjectId,
-  name: {
+  username: {
     type: String,
     required: true
   },
@@ -15,4 +15,4 @@ var authSchema = new Schema({
   }
 });
 
-module.exports.auth = function() {return mongoose.model('auth', authSchema);}
+export default mongoose.model('Auth', authSchema);
