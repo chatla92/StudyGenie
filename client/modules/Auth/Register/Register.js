@@ -71,17 +71,14 @@ class Register extends Component {
             fullWidth
             onChange={this.handleFullnameChange.bind(this)}
           />
-
-          <div>
-            <RaisedButton
-              label="Register"
-              primary
-              onClick={this.register.bind(this)}
-              className={styles.registerBtn}
-            />
-          </div>
         </form>
         <div className={styles.buttonsDiv}>
+          <RaisedButton
+            label="Register"
+            primary
+            onClick={this.register.bind(this)}
+            className={styles.registerBtn}
+          />
           <FlatButton
             label="Sign In"
             onClick={() => { this.props.viewChanged(VIEW_TYPE.SIGNIN); }}

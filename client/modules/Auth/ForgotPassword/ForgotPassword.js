@@ -38,17 +38,14 @@ class ForgotPassword extends Component {
             fullWidth
             onChange={this.handleUsernameChange.bind(this)}
           />
-
-          <div>
-            <RaisedButton
-              label="Request Password"
-              primary
-              onClick={this.requestPassword.bind(this)}
-              className={styles.requestPasswordBtn}
-            />
-          </div>
         </form>
         <div className={styles.buttonsDiv}>
+          <RaisedButton
+            label="Request Password"
+            primary
+            onClick={this.requestPassword.bind(this)}
+            className={styles.requestPasswordBtn}
+          />
           <FlatButton
             label="Sign In"
             onClick={() => { this.props.viewChanged(VIEW_TYPE.SIGNIN); }}
