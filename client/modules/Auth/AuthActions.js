@@ -17,7 +17,7 @@ export const signinSuccessful = createAction(
 
 export const signinFailure = createAction(
   SIGNIN_FAILURE,
-  creds => creds,
+  err => err,
 );
 
 export const registerSuccessful = createAction(
@@ -26,7 +26,7 @@ export const registerSuccessful = createAction(
 );
 export const registerFailure = createAction(
   REGISTER_FAILURE,
-  creds => creds,
+  err => err,
 );
 
 export const requestPasswordSuccessful = createAction(
@@ -36,7 +36,7 @@ export const requestPasswordSuccessful = createAction(
 
 export const requestPasswordFailure = createAction(
   REQUEST_PASSWORD_FAILURE,
-  creds => creds,
+  err => err,
 );
 
 // Export Actions
@@ -64,7 +64,7 @@ export function register(username, fullname, password) {
       if (err) {
         dispatch(registerFailure(err));
       } else {
-        dispatch(registerSuccessful(res.post));
+        dispatch(registerSuccessful(res.status));
       }
     });
   };
@@ -79,7 +79,7 @@ export function requestPassword(username, fullname, password) {
       if (err) {
         dispatch(requestPasswordFailure(err));
       } else {
-        dispatch(requestPasswordSuccessful(res.user));
+        dispatch(requestPasswordSuccessful(res.status));
       }
     });
   };

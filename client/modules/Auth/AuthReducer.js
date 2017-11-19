@@ -13,37 +13,41 @@ const initialState = {
   sessionId: '',
   fullname: '',
   currView: 'signin',
+  auth_status: '',
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGNIN_SUCCESSFUL :
       return {
-        data: action.posts,
+        username: action.user,
       };
 
     case SIGNIN_FAILURE :
       return {
-        data: state.data.filter(post => post.cuid !== action.cuid),
+        username: '',
+        sessionId: '',
+        fullname: '',
+        auth_status: action.err,
       };
 
     case REGISTER_SUCCESSFUL :
       return {
-        data: action.posts,
+        auth_status: '',
       };
 
     case REGISTER_FAILURE :
       return {
-        data: state.data.filter(post => post.cuid !== action.cuid),
+        auth_status: action.err,
       };
     case REQUEST_PASSWORD_SUCCESSFUL :
       return {
-        data: action.posts,
+        username: action.user,
       };
 
     case REQUEST_PASSWORD_FAILURE :
       return {
-        data: state.data.filter(post => post.cuid !== action.cuid),
+        auth_status: action.err,
       };
 
     default:

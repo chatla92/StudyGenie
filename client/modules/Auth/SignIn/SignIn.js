@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import authActions from '../AuthActions';
+import { authActions } from '../AuthActions';
 import { VIEW_TYPE } from '../AuthConstants';
 import styles from '../AuthView.css';
 
@@ -24,7 +24,7 @@ class SignIn extends Component {
 
   signin() {
     const { username, password } = this.state;
-    const { dispatch } = this.dispatch;
+    const { dispatch } = this.props;
     dispatch(authActions.signin({
       username,
       password,
