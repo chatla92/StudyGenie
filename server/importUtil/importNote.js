@@ -1,11 +1,11 @@
 var fs = require('fs');
 var csv = require('fast-csv');
-var stream = fs.createReadStream('/home/sravan/Desktop/Sem-3/Adaptive-Web/Project/StudyGenie/server/csvFiles/note.csv');
+var stream = fs.createReadStream('../csvFiles/note.csv');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var masterList = [];
 
-mongoose.connect('mongodb://localhost:27017/mern-starter');
+mongoose.connect('mongodb://localhost:27017/StudyGenie');
 
 csv.fromStream(stream, {headers:true})
     .on('data', function(data){

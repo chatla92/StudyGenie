@@ -1,10 +1,10 @@
 var fs = require('fs');
 var csv = require('fast-csv');
-var stream = fs.createReadStream('/home/sravan/Desktop/Sem-3/Adaptive-Web/Project/StudyGenie/server/csvFiles/auth.csv');
+var stream = fs.createReadStream('../csvFiles/auth.csv');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://localhost:27017/mern-starter');
+mongoose.connect('mongodb://localhost:27017/StudyGenie');
 var db = mongoose.connection;
 
 //read in CSV as stream row by row
