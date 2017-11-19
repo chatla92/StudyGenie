@@ -4,14 +4,13 @@
 import { combineReducers } from 'redux';
 
 // Import Reducers
-import app from './modules/App/AppReducer';
-import posts from './modules/Post/PostReducer';
+
+import posts from './modules/Note/NoteReducer';
 import intl from './modules/Intl/IntlReducer';
 import authReducer from './modules/Auth/AuthReducer';
 
 // Combine all reducers into one root reducer
 export default combineReducers({
-  app,
   posts,
   intl,
   auth: authReducer,
