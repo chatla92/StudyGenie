@@ -6,6 +6,7 @@ var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
 var cssnano = require('cssnano');
+var path = require('path');
 
 module.exports = {
   devtool: 'hidden-source-map',
@@ -32,6 +33,9 @@ module.exports = {
       'client',
       'node_modules',
     ],
+    alias: {
+      'images': path.resolve(__dirname, 'client/assets')
+    }
   },
 
   module: {
@@ -43,7 +47,7 @@ module.exports = {
       }, {
         test: /\.css$/,
         include: /node_modules/,
-        loaders: ['style-loader', 'css-loader'],
+        loaders: ['style-loader', 'css-loader', 'postcss-loader'],
       }, {
         test: /\.jsx*$/,
         exclude: /node_modules/,

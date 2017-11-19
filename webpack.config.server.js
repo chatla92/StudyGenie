@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var ExternalsPlugin = require('webpack-externals-plugin');
+var path = require('path');
 
 module.exports = {
 
@@ -24,6 +25,9 @@ module.exports = {
       'client',
       'node_modules',
     ],
+    alias: {
+      'images': path.resolve(__dirname, 'client/assets')
+    }
   },
 
   module: {

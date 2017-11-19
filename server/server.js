@@ -10,6 +10,8 @@ import webpack from 'webpack';
 import config from '../webpack.config.dev';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 // Initialize the Express App
 const app = new Express();
@@ -81,7 +83,7 @@ const renderFullPage = (html, initialState) => {
 
         ${process.env.NODE_ENV === 'production' ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
-        <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/png" />
       </head>
       <body>
         <div id="root">${html}</div>
@@ -123,17 +125,22 @@ app.use((req, res, next) => {
 
     const store = configureStore();
 
+    const muiTheme = getMuiTheme({}, {
+      userAgent: req.headers['user-agent'],
+    });
+
     return fetchComponentData(store, renderProps.components, renderProps.params)
       .then(() => {
         const initialView = renderToString(
           <Provider store={store}>
             <IntlWrapper>
-              <RouterContext {...renderProps} />
+              <MuiThemeProvider muiTheme={muiTheme}>
+                <RouterContext {...renderProps} />
+              </MuiThemeProvider>
             </IntlWrapper>
           </Provider>
         );
         const finalState = store.getState();
-
         res
           .set('Content-Type', 'text/html')
           .status(200)
@@ -146,7 +153,7 @@ app.use((req, res, next) => {
 // start app
 app.listen(serverConfig.port, (error) => {
   if (!error) {
-    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
+    console.log(`MERN is running on port: ${serverConfig.port}! Build your amazing StudyGenie!`); // eslint-disable-line
   }
 });
 

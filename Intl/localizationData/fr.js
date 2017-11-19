@@ -1,7 +1,7 @@
 export default {
   locale: 'fr',
   messages: {
-    siteTitle: 'MERN blog de démarrage',
+    siteTitle: 'Étude Genie',
     addPost: 'Ajouter Poster',
     switchLanguage: 'Changer de langue',
     twitterMessage: 'Nous sommes sur Twitter',
