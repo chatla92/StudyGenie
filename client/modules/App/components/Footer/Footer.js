@@ -10,13 +10,11 @@ export function Footer(props) {
   );
 
   return (
-    <div>
-      <div className={styles['language-switcher']}>
-        <ul>
-          <li><FormattedMessage id="switchLanguage" /></li>
-          {languageNodes}
-        </ul>
-      </div>
+    <div className={styles['language-switcher']}>
+      <ul>
+        <li><FormattedMessage id="switchLanguage" /></li>
+        {languageNodes}
+      </ul>
     </div>
   );
 }

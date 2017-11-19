@@ -17,12 +17,14 @@
 }
 
 .language-switcher {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.1);
 }
 
 .language-switcher ul {
   list-style: none;
-  width: 980px;
   margin: auto;
   text-align: right;
 }
