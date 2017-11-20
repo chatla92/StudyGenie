@@ -6,6 +6,9 @@ const router = new Router();
 router.route('/').post(AuthController.authUser);
 
 // Add user
-// router.route('/addUser').post(AuthController.addUser);
+router.route('/addUser').post(AuthController.addUser);
+
+// Logout
+router.route('/logout').get(AuthController.logout);
 
 export default router;
