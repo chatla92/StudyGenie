@@ -1,0 +1,4 @@
+/api/auth	POST	Validates login credentials, send data as JSON {username:"", password:""}
+/api/auth/addUser	POST	Adds user if not exists, send data as JSON {username:"", password:"", fullname:""}
+/api/auth/logout	GET
+
