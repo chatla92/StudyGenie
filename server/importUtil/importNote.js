@@ -22,6 +22,7 @@ csv.fromStream(stream, {headers:true})
         data.modDateTime = getRandomDate(randomDate).toISOString();
         
         var job = new note(data);
+        job._id = mongoose.Types.ObjectId();
         job.save(function (err) {
           if (err) 
             console.log(err);
@@ -42,11 +43,11 @@ function getRandomDate(start, end = new Date()) {
 }
 
 const noteSchema = new Schema({
-  // _id: Schema.Types.ObjectId,
+  _id: Schema.Types.ObjectId,
   title: String,
   content: String,
   owner: Schema.Types.ObjectId,
-  isCode: Boolean,
+  isPrivate: Boolean,
   meta: {
     tags: [Schema.Types.ObjectId],
     fav: [Schema.Types.ObjectId],
@@ -58,7 +59,7 @@ const noteSchema = new Schema({
 });
 
 const userSchema = new Schema({
-  // _id: Schema.Types.ObjectId,
+  _id: Schema.Types.ObjectId,
   name: { type: String, required: true },
   geo: {
     city: String,

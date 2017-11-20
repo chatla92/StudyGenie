@@ -6,7 +6,7 @@ const noteSchema = new Schema({
   title: String,
   content: String,
   owner: [Schema.Types.ObjectId],
-  isPublic: Boolean,
+  isPrivate: Boolean,
   meta: {
   	tags: [Schema.Types.ObjectId],
     fav: [Schema.Types.ObjectId],

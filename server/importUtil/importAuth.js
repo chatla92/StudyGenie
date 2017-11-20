@@ -12,7 +12,8 @@ var db = mongoose.connection;
 //read in CSV as stream row by row
 csv.fromStream(stream, {headers:true})
     .on('data', function(data){
-    var job = new auth(data);
+      var job = new auth(data);
+      job._id = mongoose.Types.ObjectId();
       job.save(function (err) {
         if (err) 
           console.log(err);
@@ -23,7 +24,7 @@ csv.fromStream(stream, {headers:true})
     });
 
 const authSchema = new Schema({
-  // _id: mongoose.Schema.Types.ObjectId,
+  _id: mongoose.Schema.Types.ObjectId,
   username: {
     type: String,
     required: true

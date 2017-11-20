@@ -1,4 +1,4 @@
-userName,isCode,title,content
+userName,isPrivate,title,content
 2,1,Example Code,"for (i = 0; i < cars.length; i++) {     text += cars[i] + ""<br>"";}"
 1,0,Hey hey,<b>you you</b>
 1,1,Nopec,codes {}

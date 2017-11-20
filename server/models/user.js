@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   _id: Schema.Types.ObjectId,
   username: { type: String, required: true },
-  fullName: String,
+  fullname: String,
   geo: {
   	city: String,
   	country: String
@@ -14,4 +14,5 @@ const userSchema = new Schema({
   modDateTime: Date
 });
 
-export default mongoose.model('user', userSchema);
+export default mongoose.model('User', userSchema);
+// module.exports.User = mongoose.model('User', userSchema)

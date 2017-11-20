@@ -12,8 +12,9 @@ csv.fromStream(stream, {headers:true})
     .on('data', function(data){
       data.createDateTime = getRandomDate(new Date(2015,1,1), new Date(2015,12,30)).toISOString();
       var job = new user(data);
+      job._id = mongoose.Types.ObjectId();
       job.save(function (err) {
-        if (err) 
+        if (err)
           console.log(err);
       });
     })
@@ -27,8 +28,9 @@ function getRandomDate(start, end = new Date()) {
 }
 
 const userSchema = new Schema({
-  // _id: Schema.Types.ObjectId,
-  name: { type: String, required: true },
+  _id: Schema.Types.ObjectId,
+  username: { type: String, required: true },
+  fullname: String,
   geo: {
     city: String,
     country: String
@@ -39,3 +41,4 @@ const userSchema = new Schema({
 });
 
 var user = mongoose.model('user', userSchema)
+// var user = require('../models/user')
