@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
 
 // Import Components
-import NoteListItem from './NoteListItem/NoteListItem';
+import NoteGridItem from './NoteGridItem/NoteGridItem';
 
-function NoteList(props) {
+function NoteGrid(props) {
   return (
-    <div className="listView">
+    <div className="GridView">
       {
         props.notes.map(note => (
-          <NoteListItem
+          <NoteGridItem
             note={note}
             key={note.cuid}
             onDelete={() => props.handleDeleteNote(note.cuid)}
@@ -19,7 +19,7 @@ function NoteList(props) {
   );
 }
 
-NoteList.propTypes = {
+NoteGrid.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -30,4 +30,4 @@ NoteList.propTypes = {
   handleDeleteNote: PropTypes.func.isRequired,
 };
 
-export default NoteList;
+export default NoteGrid;

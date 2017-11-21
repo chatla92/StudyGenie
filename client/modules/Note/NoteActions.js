@@ -34,9 +34,10 @@ export function addNotes(notes) {
 
 export function fetchNotes() {
   return (dispatch) => {
-    return callApi('notes').then(res => {
-      dispatch(addNotes(res.notes));
-    });
+    // return callApi('notes').then(res => {
+    //   dispatch(addNotes(res.notes));
+    // });
+    dispatch(addNotes([]))
   };
 }
 

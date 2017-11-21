@@ -3,9 +3,9 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
 // Import Style
-import styles from './NoteListItem.css';
+import styles from './NoteGridItem.css';
 
-function NoteListItem(props) {
+function NoteGridItem(props) {
   return (
     <div className={styles['single-note']}>
       <h3 className={styles['note-title']}>
@@ -21,7 +21,7 @@ function NoteListItem(props) {
   );
 }
 
-NoteListItem.propTypes = {
+NoteGridItem.propTypes = {
   note: PropTypes.shape({
     name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -32,4 +32,4 @@ NoteListItem.propTypes = {
   onDelete: PropTypes.func.isRequired,
 };
 
-export default NoteListItem;
+export default NoteGridItem;

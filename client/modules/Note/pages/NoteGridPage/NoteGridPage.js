@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 // Import Components
-import NoteList from '../../components/NoteList';
+import NoteGrid from '../../components/NoteGrid';
 import NoteCreateWidget from '../../components/NoteCreateWidget/NoteCreateWidget';
 
 // Import Actions
@@ -11,7 +11,7 @@ import { addNoteRequest, fetchNotes, deleteNoteRequest } from '../../NoteActions
 // Import Selectors
 import { getNotes } from '../../NoteReducer';
 
-class NoteListPage extends Component {
+class NoteGridPage extends Component {
   componentDidMount() {
     this.props.dispatch(fetchNotes());
   }
@@ -29,15 +29,15 @@ class NoteListPage extends Component {
   render() {
     return (
       <div>
-        <NoteCreateWidget addNote={this.handleAddNote} />
-        <NoteList handleDeleteNote={this.handleDeleteNote} notes={this.props.notes} />
+        {/* <NoteCreateWidget addNote={this.handleAddNote} /> */}
+        <NoteGrid handleDeleteNote={this.handleDeleteNote} notes={this.props.notes} />
       </div>
     );
   }
 }
 
 // Actions required to provide data for this component to render in sever side.
-NoteListPage.need = [() => { return fetchNotes(); }];
+NoteGridPage.need = [() => { return fetchNotes(); }];
 
 // Retrieve data from store as props
 function mapStateToProps(state) {
@@ -46,7 +46,7 @@ function mapStateToProps(state) {
   };
 }
 
-NoteListPage.propTypes = {
+NoteGridPage.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -55,8 +55,8 @@ NoteListPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-NoteListPage.contextTypes = {
+NoteGridPage.contextTypes = {
   router: React.PropTypes.object,
 };
 
-export default connect(mapStateToProps)(NoteListPage);
+export default connect(mapStateToProps)(NoteGridPage);

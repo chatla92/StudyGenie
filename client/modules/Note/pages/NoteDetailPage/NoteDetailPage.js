@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 
 // Import Style
-import styles from '../../components/NoteListItem/NoteListItem.css';
+import styles from '../../components/NoteGridItem/NoteGridItem.css';
 
 // Import Actions
 import { fetchNote } from '../../NoteActions';
