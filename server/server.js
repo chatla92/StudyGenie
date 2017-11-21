@@ -3,15 +3,12 @@ import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
-import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 
 // Webpack Requirements
 import webpack from 'webpack';
 import config from '../webpack.config.dev';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 // Initialize the Express App
 const app = new Express();
@@ -23,17 +20,11 @@ if (process.env.NODE_ENV === 'development') {
   app.use(webpackHotMiddleware(compiler));
 }
 
-// React And Redux Setup
-import { configureStore } from '../client/store';
-import { Provider } from 'react-redux';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
+import { match } from 'react-router';
 import Helmet from 'react-helmet';
 
 // Import required modules
 import routes from '../client/routes';
-import { fetchComponentData } from './util/fetchData';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -41,7 +32,7 @@ import serverConfig from './config';
 import posts from './routes/post.router';
 import authRoute from './routes/auth.router';
 
-var session = require('express-session')
+const session = require('express-session');
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -63,10 +54,10 @@ app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 
 // Middleware
-app.use(session({secret:'sd34124S4@4D5#FD6A6&7Sgkdlf!',
-  resave:false,
-  saveUninitialized:true,
-  cookie: { httpOnly: false }
+app.use(session({ secret: 'sd34124S4@4D5#FD6A6&7Sgkdlf!',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { httpOnly: false },
 }));
 
 // Routes
@@ -75,7 +66,7 @@ app.use('/api/posts', posts);
 app.use('/api/auth', authRoute);
 
 // Render Initial HTML
-const renderFullPage = (html, initialState) => {
+const renderFullPage = () => {
   const head = Helmet.rewind();
 
   // Import Manifests
@@ -97,9 +88,8 @@ const renderFullPage = (html, initialState) => {
         <link rel="shortcut icon" href="images/favicon.ico" type="image/png" />
       </head>
       <body>
-        <div id="root">${html}</div>
+        <div id="root"></div>
         <script>
-          window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
           ${process.env.NODE_ENV === 'production' ?
           `//<![CDATA[
           window.webpackManifest = ${JSON.stringify(chunkManifest)};
@@ -119,47 +109,15 @@ const renderError = err => {
   return renderFullPage(`Server Error${errTrace}`, {});
 };
 
-
-
-// Server Side Rendering based on routes matched by React-router.
-app.use((req, res, next) => {
-  match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
+app.use((req, res) => {
+  match({ routes, location: req.url }, (err, redirectLocation) => {
     if (err) {
       return res.status(500).end(renderError(err));
     }
-
     if (redirectLocation) {
       return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     }
-
-    if (!renderProps) {
-      return next();
-    }
-
-    const store = configureStore();
-
-    const muiTheme = getMuiTheme({}, {
-      userAgent: req.headers['user-agent'],
-    });
-
-    return fetchComponentData(store, renderProps.components, renderProps.params)
-      .then(() => {
-        const initialView = renderToString(
-          <Provider store={store}>
-            <IntlWrapper>
-              <MuiThemeProvider muiTheme={muiTheme}>
-                <RouterContext {...renderProps} />
-              </MuiThemeProvider>
-            </IntlWrapper>
-          </Provider>
-        );
-        const finalState = store.getState();
-        res
-          .set('Content-Type', 'text/html')
-          .status(200)
-          .end(renderFullPage(initialView, finalState));
-      })
-      .catch((error) => next(error));
+    return res.set('Content-Type', 'text/html').status(200).end(renderFullPage());
   });
 });
 

@@ -51,7 +51,7 @@ const NoteReducer = (state = initialState, action) => {
 /* Selectors */
 
 // Get all notes
-export const getNotes = state =>  { console.log(state.notebook.notes); return state.notebook.notes } ;
+export const getNotes = state => state.notebook.notes;
 
 // Get note by cuid
 export const getNote = (state, cuid) => state.notebook.notes.filter(note => note.cuid === cuid)[0];

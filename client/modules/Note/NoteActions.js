@@ -37,7 +37,7 @@ export function fetchNotes() {
     // return callApi('notes').then(res => {
     //   dispatch(addNotes(res.notes));
     // });
-    dispatch(addNotes([]))
+    dispatch(addNotes([]));
   };
 }
 

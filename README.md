@@ -53,59 +53,6 @@ MERN uses express web framework. Our app sits in server.js where we check for NO
 
 If NODE_ENV is development, we apply Webpack middlewares for bundling and Hot Module Replacement.
 
-#### Server Side Rendering
-
-We use React Router's match function for handling all page requests so that browser history works.
-
-All the routes are defined in `client/routes.js`. React Router renders components according to route requested.
-
-```js
-// Server Side Rendering based on routes matched by React-router.
-app.use((req, res) => {
-    match({
-        routes,
-        location: req.url
-    }, (err, redirectLocation, renderProps) => {
-        if (err) {
-            return res.status(500).end('Internal server error');
-        }
-
-        if (!renderProps) {
-            return res.status(404).end('Not found!');
-        }
-
-        const initialState = {
-            posts: [],
-            post: {}
-        };
-
-        const store = configureStore(initialState);
-
-        fetchComponentData(store.dispatch, renderProps.components, renderProps.params).then(() => {
-            const initialView = renderToString(
-                <Provider store = {store} >
-                  <RouterContext {...renderProps}/>
-                </Provider>
-            );
-
-            const finalState = store.getState();
-
-            res.status(200).end(renderFullPage(initialView, finalState));
-        }).catch(() => {
-            res.end(renderFullPage('Error', {}));
-        });
-    });
-});
-```
-
-`match` takes two parameters, first is an object that contains routes, location and history and second is a callback function which is called when routes have been matched to a location.
-
-If there's an error in matching we return 500 status code, if no matches are found we return 404 status code. If a match is found then, we need to create a new Redux Store instance.
-
-**Note:** A new Redux Store has populated afresh on every request.
-
-`fetchComponentData` is the essential function. It takes three params: first is a dispatch function of Redux store, the second is an array of components that should be rendered in current route and third is the route params. `fetchComponentData` collects all the needs (need is an array of actions that are required to be dispatched before rendering the component) of components in the current route. It returns a promise when all the required actions are dispatched. We render the page and send data to the client for client-side rendering in `window.__INITIAL_STATE__`.
-
 ### Client
 
 Client directory contains all the shared components, routes, modules.
