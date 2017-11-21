@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
+
 import Paper from 'material-ui/Paper';
 
 import authActions from '../AuthActions';
@@ -52,13 +52,13 @@ class Register extends Component {
       <Paper className={styles.paper}>
         <form>
           <TextField
-            hintText="E-mail"
+            label="E-mail"
             floatingLabelText="E-mail"
             fullWidth
             onChange={this.handleUsernameChange.bind(this)}
           />
           <TextField
-            hintText="Password"
+            label="Password"
             floatingLabelText="Password"
             fullWidth
             type="password"
@@ -66,29 +66,33 @@ class Register extends Component {
           />
 
           <TextField
-            hintText="Full Name"
+            label="Full Name"
             floatingLabelText="Full Name"
             fullWidth
             onChange={this.handleFullnameChange.bind(this)}
           />
         </form>
         <div className={styles.buttonsDiv}>
-          <RaisedButton
-            label="Register"
-            primary
+          <Button
+            raised
+            color="primary"
             onClick={this.register.bind(this)}
             className={styles.registerBtn}
-          />
-          <FlatButton
-            label="Sign In"
+          >
+            Register
+          </Button>
+          <Button
             onClick={() => { this.props.viewChanged(VIEW_TYPE.SIGNIN); }}
             className={styles.flatButton}
-          />
-          <FlatButton
-            label="Forgot Password?"
+          >
+            Sign in
+          </Button>
+          <Button
             onClick={() => { this.props.viewChanged(VIEW_TYPE.FORGOT_PASSWORD); }}
             className={styles.flatButton}
-          />
+          >
+            Forgot Password?
+          </Button>
         </div>
       </Paper>
     );

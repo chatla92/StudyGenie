@@ -13,8 +13,8 @@ function NoteGridItem(props) {
           {props.note.title}
         </Link>
       </h3>
-      <p className={styles['author-name']}><FormattedMessage id="by" /> {props.note.name}</p>
-      <p className={styles['note-desc']}>{props.note.content}</p>
+      <p className={styles['owner-name']}><FormattedMessage id="by" /> {props.note.name}</p>
+      <p className={styles['note-content']}>{props.note.content}</p>
       <p className={styles['note-action']}><a href="#" onClick={props.onDelete}><FormattedMessage id="deleteNote" /></a></p>
       <hr className={styles.divider} />
     </div>
