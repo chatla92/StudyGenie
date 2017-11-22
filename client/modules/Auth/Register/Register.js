@@ -53,13 +53,11 @@ class Register extends Component {
         <form>
           <TextField
             label="E-mail"
-            floatingLabelText="E-mail"
             fullWidth
             onChange={this.handleUsernameChange.bind(this)}
           />
           <TextField
             label="Password"
-            floatingLabelText="Password"
             fullWidth
             type="password"
             onChange={this.handlePasswordChange.bind(this)}
@@ -67,7 +65,6 @@ class Register extends Component {
 
           <TextField
             label="Full Name"
-            floatingLabelText="Full Name"
             fullWidth
             onChange={this.handleFullnameChange.bind(this)}
           />

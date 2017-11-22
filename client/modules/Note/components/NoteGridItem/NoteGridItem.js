@@ -1,33 +1,40 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
-import { FormattedMessage } from 'react-intl';
+import { GridListTileBar } from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import StarBorderIcon from 'material-ui-icons/StarBorder';
+import Paper from 'material-ui/Paper';
 
 // Import Style
 import styles from './NoteGridItem.css';
 
 function NoteGridItem(props) {
   return (
-    <div className={styles['single-note']}>
-      <h3 className={styles['note-title']}>
-        <Link to={`/notes/${props.note.slug}-${props.note.cuid}`} >
-          {props.note.title}
-        </Link>
-      </h3>
-      <p className={styles['owner-name']}><FormattedMessage id="by" /> {props.note.name}</p>
-      <p className={styles['note-content']}>{props.note.content}</p>
-      <p className={styles['note-action']}><a href="#" onClick={props.onDelete}><FormattedMessage id="deleteNote" /></a></p>
-      <hr className={styles.divider} />
+    <div>
+      <Paper className={styles.paper}>
+        <span>{props.note.content}</span>
+      </Paper>
+      <GridListTileBar
+        title={props.note.title}
+        titlePosition="top"
+        actionIcon={
+          <IconButton>
+            <StarBorderIcon color="white" />
+          </IconButton>
+        }
+        actionPosition="left"
+        className={styles.titleBar}
+      />
     </div>
   );
 }
 
 NoteGridItem.propTypes = {
   note: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    owner: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
-    cuid: PropTypes.string.isRequired,
+    isPrivate: PropTypes.bool.isRequired,
+    cuid: PropTypes.number.isRequired,
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
 };

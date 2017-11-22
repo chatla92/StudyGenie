@@ -33,7 +33,6 @@ class ForgotPassword extends Component {
         <form>
           <TextField
             label="E-mail"
-            floatingLabelText="E-mail"
             fullWidth
             onChange={this.handleUsernameChange.bind(this)}
           />

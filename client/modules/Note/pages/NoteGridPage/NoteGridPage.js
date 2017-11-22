@@ -22,8 +22,8 @@ class NoteGridPage extends Component {
     }
   };
 
-  handleAddNote = (name, title, content) => {
-    this.props.dispatch(addNoteRequest({ name, title, content }));
+  handleAddNote = (owner, title, content) => {
+    this.props.dispatch(addNoteRequest({ owner, title, content }));
   };
 
   render() {
@@ -48,7 +48,6 @@ function mapStateToProps(state) {
 
 NoteGridPage.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
   })).isRequired,

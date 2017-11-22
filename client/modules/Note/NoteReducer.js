@@ -2,9 +2,10 @@
 import { ADD_NOTE, ADD_NOTES, DELETE_NOTE } from './NoteActions';
 const dummyNotes = [{
   title: 'String',
-  content: 'LongString',
-  owner: [1],
+  content: 'Ipsum vero ab sequi tenetur labore vero amet facilis tempora tempora eos. Neque aliquid cum quam porro sunt sint, ducimus. Sunt neque odit non quia eveniet magnam. Eum facilis blanditiis.Ipsum vero ab sequi tenetur labore vero amet facilis tempora tempora eos. Neque aliquid cum quam porro sunt sint, ducimus. Sunt neque odit non quia eveniet magnam. Eum facilis blanditiis.',
+  owner: 'Tinu Tomson',
   isPrivate: true,
+  cuid: 12345,
   meta: {
     tags: [100, 101, 102],
     fav: [1001, 1002, 1003, 1004],
@@ -13,8 +14,9 @@ const dummyNotes = [{
   },
 }, {
   title: 'Second String',
-  content: 'Second Long String',
-  owner: [2],
+  content: 'Ipsum vero ab sequi tenetur labore vero amet facilis tempora tempora eos. Neque aliquid cum quam porro sunt sint, ducimus. Sunt neque odit non quia eveniet magnam. Eum facilis blanditiis.',
+  owner: 'Sravan Samudra',
+  cuid: 12346,
   isPrivate: true,
   meta: {
     tags: [100, 101, 102],

@@ -7,7 +7,8 @@ import styles from './App.css';
 // Import Components
 import Helmet from 'react-helmet';
 import DevTools from './components/DevTools';
-import AppBar from 'material-ui/AppBar';
+
+import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
 // Import Actions
@@ -43,7 +44,7 @@ export class App extends Component {
               },
             ]}
           />
-          <AppBar title={"StudyGenie"} />
+          <Header />
           <div className={styles.container}>
             {this.props.children}
           </div>

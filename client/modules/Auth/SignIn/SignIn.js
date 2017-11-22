@@ -48,13 +48,11 @@ class SignIn extends Component {
         <form>
           <TextField
             label="E-mail"
-            floatingLabelText="E-mail"
             fullWidth
             onChange={this.handleUsernameChange.bind(this)}
           />
           <TextField
             label="Password"
-            floatingLabelText="Password"
             fullWidth
             type="password"
             onChange={this.handlePasswordChange.bind(this)}
