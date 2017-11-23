@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Import Components
 import NoteGrid from '../../components/NoteGrid';
-import NoteCreateWidget from '../../components/NoteCreateWidget/NoteCreateWidget';
+import NoteComposer from '../../components/NoteComposer/NoteComposer';
 
 // Import Actions
 import { addNoteRequest, fetchNotes, deleteNoteRequest } from '../../NoteActions';
@@ -12,6 +12,9 @@ import { addNoteRequest, fetchNotes, deleteNoteRequest } from '../../NoteActions
 import { getNotes } from '../../NoteReducer';
 
 class NoteGridPage extends Component {
+  state = {
+    isComposerOpen: false,
+  }
   componentDidMount() {
     this.props.dispatch(fetchNotes());
   }
@@ -26,11 +29,24 @@ class NoteGridPage extends Component {
     this.props.dispatch(addNoteRequest({ owner, title, content }));
   };
 
+  requestComposer = (shouldComposerOpen) => {
+    this.setState({
+      isComposerOpen: shouldComposerOpen,
+    });
+  };
+
   render() {
     return (
       <div>
-        {/* <NoteCreateWidget addNote={this.handleAddNote} /> */}
-        <NoteGrid handleDeleteNote={this.handleDeleteNote} notes={this.props.notes} />
+        <NoteGrid
+          requestComposer={this.requestComposer}
+          handleDeleteNote={this.handleDeleteNote}
+          notes={this.props.notes}
+        />
+        <NoteComposer
+          requestComposer={this.requestComposer}
+          isComposerOpen={this.state.isComposerOpen}
+        />
       </div>
     );
   }

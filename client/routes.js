@@ -33,7 +33,7 @@ export default (
       }}
     />
     <Route
-      path="/notes/"
+      path="/notes"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Note/pages/NoteGridPage/NoteGridPage').default);
