@@ -3,6 +3,7 @@ import styles from './NoteGrid.css';
 
 // Import Components
 import NoteGridItem from './NoteGridItem/NoteGridItem';
+import NoteCreateWidget from './NoteCreateWidget/NoteCreateWidget';
 import { GridList, GridListTile } from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
 
@@ -12,6 +13,9 @@ function NoteGrid(props) {
       <GridList cellHeight={250} cols={5} spacing={10} className={styles.gridList}>
         <GridListTile key="Subheader" cols={5} style={{ height: 'auto' }}>
           <Subheader component="div">December</Subheader>
+        </GridListTile>
+        <GridListTile key={"NoteCreateWidget"} cols={1} rows={1}>
+          <NoteCreateWidget requestComposer={props.requestComposer} />
         </GridListTile>
           {
             props.notes.map(note => (
@@ -29,6 +33,7 @@ function NoteGrid(props) {
   );
 }
 
+
 NoteGrid.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
     owner: PropTypes.string.isRequired,
@@ -38,6 +43,7 @@ NoteGrid.propTypes = {
     cuid: PropTypes.number.isRequired,
   })).isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
+  requestComposer: PropTypes.func.isRequired,
 };
 
 export default NoteGrid;
