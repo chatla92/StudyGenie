@@ -3,7 +3,7 @@ import User from '../models/user';
 import cuid from 'cuid';
 import slug from 'limax';
 import sanitizeHtml from 'sanitize-html';
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 
 /**
  * Authenticate User
@@ -13,13 +13,13 @@ var mongoose = require('mongoose')
  */
 export function authUser(req, res) {
   const { username, password } = req.body;
-  Auth.findOne({username, password}, (err, foundCredential) => {
+  Auth.findOne({ username, password }, (err, foundCredential) => {
     if (err) return res.status(500).send();
     if (!foundCredential) return res.status(401).send();
-    
+
     req.session.user = foundCredential;
-    return res.status(200).json({status:'success',
-      sessionId:req.sessionID, name: foundCredential.username});
+    return res.status(200).json({ status: 'success',
+      sessionId: req.sessionID, name: foundCredential.username });
   });
 }
 
@@ -33,27 +33,27 @@ export function addUser(req, res) {
   const { username, password, fullname } = req.body;
   const createDateTime = Date.now();
 
-  Auth.findOne({username}, (err, foundCredential) => {
-    console.log("foundCredential = " + foundCredential)
+  Auth.findOne({ username }, (err, foundCredential) => {
+    console.log('foundCredential = ' + foundCredential);
     if (err) return res.status(500).send();
     if (foundCredential) return res.status(409).send();
     var _id = mongoose.Types.ObjectId();
     const newAuth = new Auth({ _id, username, password });
-    
+
     _id = mongoose.Types.ObjectId();
     const newUser = new User({ _id, username, fullname, createDateTime });
 
-    newAuth.save(function(err) {
+    newAuth.save(function (err) {
       if (err) return res.status(500).send();
     });
-    
-    newUser.save(function(err) {
-        if (err) {
-          console.log(err);
-          return res.status(500).send();
-        }
+
+    newUser.save(function (err) {
+      if (err) {
+        console.log(err);
+        return res.status(500).send();
+      }
     });
-  })
+  });
 }
 
 /**
@@ -64,5 +64,5 @@ export function addUser(req, res) {
  */
 export function logout(req, res) {
   req.session.user = null;
-  return res.status(200).json({status:'success'});
+  return res.status(200).json({ status: 'success' });
 }

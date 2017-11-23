@@ -8,13 +8,13 @@ const noteSchema = new Schema({
   owner: [Schema.Types.ObjectId],
   isPrivate: Boolean,
   meta: {
-  	tags: [Schema.Types.ObjectId],
+  	                    tags: [Schema.Types.ObjectId],
     fav: [Schema.Types.ObjectId],
-  	upvote: [Schema.Types.ObjectId],
-  	downvote: [Schema.Types.ObjectId],
+  	                    upvote: [Schema.Types.ObjectId],
+  	                    downvote: [Schema.Types.ObjectId],
   },
   createDateTime: Date,
-  modDateTime: Date
+  modDateTime: Date,
 });
 
 export default mongoose.model('note', noteSchema);

@@ -29,6 +29,7 @@ input:-moz-placeholder {
 
 body {
 	background: url('images/bkgd.jpg');
+	background-size: 100%;
 	font-family: 'Lato', sans-serif;
 	font-size: 16px;
 }

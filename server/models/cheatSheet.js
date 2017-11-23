@@ -7,7 +7,7 @@ const csSchema = new Schema({
   content: String,
   owner: [Schema.Types.ObjectId],
   createDateTime: Date,
-  modDateTime: Date
+  modDateTime: Date,
 });
 
 export default mongoose.model('cheatSheet', csSchema);

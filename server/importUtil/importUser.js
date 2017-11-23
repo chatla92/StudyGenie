@@ -7,10 +7,10 @@ var Schema = mongoose.Schema;
 mongoose.connect('mongodb://localhost:27017/StudyGenie');
 var db = mongoose.connection;
 
-//read in CSV as stream row by row
-csv.fromStream(stream, {headers:true})
-    .on('data', function(data){
-      data.createDateTime = getRandomDate(new Date(2015,1,1), new Date(2015,12,30)).toISOString();
+// read in CSV as stream row by row
+csv.fromStream(stream, { headers: true })
+    .on('data', function (data) {
+      data.createDateTime = getRandomDate(new Date(2015, 1, 1), new Date(2015, 12, 30)).toISOString();
       var job = new user(data);
       job._id = mongoose.Types.ObjectId();
       job.save(function (err) {
@@ -18,12 +18,12 @@ csv.fromStream(stream, {headers:true})
           console.log(err);
       });
     })
-    .on('end', function(){
+    .on('end', function () {
       console.log('done');
     });
 
 function getRandomDate(start, end = new Date()) {
-  var diffTime = end.getTime() - start.getTime()
+  var diffTime = end.getTime() - start.getTime();
   return new Date(start.getTime() + Math.random() * diffTime);
 }
 
@@ -33,12 +33,12 @@ const userSchema = new Schema({
   fullname: String,
   geo: {
     city: String,
-    country: String
+    country: String,
   },
   groups: [String],
   createDateTime: Date,
-  modDateTime: Date
+  modDateTime: Date,
 });
 
-var user = mongoose.model('user', userSchema)
+var user = mongoose.model('user', userSchema);
 // var user = require('../models/user')

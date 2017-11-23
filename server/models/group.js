@@ -7,14 +7,14 @@ const grpSchema = new Schema({
   owner: [Schema.Types.ObjectId],
   memberData: [{
     user: [Schema.Types.ObjectId],
-    dateAdded: Date
+    dateAdded: Date,
   }],
   noteDate: [{
     note: [Schema.Types.ObjectId],
-    dateAdded: Date
+    dateAdded: Date,
   }],
   createDateTime: Date,
-  modDateTime: Date
+  modDateTime: Date,
 });
 
 export default mongoose.model('group', grpSchema);

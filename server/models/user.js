@@ -6,12 +6,12 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   fullname: String,
   geo: {
-  	city: String,
-  	country: String
+  	                    city: String,
+  	                    country: String,
   },
   groups: [String],
   createDateTime: Date,
-  modDateTime: Date
+  modDateTime: Date,
 });
 
 export default mongoose.model('User', userSchema);
