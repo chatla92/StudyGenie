@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
+import ChipInput from '../../../../components/ChipInput';
 
 import Dialog, {
   DialogActions,
@@ -56,6 +57,7 @@ class NoteComposer extends Component {
   render() {
     return (
       <Dialog
+        fullScreen
         title="Add new card"
         transition={this.upTransition}
         keepMounted
@@ -66,16 +68,14 @@ class NoteComposer extends Component {
             label="Title"
             fullWidth
           />
-          <TextField
-            label="Tags"
-            fullWidth
-          />
-          <TextField
-            label="Shared with"
-            fullWidth
-          />
         </DialogTitle>
         <DialogContent>
+          <ChipInput
+            placeholder="Share with"
+          />
+          <ChipInput
+            placeholder="Tags"
+          />
           <TextField
             label="Note"
             fullWidth

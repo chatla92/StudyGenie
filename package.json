@@ -50,6 +50,7 @@
     "material-ui-icons": "^1.0.0-beta.17",
     "mongoose": "^4.4.20",
     "react": "^15.1.0",
+    "react-chips": "^0.6.4",
     "react-dom": "^15.1.0",
     "react-helmet": "^3.1.0",
     "react-intl": "^2.1.2",
