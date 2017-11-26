@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import NoteAddIcon from 'material-ui-icons/NoteAdd';
 import Paper from 'material-ui/Paper';
 

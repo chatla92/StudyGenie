@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import IconButton from 'material-ui/IconButton';
 import ModeEditIcon from 'material-ui-icons/ModeEdit';
 import Avatar from 'material-ui/Avatar';
