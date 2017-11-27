@@ -73,7 +73,7 @@ NoteGridPage.propTypes = {
 };
 
 NoteGridPage.contextTypes = {
-  router: React.PropTypes.object,
+  router: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(NoteGridPage);

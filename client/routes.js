@@ -52,7 +52,7 @@ export default (
       path="/cheatsheets"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
-          cb(null, require('./modules/CheatSheet/CheatSheetGridPage/CheatSheetGridPage').default);
+          cb(null, require('./modules/CheatSheet/CheatSheetListPage/CheatSheetListPage').default);
         });
       }}
     />
