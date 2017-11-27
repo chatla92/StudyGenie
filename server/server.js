@@ -31,6 +31,8 @@ import serverConfig from './config';
 // Import required models
 import posts from './routes/post.router';
 import authRoute from './routes/auth.router';
+import noteRoute from './routes/note.router';
+import csRoute from './routes/cheatsheet.router';
 
 const session = require('express-session');
 
@@ -64,6 +66,8 @@ app.use(session({ secret: 'sd34124S4@4D5#FD6A6&7Sgkdlf!',
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 app.use('/api/posts', posts);
 app.use('/api/auth', authRoute);
+app.use('/api/note', noteRoute);
+// app.use('/api/cs', csRoute);
 
 // Render Initial HTML
 const renderFullPage = () => {

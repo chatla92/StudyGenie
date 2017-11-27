@@ -5,16 +5,28 @@ const noteSchema = new Schema({
   _id: Schema.Types.ObjectId,
   title: String,
   content: String,
-  owner: [Schema.Types.ObjectId],
+  owner: {
+    username: String,
+    fullname: String
+  },
   isPrivate: Boolean,
   meta: {
-  	tags: [Schema.Types.ObjectId],
-    fav: [Schema.Types.ObjectId],
-  	upvote: [Schema.Types.ObjectId],
-  	downvote: [Schema.Types.ObjectId],
+    tags: [Schema.Types.ObjectId],
+    fav: [{
+      username: String,
+      fullname: String
+    }],
+    upvote: [{
+      username: String,
+      fullname: String
+    }],
+    downvote: [{
+      username: String,
+      fullname: String
+    }],
   },
   createDateTime: Date,
-  modDateTime: Date
+  modDateTime: Date,
 });
 
 export default mongoose.model('note', noteSchema);

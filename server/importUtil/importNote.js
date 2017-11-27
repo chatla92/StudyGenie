@@ -1,44 +1,13 @@
-var fs = require('fs');
-var csv = require('fast-csv');
-var stream = fs.createReadStream('../csvFiles/note.csv');
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var masterList = [];
+const fs = require('fs');
+const csv = require('fast-csv');
+const stream = fs.createReadStream('../csvFiles/note.csv');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 mongoose.connect('mongodb://localhost:27017/StudyGenie');
 
-csv.fromStream(stream, {headers:true})
-    .on('data', function(data){
-      var userName = 'user' + data.userName
-      var userCollection = mongoose.model('user', userSchema)
-      
-      userCollection.findOne({name:userName}, {_id:1}, function(err, userId) {
-        if(err)
-          console.log(err)
-
-        data.owner = userId
-        var randomDate = getRandomDate(new Date(2016,1,1));
-        data.createDateTime = randomDate.toISOString();
-        data.modDateTime = getRandomDate(randomDate).toISOString();
-        
-        var job = new note(data);
-        job._id = mongoose.Types.ObjectId();
-        job.save(function (err) {
-          if (err) 
-            console.log(err);
-        });
-
-
-      });
-    })
-    .on('end', function(){
-      console.log('done');
-      // console.log(masterList.toString());
-      
-    });
-
 function getRandomDate(start, end = new Date()) {
-  var diffTime = end.getTime() - start.getTime()
+  const diffTime = end.getTime() - start.getTime();
   return new Date(start.getTime() + Math.random() * diffTime);
 }
 
@@ -46,16 +15,28 @@ const noteSchema = new Schema({
   _id: Schema.Types.ObjectId,
   title: String,
   content: String,
-  owner: Schema.Types.ObjectId,
+  owner: {
+    username: String,
+    fullname: String
+  },
   isPrivate: Boolean,
   meta: {
     tags: [Schema.Types.ObjectId],
-    fav: [Schema.Types.ObjectId],
-    upvote: [Schema.Types.ObjectId],
-    downvote: [Schema.Types.ObjectId],
+    fav: [{
+      username: String,
+      fullname: String
+    }],
+    upvote: [{
+      username: String,
+      fullname: String
+    }],
+    downvote: [{
+      username: String,
+      fullname: String
+    }],
   },
   createDateTime: Date,
-  modDateTime: Date
+  modDateTime: Date,
 });
 
 const userSchema = new Schema({
@@ -63,11 +44,41 @@ const userSchema = new Schema({
   name: { type: String, required: true },
   geo: {
     city: String,
-    country: String
+    country: String,
   },
   groups: [String],
   createDateTime: Date,
-  modDateTime: Date
+  modDateTime: Date,
 });
 
-var note = mongoose.model('note', noteSchema)
+const Note = mongoose.model('Note', noteSchema);
+const User = mongoose.model('User', userSchema);
+
+csv.fromStream(stream, { headers: true })
+    .on('data', function (data) {
+      if(data.content !== "NULL" && data.title !== "NULL") {
+        const username = 'user' + data.username + '@gmail.com';
+
+        User.findOne({ username }, function (err, userInfo) {
+          if (err) return res.status(500).send();
+
+          data.owner = {
+            "username": userInfo.username,
+            "fullname": userInfo.fullname
+          };
+          const randomDate = getRandomDate(new Date(2016, 1, 1));
+          data.createDateTime = randomDate.toISOString();
+          data.modDateTime = getRandomDate(randomDate).toISOString();
+
+          const job = new Note(data);
+          job._id = mongoose.Types.ObjectId();
+          job.save(function (err) {
+            if (err) res.status(500).send();
+          });
+        });
+      }
+    })
+    .on('end', function () {
+      console.log('done');
+      // console.log(masterList.toString());
+    });

@@ -1,29 +1,13 @@
-var fs = require('fs');
-var csv = require('fast-csv');
-var stream = fs.createReadStream('../csvFiles/user.csv');
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const fs = require('fs');
+const csv = require('fast-csv');
+const stream = fs.createReadStream('../csvFiles/user.csv');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 mongoose.connect('mongodb://localhost:27017/StudyGenie');
-var db = mongoose.connection;
-
-//read in CSV as stream row by row
-csv.fromStream(stream, {headers:true})
-    .on('data', function(data){
-      data.createDateTime = getRandomDate(new Date(2015,1,1), new Date(2015,12,30)).toISOString();
-      var job = new user(data);
-      job._id = mongoose.Types.ObjectId();
-      job.save(function (err) {
-        if (err)
-          console.log(err);
-      });
-    })
-    .on('end', function(){
-      console.log('done');
-    });
 
 function getRandomDate(start, end = new Date()) {
-  var diffTime = end.getTime() - start.getTime()
+  const diffTime = end.getTime() - start.getTime();
   return new Date(start.getTime() + Math.random() * diffTime);
 }
 
@@ -33,12 +17,26 @@ const userSchema = new Schema({
   fullname: String,
   geo: {
     city: String,
-    country: String
+    country: String,
   },
   groups: [String],
   createDateTime: Date,
-  modDateTime: Date
+  modDateTime: Date,
 });
 
-var user = mongoose.model('user', userSchema)
-// var user = require('../models/user')
+const User = mongoose.model('User', userSchema);
+
+// read in CSV as stream row by row
+csv.fromStream(stream, { headers: true })
+    .on('data', function (data) {
+      data.createDateTime = getRandomDate(new Date(2015, 1, 1), new Date(2015, 12, 30)).toISOString();
+      const job = new User(data);
+      job._id = mongoose.Types.ObjectId();
+      job.save(function (err) {
+        if (err)
+          console.log(err);
+      });
+    })
+    .on('end', function () {
+      console.log('done');
+    });
