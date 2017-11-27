@@ -1,9 +1,11 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 
 // Import Components
 import NoteGrid from '../../components/NoteGrid';
-import NoteCreateWidget from '../../components/NoteCreateWidget/NoteCreateWidget';
+import NoteComposer from '../../components/NoteComposer/NoteComposer';
 
 // Import Actions
 import { addNoteRequest, fetchNotes, deleteNoteRequest } from '../../NoteActions';
@@ -12,6 +14,9 @@ import { addNoteRequest, fetchNotes, deleteNoteRequest } from '../../NoteActions
 import { getNotes } from '../../NoteReducer';
 
 class NoteGridPage extends Component {
+  state = {
+    isComposerOpen: false,
+  }
   componentDidMount() {
     this.props.dispatch(fetchNotes());
   }
@@ -22,15 +27,28 @@ class NoteGridPage extends Component {
     }
   };
 
-  handleAddNote = (name, title, content) => {
-    this.props.dispatch(addNoteRequest({ name, title, content }));
+  handleAddNote = (owner, title, content) => {
+    this.props.dispatch(addNoteRequest({ owner, title, content }));
+  };
+
+  requestComposer = (shouldComposerOpen) => {
+    this.setState({
+      isComposerOpen: shouldComposerOpen,
+    });
   };
 
   render() {
     return (
       <div>
-        {/* <NoteCreateWidget addNote={this.handleAddNote} /> */}
-        <NoteGrid handleDeleteNote={this.handleDeleteNote} notes={this.props.notes} />
+        <NoteGrid
+          requestComposer={this.requestComposer}
+          handleDeleteNote={this.handleDeleteNote}
+          notes={this.props.notes}
+        />
+        <NoteComposer
+          requestComposer={this.requestComposer}
+          isComposerOpen={this.state.isComposerOpen}
+        />
       </div>
     );
   }
@@ -48,7 +66,6 @@ function mapStateToProps(state) {
 
 NoteGridPage.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
   })).isRequired,
@@ -56,7 +73,7 @@ NoteGridPage.propTypes = {
 };
 
 NoteGridPage.contextTypes = {
-  router: React.PropTypes.object,
+  router: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(NoteGridPage);

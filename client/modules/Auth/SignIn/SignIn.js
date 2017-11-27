@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { authActions } from '../AuthActions';
 import { VIEW_TYPE } from '../AuthConstants';
 import styles from '../AuthView.css';
 
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
 
 class SignIn extends Component {
@@ -48,35 +48,37 @@ class SignIn extends Component {
       <Paper className={styles.paper}>
         <form>
           <TextField
-            hintText="E-mail"
-            floatingLabelText="E-mail"
+            label="E-mail"
             fullWidth
             onChange={this.handleUsernameChange.bind(this)}
           />
           <TextField
-            hintText="Password"
-            floatingLabelText="Password"
+            label="Password"
             fullWidth
             type="password"
             onChange={this.handlePasswordChange.bind(this)}
           />
         </form>
         <div className={styles.buttonsDiv}>
-          <RaisedButton
-            label="Sign In"
-            primary
+          <Button
+            raised
+            color="primary"
             onClick={this.signin.bind(this)}
-          />
-          <FlatButton
-            label="Register"
+          >
+            Sign In
+          </Button>
+          <Button
             onClick={() => { this.props.viewChanged(VIEW_TYPE.REGISTER); }}
             className={styles.flatButton}
-          />
-          <FlatButton
-            label="Forgot Password?"
+          >
+            Register
+          </Button>
+          <Button
             onClick={() => { this.props.viewChanged(VIEW_TYPE.FORGOT_PASSWORD); }}
             className={styles.flatButton}
-          />
+          >
+            Forgot Password?
+          </Button>
         </div>
       </Paper>
     );

@@ -14,3 +14,12 @@
   text-decoration: none;
   color: #FFF;
 }
+
+.menuButton {
+  marginLeft: -12;
+  marginRight: 20;
+}
+
+.drawer_list {
+  display: block;
+}

@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
@@ -18,7 +20,7 @@ export function NoteDetailPage(props) {
       <Helmet title={props.note.title} />
       <div className={`${styles['single-note']} ${styles['note-detail']}`}>
         <h3 className={styles['note-title']}>{props.note.title}</h3>
-        <p className={styles['author-name']}><FormattedMessage id="by" /> {props.note.name}</p>
+        <p className={styles['owner-name']}><FormattedMessage id="by" /> {props.note.owner}</p>
         <p className={styles['note-desc']}>{props.note.content}</p>
       </div>
     </div>
@@ -39,11 +41,11 @@ function mapStateToProps(state, props) {
 
 NoteDetailPage.propTypes = {
   note: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    owner: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
-    cuid: PropTypes.string.isRequired,
+    isPrivate: PropTypes.bool.isRequired,
+    cuid: PropTypes.number.isRequired,
   }).isRequired,
 };
 

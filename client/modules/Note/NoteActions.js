@@ -17,7 +17,7 @@ export function addNoteRequest(note) {
   return (dispatch) => {
     return callApi('notes', 'post', {
       note: {
-        name: note.name,
+        owner: note.owner,
         title: note.title,
         content: note.content,
       },

@@ -11,7 +11,7 @@ const noteSchema = new Schema({
   },
   isPrivate: Boolean,
   meta: {
-    tags: [Schema.Types.ObjectId],
+    tags: [String],
     fav: [{
       username: String,
       fullname: String

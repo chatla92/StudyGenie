@@ -5,6 +5,21 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 mongoose.connect('mongodb://localhost:27017/StudyGenie');
+var db = mongoose.connection;
+
+// read in CSV as stream row by row
+csv.fromStream(stream, { headers: true })
+    .on('data', function (data) {
+      var job = new auth(data);
+      job._id = mongoose.Types.ObjectId();
+      job.save(function (err) {
+        if (err)
+          console.log(err);
+      });
+    })
+    .on('end', function () {
+      console.log('done');
+    });
 
 const authSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -20,17 +35,4 @@ const authSchema = new Schema({
   },
 });
 
-const Auth = mongoose.model('Auth', authSchema);
-
-csv.fromStream(stream, { headers: true })
-    .on('data', function (data) {
-      const job = new Auth(data);
-      job._id = mongoose.Types.ObjectId();
-      job.save(function (err) {
-        if (err)  console.log(err);
-      });
-    })
-    .on('end', function () {
-      console.log('done');
-    });
-
+var auth = mongoose.model('auth', authSchema);

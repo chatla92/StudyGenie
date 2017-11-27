@@ -8,6 +8,37 @@ mongoose.connect('mongodb://localhost:27017/StudyGenie');
 
 function getRandomDate(start, end = new Date()) {
   const diffTime = end.getTime() - start.getTime();
+
+csv.fromStream(stream, { headers: true })
+    .on('data', function (data) {
+      var userName = 'user' + data.userName;
+      var userCollection = mongoose.model('user', userSchema);
+
+      userCollection.findOne({ name: userName }, { _id: 1 }, function (err, userId) {
+        if (err)
+          console.log(err);
+
+        data.owner = userId;
+        var randomDate = getRandomDate(new Date(2016, 1, 1));
+        data.createDateTime = randomDate.toISOString();
+        data.modDateTime = getRandomDate(randomDate).toISOString();
+
+        var job = new note(data);
+        job._id = mongoose.Types.ObjectId();
+        job.save(function (err) {
+          if (err)
+            console.log(err);
+        });
+      });
+    })
+    .on('end', function () {
+      console.log('done');
+      // console.log(masterList.toString());
+    });
+
+function getRandomDate(start, end = new Date()) {
+  var diffTime = end.getTime() - start.getTime();
+>>>>>>> 8afff237aa1a1430ff24adb344ec28e7a1ac2cb2
   return new Date(start.getTime() + Math.random() * diffTime);
 }
 
@@ -51,34 +82,4 @@ const userSchema = new Schema({
   modDateTime: Date,
 });
 
-const Note = mongoose.model('Note', noteSchema);
-const User = mongoose.model('User', userSchema);
-
-csv.fromStream(stream, { headers: true })
-    .on('data', function (data) {
-      if(data.content !== "NULL" && data.title !== "NULL") {
-        const username = 'user' + data.username + '@gmail.com';
-
-        User.findOne({ username }, function (err, userInfo) {
-          if (err) return res.status(500).send();
-
-          data.owner = {
-            "username": userInfo.username,
-            "fullname": userInfo.fullname
-          };
-          const randomDate = getRandomDate(new Date(2016, 1, 1));
-          data.createDateTime = randomDate.toISOString();
-          data.modDateTime = getRandomDate(randomDate).toISOString();
-
-          const job = new Note(data);
-          job._id = mongoose.Types.ObjectId();
-          job.save(function (err) {
-            if (err) res.status(500).send();
-          });
-        });
-      }
-    })
-    .on('end', function () {
-      console.log('done');
-      // console.log(masterList.toString());
-    });
+var note = mongoose.model('note', noteSchema);

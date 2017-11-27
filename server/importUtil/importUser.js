@@ -40,3 +40,5 @@ csv.fromStream(stream, { headers: true })
     .on('end', function () {
       console.log('done');
     });
+
+var user = mongoose.model('user', userSchema);

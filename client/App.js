@@ -2,22 +2,24 @@
  * Root Component
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import IntlWrapper from './modules/Intl/IntlWrapper';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 // Import Routes
 import routes from './routes';
 
 // Base stylesheet
 require('./main.css');
+const theme = createMuiTheme();
 
 export default function App(props) {
   return (
     <Provider store={props.store}>
       <IntlWrapper>
-        <MuiThemeProvider>
+        <MuiThemeProvider theme={theme}>
           <Router history={browserHistory}>
             {routes}
           </Router>
@@ -28,5 +30,5 @@ export default function App(props) {
 }
 
 App.propTypes = {
-  store: React.PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired,
 };

@@ -36,10 +36,8 @@ export function addUser(req, res) {
     if (foundCredential) return res.status(409).send();
     const _id = mongoose.Types.ObjectId();
     const newAuth = new Auth({ _id, username, password });
-
     const user_id = mongoose.Types.ObjectId();
     const newUser = new User({ _id: user_id, username, fullname, createDateTime });
-
     newAuth.save(function (err) {
       if (err) return res.status(500).send();
     });

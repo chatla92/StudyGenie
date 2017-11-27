@@ -33,7 +33,7 @@ export default (
       }}
     />
     <Route
-      path="/notes/"
+      path="/notes"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Note/pages/NoteGridPage/NoteGridPage').default);
@@ -41,10 +41,34 @@ export default (
       }}
     />
     <Route
-      path="/notes/:slug-:cuid"
+      path="/notes/:id"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Note/pages/NoteDetailPage/NoteDetailPage').default);
+        });
+      }}
+    />
+    <Route
+      path="/cheatsheets"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/CheatSheet/CheatSheetListPage/CheatSheetListPage').default);
+        });
+      }}
+    />
+    <Route
+      path="/cheatsheets/:id"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/CheatSheet/CheatSheetDetailsPage/CheatSheetDetailsPage').default);
+        });
+      }}
+    />
+    <Route
+      path="/userprofile"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/UserProfile/UserPage').default);
         });
       }}
     />
