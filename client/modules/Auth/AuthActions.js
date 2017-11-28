@@ -1,5 +1,7 @@
 import callApi from '../../util/apiCaller';
 import { createAction } from 'redux-actions';
+import localStorage from 'localStorage';
+
 import {
   SIGNIN_SUCCESSFUL,
   SIGNIN_FAILURE,

@@ -51,11 +51,11 @@ class AuthView extends Component {
 
 AuthView.propTypes = {
   dispatch: PropTypes.func.isRequired,
-
+  auth_status: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  currView: state.auth.currView,
+  auth_status: state.auth.auth_status,
 });
 
 function mapDispatchToProp(dispatch) {
