@@ -11,9 +11,9 @@ if (typeof require.ensure !== 'function') {
 }
 
 /* Workaround for async react routes to work with react-hot-reloader till
-  https://github.com/reactjs/react-router/issues/2182 and
-  https://github.com/gaearon/react-hot-loader/issues/288 is fixed.
- */
+https://github.com/reactjs/react-router/issues/2182 and
+https://github.com/gaearon/react-hot-loader/issues/288 is fixed.
+*/
 if (process.env.NODE_ENV !== 'production') {
   // Require async routes only in development for react-hot-reloader to work.
   require('./modules/Auth/AuthView');
@@ -21,11 +21,24 @@ if (process.env.NODE_ENV !== 'production') {
   require('./modules/Note/pages/NoteDetailPage/NoteDetailPage');
 }
 
+const requireAuth = (nextState, replace) => {
+  if (!localStorage.getItem('username')) {
+    replace({ pathname: '/', nextPathname: nextState.location.pathname });
+  }
+};
+
+const hasAuth = (nextState, replace) => {
+  if (!!localStorage.getItem('username')) {
+    replace({ pathname: '/notes', nextPathname: nextState.location.pathname });
+  }
+};
+
 // react-router setup with code-splitting
 // More info: http://blog.mxstbr.com/2016/01/react-apps-with-pages/
 export default (
   <Route path="/" component={App}>
     <IndexRoute
+      onEnter={hasAuth}
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Auth/AuthView').default);
@@ -34,11 +47,12 @@ export default (
     />
     <Route
       path="/notes"
+      onEnter={requireAuth}
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Note/pages/NoteGridPage/NoteGridPage').default);
         });
-      }}
+    }}
     />
     <Route
       path="/notes/:id"

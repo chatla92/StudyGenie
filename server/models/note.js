@@ -7,22 +7,22 @@ const noteSchema = new Schema({
   content: String,
   owner: {
     username: String,
-    fullname: String
+    fullname: String,
   },
   isPrivate: Boolean,
   meta: {
     tags: [String],
     fav: [{
       username: String,
-      fullname: String
+      fullname: String,
     }],
     upvote: [{
       username: String,
-      fullname: String
+      fullname: String,
     }],
     downvote: [{
       username: String,
-      fullname: String
+      fullname: String,
     }],
   },
   createDateTime: Date,

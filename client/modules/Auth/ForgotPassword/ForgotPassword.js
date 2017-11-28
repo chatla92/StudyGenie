@@ -28,6 +28,11 @@ class ForgotPassword extends Component {
     });
   };
 
+  isRequestAllowed = () => {
+    const { username } = this.state;
+    return (!username);
+  }
+
   render() {
     return (
       <Paper className={styles.paper}>
@@ -41,6 +46,7 @@ class ForgotPassword extends Component {
         <div className={styles.buttonsDiv}>
           <Button
             raised
+            disabled={this.isRequestAllowed()}
             color="primary"
             onClick={this.requestPassword.bind(this)}
             className={styles.requestPasswordBtn}

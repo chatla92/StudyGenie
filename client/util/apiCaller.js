@@ -10,17 +10,11 @@ export default function callApi(endpoint, method = 'get', body) {
     headers: { 'content-type': 'application/json' },
     method,
     body: JSON.stringify(body),
-  })
-  .then(response => response.json().then(json => ({ json, response })))
-  .then(({ json, response }) => {
+  }).then(response => {
     if (!response.ok) {
-      return Promise.reject(json);
+      const { status, statusText } = response;
+      return Promise.reject({ status, statusText });
     }
-
-    return json;
-  })
-  .then(
-    response => response,
-    error => error
-  );
+    return response.json().then(json => json);
+  });
 }

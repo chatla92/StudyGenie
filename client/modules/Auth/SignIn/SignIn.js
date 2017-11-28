@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { authActions } from '../AuthActions';
+import authActions from '../AuthActions';
 import { VIEW_TYPE } from '../AuthConstants';
 import styles from '../AuthView.css';
 
@@ -25,10 +25,7 @@ class SignIn extends Component {
   signin() {
     const { username, password } = this.state;
     const { dispatch } = this.props;
-    dispatch(authActions.signin({
-      username,
-      password,
-    }));
+    dispatch(authActions.signin(username, password));
   }
 
   handleUsernameChange(e) {
@@ -41,6 +38,11 @@ class SignIn extends Component {
     this.setState({
       password: e.target.value,
     });
+  }
+
+  isSigninAllowed = () => {
+    const { username, password } = this.state;
+    return (!username || !password);
   }
 
   render() {
@@ -62,6 +64,7 @@ class SignIn extends Component {
         <div className={styles.buttonsDiv}>
           <Button
             raised
+            disabled={this.isSigninAllowed()}
             color="primary"
             onClick={this.signin.bind(this)}
           >

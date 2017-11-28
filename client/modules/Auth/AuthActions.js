@@ -7,6 +7,7 @@ import {
   REGISTER_FAILURE,
   REQUEST_PASSWORD_SUCCESSFUL,
   REQUEST_PASSWORD_FAILURE,
+  LOGOUT,
 } from './AuthConstants';
 
 
@@ -39,54 +40,66 @@ export const requestPasswordFailure = createAction(
   err => err,
 );
 
+export const logout = createAction(
+  LOGOUT,
+);
+
+export function signout() {
+  return (dispatch) => {
+    return callApi('/logout').then((err, res) => {
+      dispatch(logout());
+    });
+  };
+}
+
 // Export Actions
 export function signin(username, password) {
   return (dispatch) => {
-    return callApi('login', 'post', {
+    return callApi('auth/', 'post', {
       username,
       password,
-    }).then((err, res) => {
-      if (err) {
-        dispatch(signinFailure(err));
-      } else {
-        dispatch(signinSuccessful(res.user));
-      }
+    }).then(response => {
+      localStorage.setItem('fullname', response.result.fullname);
+      localStorage.setItem('username', response.result.username);
+      dispatch(signinSuccessful(response.result));
+    }, err => {
+      dispatch(signinFailure(err));
     });
   };
 }
 
 export function register(username, fullname, password) {
   return (dispatch) => {
-    return callApi('register', 'post', {
+    return callApi('auth/addUser', 'post', {
       username,
       password,
-    }).then((err, res) => {
-      if (err) {
-        dispatch(registerFailure(err));
-      } else {
-        dispatch(registerSuccessful(res.status));
-      }
+      fullname,
+    }).then(response => {
+      dispatch(registerSuccessful(response.result));
+    }, err => {
+      dispatch(registerFailure(err));
     });
   };
 }
 
 export function requestPassword(username, fullname, password) {
   return (dispatch) => {
-    return callApi('register', 'post', {
+    return callApi('/auth/requestPassword', 'post', {
       username,
       password,
-    }).then((err, res) => {
-      if (err) {
-        dispatch(requestPasswordFailure(err));
-      } else {
-        dispatch(requestPasswordSuccessful(res.status));
-      }
+    }).then(response => {
+      dispatch(requestPasswordSuccessful(response.result));
+    }, err => {
+      dispatch(requestPasswordFailure(err));
     });
   };
 }
 
-export const authActions = {
+const authActions = {
   signin,
   register,
   requestPassword,
+  signout,
 };
+
+export default authActions;

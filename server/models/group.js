@@ -6,13 +6,13 @@ const grpSchema = new Schema({
   name: String,
   owner: {
     username: String,
-    fullname: String
+    fullname: String,
   },
   members: [{
     member: [{
       username: String,
       fullname: String,
-      dateAdded: Date
+      dateAdded: Date,
     }],
   }],
   noteDate: [{

@@ -5,17 +5,17 @@ const csSchema = new Schema({
   _id: Schema.Types.ObjectId,
   title: String,
   notes: [
-  	{
-  		noteId: Number,
-  		position: {
-  			X: Number,
-  			Y: Number
-  		}
-  	}
+    {
+      noteId: Number,
+      position: {
+        X: Number,
+        Y: Number,
+      },
+    },
   ],
   owner: {
-  	username: String,
-  	fullname: String
+    username: String,
+    fullname: String,
   },
   createDateTime: Date,
   modDateTime: Date,

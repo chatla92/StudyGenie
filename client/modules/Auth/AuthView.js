@@ -51,6 +51,7 @@ class AuthView extends Component {
 
 AuthView.propTypes = {
   dispatch: PropTypes.func.isRequired,
+
 };
 
 const mapStateToProps = (state) => ({

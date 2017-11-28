@@ -13,97 +13,97 @@ export function getTopNotes(req, res) {
   const filter = req.body.filter;
   const page = req.params.pageId;
   const notesPerPage = 10;
-  const start = (page-1)*notesPerPage;
-  const end = page*notesPerPage;
+  const start = (page - 1) * notesPerPage;
+  const end = page * notesPerPage;
 
-  if(page <= 0)
+  if (page <= 0)
     return res.status(400).send();
 
-  if(req.session.topNotes) {
-    console.log("Inside topNotes")
-    console.log(req.session.topNotes.length)
+  if (req.session.topNotes) {
+    console.log('Inside topNotes');
+    console.log(req.session.topNotes.length);
     // console.log(req.session.topNotes)
-    console.log("Start = " + start + " end = " + end);
-    return res.status(200).json({status:"success", result: req.session.topNotes.slice(start, end)});
+    console.log('Start = ' + start + ' end = ' + end);
+    return res.status(200).json({ status: 'success', result: req.session.topNotes.slice(start, end) });
   }
-  
+
   var query_str = {};
 
-  if(!filter) {
+  if (!filter) {
     query_str = {
-            "query" : {
-                "match_all" : {}
-            }
-        }
+      'query': {
+        'match_all': {},
+      },
+    };
   }
   else {
     query_str = {
-        "query": {
-            "bool": {
-                "should": []
-            }
-        }
-    }
+      'query': {
+        'bool': {
+          'should': [],
+        },
+      },
+    };
     const keys = Object.keys(filter);
 
-    keys.forEach(function(key) {
-        if(key === "tags") {
-            filter[key].forEach(function(tag) {
-                query_str.query.bool.should.push({
-                  "constant_score": {
-                      "filter": {
-                          "term": {
-                              "tags": tag
-                          }
-                      }
-                  }
-              });
-            });
-        }
-        if(key === "isPrivate") {
-            query_str.query.bool.should.push({
-              "constant_score": {
-                  "filter": {
-                      "term": {
-                          "isPrivate": filter[key]
-                      }
-                  }
-              }
-          });
-        }
-        if(key === "content") {
+    keys.forEach(function (key) {
+      if (key === 'tags') {
+        filter[key].forEach(function (tag) {
           query_str.query.bool.should.push({
-            "constant_score": {
-              "filter": {
-                "multi_match": {
-                  "query": filter[key],
-                  "fields": ["title^1.5", "content"],
-                  "operator": "or"
-                } 
-              }
-            }
+            'constant_score': {
+              'filter': {
+                'term': {
+                  'tags': tag,
+                },
+              },
+            },
           });
-        }
-    })
+        });
+      }
+      if (key === 'isPrivate') {
+        query_str.query.bool.should.push({
+          'constant_score': {
+            'filter': {
+              'term': {
+                'isPrivate': filter[key],
+              },
+            },
+          },
+        });
+      }
+      if (key === 'content') {
+        query_str.query.bool.should.push({
+          'constant_score': {
+            'filter': {
+              'multi_match': {
+                'query': filter[key],
+                'fields': ['title^1.5', 'content'],
+                'operator': 'or',
+              },
+            },
+          },
+        });
+      }
+    });
   }
-  
+
   const options = {
-    "method": "GET",
-    "uri": 'http://localhost:9200/studygenie/notes/_search',
-    "json": true,
-    "body": query_str
-  }
+    'method': 'GET',
+    'uri': 'http://localhost:9200/studygenie/notes/_search',
+    'json': true,
+    'body': query_str,
+  };
 
   rp(options)
     .then(function (response) {
       req.session.topNotes = response.hits.hits;
       console.log(response.hits.hits.length);
-      return res.status(200).json({status:"success", result: response.hits.hits})
+      return res.status(200).json({ status: 'success', result: response.hits.hits });
     })
     .catch(function (err) {
-      console.log("error = " + err);
-      return res.status(404).json({status:"failed", result: err});
-    })
+      console.log('error = ' + err);
+      return res.status(404).json({ status: 'failed', result: err });
+    });
 }
 
 /**
@@ -113,7 +113,7 @@ export function getTopNotes(req, res) {
  * @returns void
  */
 export function addNote(req, res) {
-  console.log("Inside addNote");
+  console.log('Inside addNote');
   if (!req.body.title || !req.body.content) {
     res.status(403).end();
   }
@@ -126,21 +126,21 @@ export function addNote(req, res) {
   delete new_doc.owner;
 
   var options = {
-    "method": "POST",
-    "uri": 'http://localhost:9200/studygenie/notes/',
-    "json": true,
-    "body": new_doc
-  }
+    'method': 'POST',
+    'uri': 'http://localhost:9200/studygenie/notes/',
+    'json': true,
+    'body': new_doc,
+  };
 
   rp(options)
     .then(function (response) {
-      console.log("response = ");
+      console.log('response = ');
       console.log(response);
-      res.status(200).json({status:"success", result:{"noteId": response._id}});
+      res.status(200).json({ status: 'success', result: { 'noteId': response._id } });
     })
     .catch(function (err) {
-      console.log("error = " + err);
-    })
+      console.log('error = ' + err);
+    });
 }
 
 /**
@@ -151,21 +151,21 @@ export function addNote(req, res) {
  */
 export function getNoteContent(req, res) {
   var options = {
-    "method": "GET",
-    "uri": "http://localhost:9200/studygenie/notes/" + req.params.noteId,
-    "json": true,
-    "body": null
-  }
+    'method': 'GET',
+    'uri': 'http://localhost:9200/studygenie/notes/' + req.params.noteId,
+    'json': true,
+    'body': null,
+  };
 
-  console.log("Sent get request to " + options.uri);
+  console.log('Sent get request to ' + options.uri);
   rp(options)
-    .then(function(response) {
+    .then(function (response) {
       // console.log(response._source);
       return res.status(200).json({ status: 'success', result: response._source });
     })
-    .catch(function(err) {
-      res.status(404).json({ status:"error", result:err});
-    })
+    .catch(function (err) {
+      res.status(404).json({ status: 'error', result: err });
+    });
 }
 
 /**
@@ -175,28 +175,28 @@ export function getNoteContent(req, res) {
  * @returns void
  */
 export function updateNote(req, res) {
-  console.log("Inside updateNote");
+  console.log('Inside updateNote');
   const updateNote = req.body;
 
   const query_str = {
-    "doc": updateNote
-  }
-  
+    'doc': updateNote,
+  };
+
   const options = {
-    "method": "POST",
-    "uri": 'http://localhost:9200/studygenie/notes/' + req.params.noteId + '/_update',
-    "json": true,
-    "body": query_str
-  }
+    'method': 'POST',
+    'uri': 'http://localhost:9200/studygenie/notes/' + req.params.noteId + '/_update',
+    'json': true,
+    'body': query_str,
+  };
 
   rp(options)
     .then(function (response) {
-      res.status(200).json({status:"success", result:{"_id": response._id}});
+      res.status(200).json({ status: 'success', result: { '_id': response._id } });
     })
     .catch(function (err) {
-      console.log("error = " + err);
-      res.status(404).json({status:"failed", result:err});
-    })
+      console.log('error = ' + err);
+      res.status(404).json({ status: 'failed', result: err });
+    });
 }
 
 /**
@@ -206,24 +206,24 @@ export function updateNote(req, res) {
  * @returns void
  */
 export function deleteNote(req, res) {
-  console.log("Inside deleteNote");
+  console.log('Inside deleteNote');
   const noteId = req.params.noteId;
 
   const options = {
-    "method": "DELETE",
-    "uri": 'http://localhost:9200/studygenie/notes/' + req.params.noteId,
-    "json": true,
-    "body": null
-  }
+    'method': 'DELETE',
+    'uri': 'http://localhost:9200/studygenie/notes/' + req.params.noteId,
+    'json': true,
+    'body': null,
+  };
 
   rp(options)
     .then(function (response) {
-      res.status(200).json({status:"success", result:{}});
+      res.status(200).json({ status: 'success', result: {} });
     })
     .catch(function (err) {
-      console.log("error = " + err);
-      res.status(404).json({status:"failed", result:err});
-    })
+      console.log('error = ' + err);
+      res.status(404).json({ status: 'failed', result: err });
+    });
 }
 
 /**
@@ -235,12 +235,11 @@ export function deleteNote(req, res) {
 export function clickFav(req, res) {
   console.log('Inside clickFav');
   const noteId = req.body.noteId;
-  ////////////////////////////////
+  // //////////////////////////////
   // Change this to req.session.username
-  ////////////////////////////////
-  const username = "user12@gmail.com";
-  updateList("fav", username, req, res);
-  
+  // //////////////////////////////
+  const username = 'user12@gmail.com';
+  updateList('fav', username, req, res);
 }
 
 /**
@@ -252,12 +251,11 @@ export function clickFav(req, res) {
 export function clickUpvote(req, res) {
   console.log('Inside clickUpvote');
   const noteId = req.body.noteId;
-  ////////////////////////////////
+  // //////////////////////////////
   // Change this to req.session.username
-  ////////////////////////////////
-  const username = "user22@gmail.com";
-  updateList("upvotes", username, req, res);
-  
+  // //////////////////////////////
+  const username = 'user22@gmail.com';
+  updateList('upvotes', username, req, res);
 }
 
 /**
@@ -269,12 +267,11 @@ export function clickUpvote(req, res) {
 export function clickDownvote(req, res) {
   console.log('Inside clickDownvote');
   const noteId = req.body.noteId;
-  ////////////////////////////////
+  // //////////////////////////////
   // Change this to req.session.username
-  ////////////////////////////////
-  const username = "user20@gmail.com";
-  updateList("downvotes", username, req, res);
-  
+  // //////////////////////////////
+  const username = 'user20@gmail.com';
+  updateList('downvotes', username, req, res);
 }
 
 /**
@@ -287,12 +284,11 @@ export function addTag(req, res) {
   console.log('Inside addTag');
   const noteId = req.body.noteId;
   const tag = req.body.tag;
-  ////////////////////////////////
+  // //////////////////////////////
   // Change this to req.session.username
-  ////////////////////////////////
-  const username = "user20@gmail.com";
-  updateList("tagsAdd", tag, req, res);
-  
+  // //////////////////////////////
+  const username = 'user20@gmail.com';
+  updateList('tagsAdd', tag, req, res);
 }
 
 /**
@@ -305,12 +301,11 @@ export function removeTag(req, res) {
   console.log('Inside removeTag');
   const noteId = req.body.noteId;
   const tag = req.body.tag;
-  ////////////////////////////////
+  // //////////////////////////////
   // Change this to req.session.username
-  ////////////////////////////////
-  const username = "user20@gmail.com";
-  updateList("tagsRemove", tag, req, res);
-  
+  // //////////////////////////////
+  const username = 'user20@gmail.com';
+  updateList('tagsRemove', tag, req, res);
 }
 
 
@@ -322,90 +317,89 @@ export function removeTag(req, res) {
  */
 function updateList(listType, username, req, res) {
   const getReqOptions = {
-    "method": "GET",
-    "uri": "http://localhost:9200/studygenie/notes/" + req.body.noteId,
-    "json": true,
-    "body": null
-  }
+    'method': 'GET',
+    'uri': 'http://localhost:9200/studygenie/notes/' + req.body.noteId,
+    'json': true,
+    'body': null,
+  };
 
   return rp(getReqOptions)
-    .then(function(getReqResponse) {
+    .then(function (getReqResponse) {
       const noteInfo = getReqResponse._source;
       console.log(listType);
       let index = -1;
 
-      if(listType === "fav")
+      if (listType === 'fav')
         index = noteInfo.meta.fav.indexOf(username);
-      if(listType === "upvotes")
+      if (listType === 'upvotes')
         index = noteInfo.meta.upvotes.indexOf(username);
-      if(listType === "downvotes")
+      if (listType === 'downvotes')
         index = noteInfo.meta.downvotes.indexOf(username);
-      if(listType === "tagsAdd") {
+      if (listType === 'tagsAdd') {
         index = noteInfo.meta.tags.indexOf(username);
-        if(index >= 0)
-          return res.status(200).send({status:"success", result:"Tag already exists"});
+        if (index >= 0)
+          return res.status(200).send({ status: 'success', result: 'Tag already exists' });
         else
-          listType = "tags";
+          listType = 'tags';
       }
-      if(listType === "tagsRemove") {
+      if (listType === 'tagsRemove') {
         index = noteInfo.meta.tags.indexOf(username);
-        if(index == -1)
-          return res.status(200).send({status:"success", result:"Tag doesn't exist"});
+        if (index == -1)
+          return res.status(200).send({ status: 'success', result: "Tag doesn't exist" });
         else
-          listType = "tags";
+          listType = 'tags';
       }
-      
-      if(index > -1) {
+
+      if (index > -1) {
         // Delete user from list
         const fav_body = {
-          "script":{
-            "lang": "painless",
-            "inline": "ctx._source.meta." + listType + ".remove(" + index + ")"
-            }
-        }
+          'script': {
+            'lang': 'painless',
+            'inline': 'ctx._source.meta.' + listType + '.remove(' + index + ')',
+          },
+        };
 
         const options = {
-          "method": "POST",
-          "uri": "http://localhost:9200/studygenie/notes/" + req.body.noteId + "/_update",
-          "json": true,
-          "body": fav_body
-        }
+          'method': 'POST',
+          'uri': 'http://localhost:9200/studygenie/notes/' + req.body.noteId + '/_update',
+          'json': true,
+          'body': fav_body,
+        };
 
         return rp(options)
-          .then(function(removeResponse) {
-            res.status(200).json({ status: 'success', result: "Action successful" });
+          .then(function (removeResponse) {
+            res.status(200).json({ status: 'success', result: 'Action successful' });
           })
-          .catch(function(removeError) {
-            res.status(404).json({ status:"error", result:removeError });
-          })
+          .catch(function (removeError) {
+            res.status(404).json({ status: 'error', result: removeError });
+          });
       }
       else {
         // Add user to list
         const fav_body = {
-          "script":{
-            "inline": "ctx._source.meta." + listType + ".add(params.user)",
-            "params": {"user": username}
-            }
-        }
+          'script': {
+            'inline': 'ctx._source.meta.' + listType + '.add(params.user)',
+            'params': { 'user': username },
+          },
+        };
 
         const options = {
-          "method": "POST",
-          "uri": "http://localhost:9200/studygenie/notes/" + req.body.noteId + "/_update",
-          "json": true,
-          "body": fav_body
-        }
+          'method': 'POST',
+          'uri': 'http://localhost:9200/studygenie/notes/' + req.body.noteId + '/_update',
+          'json': true,
+          'body': fav_body,
+        };
 
         return rp(options)
-          .then(function(favResponse) {
-            res.status(200).json({ status: 'success', result: "Action successful" });
+          .then(function (favResponse) {
+            res.status(200).json({ status: 'success', result: 'Action successful' });
           })
-          .catch(function(favError) {
-            res.status(404).json({ status:"err", result:favError });
-          })
+          .catch(function (favError) {
+            res.status(404).json({ status: 'err', result: favError });
+          });
       }
-      
     })
-    .catch(function(error) {
-      res.status(404).json({ status:"error", result: error});
-    }) 
+    .catch(function (error) {
+      res.status(404).json({ status: 'error', result: error });
+    });
 }

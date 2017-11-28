@@ -1,6 +1,7 @@
 import Auth from '../models/auth';
 import User from '../models/user';
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import Transaction from 'mongoose-transactions';
 
 /**
  * Authenticate User
@@ -15,11 +16,10 @@ export function authUser(req, res) {
     if (!foundCredential) return res.status(401).send();
     req.session.user = foundCredential;
 
-    User.findOne({username}, function(userError, foundUser) {
-      if(userError) return res.status(410).json({result:"failed", result:"Requested user data is not present in the server"});
-      return res.status(200).json({ status: 'success', result: {"username": foundCredential.username, "fullname": foundUser.fullname }});
-    })
-    
+    User.findOne({ username }, function (userError, foundUser) {
+      if (userError) return res.status(410).json({ result: 'failed', result: 'Requested user data is not present in the server' });
+      return res.status(200).json({ status: 'success', result: { 'username': foundCredential.username, 'fullname': foundUser.fullname } });
+    });
   });
 }
 
@@ -35,18 +35,23 @@ export function addUser(req, res) {
 
   Auth.findOne({ username }, (err, foundCredential) => {
     if (err) return res.status(500).send();
-    if (foundCredential) return res.status(409).json({status:"failed", result:"Username already taken"});
-    const _id = mongoose.Types.ObjectId();
-    const newAuth = new Auth({ _id, username, password });
-    const user_id = mongoose.Types.ObjectId();
-    const newUser = new User({ _id: user_id, username, fullname, createDateTime });
-    newAuth.save(function (authError) {
-      if (authError) return res.status(500).send();
-    });
+    if (foundCredential) return res.status(409).json({ status: 'emailTaken', result: 'Username already taken' });
 
-    newUser.save(function (userError) {
-      if (userError)  return res.status(500).send();
-      return res.status(200).send({status:"success", result:{"username": username, "fullname": fullname}});
+    const _id = mongoose.Types.ObjectId();
+    const newAuth = { _id, username, password };
+    const user_id = mongoose.Types.ObjectId();
+    const newUser = { _id: user_id, username, fullname, createDateTime };
+
+    const transaction = new Transaction();
+    transaction.insert('Auth', newAuth);
+    transaction.insert('User', newUser);
+
+    transaction.run().then((records) => {
+      const result = { username: records[0].username, fullname: records[1].fullname };
+      res.status(200).json({ status: 'success', result });
+    }).catch(() => {
+      transaction.rollback();
+      res.status(530).json({ err: 'Site is Frozen', result });
     });
   });
 }

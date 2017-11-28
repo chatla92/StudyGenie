@@ -5,35 +5,37 @@ import {
   REGISTER_FAILURE,
   REQUEST_PASSWORD_SUCCESSFUL,
   REQUEST_PASSWORD_FAILURE,
+  VIEW_TYPE,
+  AUTH_STAT,
+  LOGOUT,
 } from './AuthConstants';
 
 // Initial State
 const initialState = {
   username: '',
-  sessionId: '',
   fullname: '',
-  currView: 'signin',
-  auth_status: '',
+  auth_status: AUTH_STAT.UNAUTHENTICATED,
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGNIN_SUCCESSFUL :
       return {
-        username: action.user,
+        username: action.payload.username,
+        fullname: action.payload.fullname,
+        auth_stat: AUTH_STAT.AUTHENTICATED,
       };
 
     case SIGNIN_FAILURE :
       return {
         username: '',
-        sessionId: '',
         fullname: '',
         auth_status: action.err,
       };
 
     case REGISTER_SUCCESSFUL :
       return {
-        auth_status: '',
+        auth_status: AUTH_STAT.REGISTER_SUCCESSFUL,
       };
 
     case REGISTER_FAILURE :
@@ -48,6 +50,12 @@ const authReducer = (state = initialState, action) => {
     case REQUEST_PASSWORD_FAILURE :
       return {
         auth_status: action.err,
+      };
+    case LOGOUT :
+      return {
+        username: '',
+        fullname: '',
+        auth_status: AUTH_STAT.UNAUTHENTICATED,
       };
 
     default:
