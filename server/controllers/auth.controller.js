@@ -31,19 +31,19 @@ export function addUser(req, res) {
   const createDateTime = Date.now();
 
   Auth.findOne({ username }, (err, foundCredential) => {
-    console.log('foundCredential = ' + foundCredential);
     if (err) return res.status(500).send();
     if (foundCredential) return res.status(409).send();
     const _id = mongoose.Types.ObjectId();
     const newAuth = new Auth({ _id, username, password });
     const user_id = mongoose.Types.ObjectId();
     const newUser = new User({ _id: user_id, username, fullname, createDateTime });
-    newAuth.save(function (err) {
-      if (err) return res.status(500).send();
+    newAuth.save(function (authError) {
+      if (authError) return res.status(500).send();
     });
 
-    newUser.save(function (err) {
-      if (err)  return res.status(500).send();
+    newUser.save(function (userError) {
+      if (userError)  return res.status(500).send();
+      return res.status(200).send({status:"success", result:{"username": username, "fullname": fullname}});
     });
   });
 }

@@ -9,3 +9,9 @@ dist
 coverage/
 .nyc_output/
 bbaeb5f32b7042f0def39648a1d111b9.png
+server/util/es_python.py
+server/util/update.js
+server/util/content filtering.js
+server/util/homepage_notes.js
+server/controllers/dumy.js
+
