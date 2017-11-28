@@ -13,10 +13,13 @@ export function authUser(req, res) {
   Auth.findOne({ username, password }, (err, foundCredential) => {
     if (err) return res.status(500).send();
     if (!foundCredential) return res.status(401).send();
-
     req.session.user = foundCredential;
-    return res.status(200).json({ status: 'success',
-      sessionId: req.sessionID, name: foundCredential.username });
+
+    User.findOne({username}, function(userError, foundUser) {
+      if(userError) return res.status(410).json({result:"failed", result:"Requested user data is not present in the server"});
+      return res.status(200).json({ status: 'success', result: {"username": foundCredential.username, "fullname": foundUser.fullname }});
+    })
+    
   });
 }
 
@@ -32,7 +35,7 @@ export function addUser(req, res) {
 
   Auth.findOne({ username }, (err, foundCredential) => {
     if (err) return res.status(500).send();
-    if (foundCredential) return res.status(409).send();
+    if (foundCredential) return res.status(409).json({status:"failed", result:"Username already taken"});
     const _id = mongoose.Types.ObjectId();
     const newAuth = new Auth({ _id, username, password });
     const user_id = mongoose.Types.ObjectId();

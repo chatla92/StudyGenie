@@ -9,6 +9,6 @@ router.route('/').post(AuthController.authUser);
 router.route('/addUser').post(AuthController.addUser);
 
 // Logout
-router.route('/logout').get(AuthController.logout);
+router.route('/logout').post(AuthController.logout);
 
 export default router;
