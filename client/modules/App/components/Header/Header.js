@@ -13,6 +13,7 @@ import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import { signout } from '../../../Auth/AuthActions';
 import { AUTH_STAT } from '../../../Auth/AuthConstants';
+import Form from '../../../../components/form';
 
 // Import Style
 import styles from './Header.css';
@@ -117,6 +118,7 @@ class Header extends React.Component {
           <Typography type="title" color="inherit" style={titleStyle}>
             Study Genie
           </Typography>
+          <Form />
           <Drawer open={this.state.isDrawerOpen} onRequestClose={this.toggleDrawer(false)}>
             <div
               tabIndex={0}
