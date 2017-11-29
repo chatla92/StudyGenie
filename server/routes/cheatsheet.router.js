@@ -6,15 +6,15 @@ const router = new Router();
 router.route('/').get(CSController.getCSList);
 
 // Create new cheatsheet
-// router.route('/new').post(CSController.newCS);
+router.route('/new').post(CSController.newCS);
 
-// // Get single cheat sheet's content
-// router.route('/:csId').get(CSController.getCSDetail);
+// Get single cheat sheet's content
+router.route('/getCS').post(CSController.getCSDetail);
 
 // // Edit cheatsheet
-// router.route('/:csId/update').post(CSController.updateCS);
+router.route('/update').post(CSController.updateCS);
 
 // // Delete cheetsheet
-// router.route('/cs/:csId/delete').post(CSController.deleteCS);
+router.route('/delete').post(CSController.deleteCS);
 
 export default router;

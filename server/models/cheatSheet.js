@@ -21,4 +21,4 @@ const csSchema = new Schema({
   modDateTime: Date,
 });
 
-export default mongoose.model('cheatSheet', csSchema);
+export default mongoose.model('CheatSheet', csSchema);

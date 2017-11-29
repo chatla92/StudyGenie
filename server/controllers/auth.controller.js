@@ -47,6 +47,7 @@ export function addUser(req, res) {
     transaction.insert('User', newUser);
 
     transaction.run().then((records) => {
+      console.log(records);
       const result = { username: records[0].username, fullname: records[1].fullname };
       res.status(200).json({ status: 'success', result });
     }).catch(() => {
