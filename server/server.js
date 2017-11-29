@@ -67,7 +67,7 @@ app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 app.use('/api/posts', posts);
 app.use('/api/auth', authRoute);
 app.use('/api/note', noteRoute);
-// app.use('/api/cs', csRoute);
+app.use('/api/cs', csRoute);
 
 // Render Initial HTML
 const renderFullPage = () => {
