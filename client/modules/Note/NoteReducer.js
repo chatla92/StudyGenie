@@ -6,7 +6,7 @@ const dummyNotes = [{
   owner: 'Tinu Tomson',
   isPrivate: true,
   isEditable: true,
-  LastModified: 'September 14, 2016',
+  LastModified: 1481544700,
   cuid: 12345,
   meta: {
     tags: [100, 101, 102],
@@ -21,7 +21,7 @@ const dummyNotes = [{
   cuid: 12346,
   isPrivate: true,
   isEditable: true,
-  LastModified: 'September 15, 2016',
+  LastModified: 1481544732,
   meta: {
     tags: [100, 101, 102],
     fav: [1001, 1002, 1003, 1004],

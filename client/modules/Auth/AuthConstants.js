@@ -10,8 +10,11 @@ export const AUTH_STAT = {
   UNAUTHENTICATED: 'unauthenticated',
   EMAIL_TAKEN: 'emailTaken',
   PASSWORD_REQUESTED: 'passwordRequested',
+  PASSWORD_REQUEST_FAILED: 'passwordRequestFailed',
   REGISTER_SUCCESSFUL: 'registerSuccessful',
   AUTHENTICATED: 'authenticated',
+  LOGIN_FAILURE: 'loginFailure',
+  REGISTER_FAILURE: 'registerFailure',
 };
 
 export const SIGNIN_SUCCESSFUL = 'SIGNIN_SUCCESSFUL';

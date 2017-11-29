@@ -78,10 +78,10 @@
   text-align: right;
 }
 
-.avatar{
+.avatar {
   background-color: red;
 }
 
 .card {
-  max-width: 400,
+  max-width: 400px;
 }

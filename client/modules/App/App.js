@@ -42,7 +42,10 @@ export class App extends Component {
               },
             ]}
           />
-          <Header />
+          <Header
+            dispatch={this.props.dispatch}
+            auth_status={this.props.auth_status}
+          />
           <div className={styles.container}>
             {this.props.children}
           </div>
@@ -56,13 +59,12 @@ App.propTypes = {
   children: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
+  auth_status: PropTypes.string.isRequired,
 };
 
-// Retrieve data from store as props
-function mapStateToProps(store) {
-  return {
-    intl: store.intl,
-  };
-}
+const mapStateToProps = (state) => ({
+  intl: state.intl,
+  auth_status: state.auth.auth_status,
+});
 
 export default connect(mapStateToProps)(App);

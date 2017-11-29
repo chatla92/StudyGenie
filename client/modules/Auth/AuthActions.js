@@ -1,6 +1,7 @@
 import callApi from '../../util/apiCaller';
 import { createAction } from 'redux-actions';
 import localStorage from 'localStorage';
+import { browserHistory } from 'react-router';
 
 import {
   SIGNIN_SUCCESSFUL,
@@ -48,8 +49,11 @@ export const logout = createAction(
 
 export function signout() {
   return (dispatch) => {
-    return callApi('/logout').then((err, res) => {
+    localStorage.removeItem('fullname');
+    localStorage.removeItem('username');
+    return callApi('auth/logout', 'post').then((err, res) => {
       dispatch(logout());
+      browserHistory.push('/');
     });
   };
 }
@@ -64,6 +68,7 @@ export function signin(username, password) {
       localStorage.setItem('fullname', response.result.fullname);
       localStorage.setItem('username', response.result.username);
       dispatch(signinSuccessful(response.result));
+      browserHistory.push('/notes');
     }, err => {
       dispatch(signinFailure(err));
     });

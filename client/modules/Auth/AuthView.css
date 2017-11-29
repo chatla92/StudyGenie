@@ -19,6 +19,11 @@
   height: 30px;
 }
 
+.errorMsg {
+  text-align: center;
+  margin: 16px;
+}
+
 @media(min-width: 900px) {
   #authContainer {
       display: flex;

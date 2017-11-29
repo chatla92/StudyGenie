@@ -25,12 +25,7 @@ function getInitials(string) {
 }
 
 const classestyle = {
-  avatar: {
-    backgroundColor: red[500],
-  },
-  header: {
-    backgroundColor: bg[500],
-  },
+
 };
 
 function NoteGridItem(props) {
@@ -38,7 +33,7 @@ function NoteGridItem(props) {
     <div>
       <Card className={styles.card}>
         <CardHeader
-          avatar={<Avatar aria-label={props.note.owner} className={classestyle.avatar}>{getInitials(props.note.owner)}</Avatar>}
+          avatar={<Avatar aria-label={props.note.owner} className={styles.avatar}>{getInitials(props.note.owner)}</Avatar>}
           title={props.note.title}
           subheader={`created by ${props.note.owner}`}
           classes={classestyle.header}

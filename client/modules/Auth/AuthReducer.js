@@ -23,14 +23,14 @@ const authReducer = (state = initialState, action) => {
       return {
         username: action.payload.username,
         fullname: action.payload.fullname,
-        auth_stat: AUTH_STAT.AUTHENTICATED,
+        auth_status: AUTH_STAT.AUTHENTICATED,
       };
 
     case SIGNIN_FAILURE :
       return {
         username: '',
         fullname: '',
-        auth_status: action.err,
+        auth_status: AUTH_STAT.LOGIN_FAILURE,
       };
 
     case REGISTER_SUCCESSFUL :
@@ -39,17 +39,22 @@ const authReducer = (state = initialState, action) => {
       };
 
     case REGISTER_FAILURE :
+      const {status} = action.payload;
+      let auth_status = AUTH_STAT.REGISTER_FAILURE
+      if(status === 409) {
+        auth_status = AUTH_STAT.EMAIL_TAKEN
+      }
       return {
-        auth_status: action.err,
+        auth_status,
       };
     case REQUEST_PASSWORD_SUCCESSFUL :
       return {
-        username: action.user,
+        auth_status: AUTH_STAT.PASSWORD_REQUESTED,
       };
 
     case REQUEST_PASSWORD_FAILURE :
       return {
-        auth_status: action.err,
+        auth_status: AUTH_STAT.PASSWORD_REQUEST_FAILED,
       };
     case LOGOUT :
       return {

@@ -83,6 +83,9 @@ class SignIn extends Component {
             Forgot Password?
           </Button>
         </div>
+        <div className={styles.errorMsg}>
+          <strong>{this.props.message}</strong>
+        </div>
       </Paper>
     );
   }
@@ -91,6 +94,7 @@ class SignIn extends Component {
 SignIn.propTypes = {
   viewChanged: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
+  message: PropTypes.string,
 };
 
 export default SignIn;

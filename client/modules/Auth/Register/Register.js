@@ -92,6 +92,9 @@ class Register extends Component {
             Forgot Password?
           </Button>
         </div>
+        <div className={styles.errorMsg}>
+          <strong >{this.props.message}</strong>
+        </div>
       </Paper>
     );
   }
@@ -100,6 +103,7 @@ class Register extends Component {
 Register.propTypes = {
   viewChanged: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
+  message: PropTypes.string,
 };
 
 export default Register;

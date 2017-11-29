@@ -66,6 +66,9 @@ class ForgotPassword extends Component {
             Register
           </Button>
         </div>
+        <div className={styles.errorMsg}>
+          <strong >{this.props.message}</strong>
+        </div>
       </Paper>
     );
   }
@@ -74,6 +77,7 @@ class ForgotPassword extends Component {
 ForgotPassword.propTypes = {
   viewChanged: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
+  message: PropTypes.string,
 };
 
 export default ForgotPassword;
