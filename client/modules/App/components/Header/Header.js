@@ -14,6 +14,9 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import { signout } from '../../../Auth/AuthActions';
 import { AUTH_STAT } from '../../../Auth/AuthConstants';
 import Form from '../../../../components/form';
+import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
+import FaceIcon from 'material-ui-icons/Face';
 
 // Import Style
 import styles from './Header.css';
@@ -54,7 +57,7 @@ class Header extends React.Component {
   }
 
   renderUserButton = () => {
-    const { anchorEl }= this.state;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
     return (
       <div>
@@ -103,7 +106,9 @@ class Header extends React.Component {
   handleUserProfileClicked = () => {
     browserHistory.push('/userprofile');
   };
-
+  handleClick = () => {
+    alert('You clicked the Chip.'); // eslint-disable-line no-alert
+  }
   render() {
     const titleStyle = {
       flex: 1,
@@ -119,6 +124,16 @@ class Header extends React.Component {
             Study Genie
           </Typography>
           <Form />
+          <Chip
+            avatar={
+              <Avatar>
+                <FaceIcon className={styles.svgIcon} />
+              </Avatar>
+              }
+            label="user14@gmail.com"
+            onClick={this.handleClick}
+            className={styles.chip}
+          />
           <Drawer open={this.state.isDrawerOpen} onRequestClose={this.toggleDrawer(false)}>
             <div
               tabIndex={0}

@@ -21,6 +21,9 @@ const styles = theme => ({
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
+  button: {
+    margin: '0 5 5 5',
+  },
 });
 
 class SimpleSelect extends React.Component {

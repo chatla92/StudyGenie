@@ -23,3 +23,10 @@
 .drawer_list {
   display: block;
 }
+.chip {
+  margin: 5;
+}
+
+.svgIcon {
+  color: grey;
+}
