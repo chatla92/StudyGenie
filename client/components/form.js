@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Input, { InputLabel } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import Select from 'material-ui/Select';
 import AutoComplete from '../components/autocomplete';
 import AutoContent from '../components/autocontent';
 import Button from 'material-ui/Button';
@@ -40,11 +36,11 @@ class SimpleSelect extends React.Component {
     const { classes } = this.props;
 
     return (
-        <form className={classes.container} autoComplete="off">
-            <AutoContent />
-            <AutoComplete />
-            <Button raised color="primary" className={classes.button}>Search</Button>
-        </form>
+      <form className={classes.container} autoComplete="off">
+        <AutoContent />
+        <AutoComplete />
+        <Button raised color="primary" className={classes.button}>Search</Button>
+      </form>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Redirect } from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -106,14 +106,21 @@ class Header extends React.Component {
   handleUserProfileClicked = () => {
     browserHistory.push('/userprofile');
   };
-  handleClick = () => {
-    alert('You clicked the Chip.'); // eslint-disable-line no-alert
+  handleOnClick = () => {
+    // some action...
+    // then redirect
+    this.setState({ redirect: true });
   }
   render() {
     const titleStyle = {
       flex: 1,
     };
     const { auth_status } = this.props;
+
+    if (this.state.redirect) {
+      return <Redirect push to="/userprofile" />;
+    }
+
     return (
       <AppBar position="static">
         <Toolbar>
@@ -131,7 +138,7 @@ class Header extends React.Component {
               </Avatar>
               }
             label="user14@gmail.com"
-            onClick={this.handleClick}
+            onClick={this.handleOnClick}
             className={styles.chip}
           />
           <Drawer open={this.state.isDrawerOpen} onRequestClose={this.toggleDrawer(false)}>
