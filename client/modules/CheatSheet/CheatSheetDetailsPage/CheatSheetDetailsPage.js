@@ -1,12 +1,70 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import styles from './CheatSheetDetailsPage.css';
+import style from './CheatSheetDetailsPage.css';
 import Paper from 'material-ui/Paper';
+
+import classNames from 'classnames';
+import { withStyles } from 'material-ui/styles';
+import Drawer from 'material-ui/Drawer';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import List from 'material-ui/List';
+import { MenuItem } from 'material-ui/Menu';
+import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
+import Divider from 'material-ui/Divider';
+
+
+const drawerWidth = 240;
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    height: 430,
+    marginTop: theme.spacing.unit * 3,
+    zIndex: 1,
+    overflow: 'hidden',
+  },
+  appFrame: {
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+  },
+  appBar: {
+    position: 'absolute',
+    width: `calc(100% - ${drawerWidth}px)`,
+  },
+  'appBar-left': {
+    marginLeft: drawerWidth,
+  },
+  'appBar-right': {
+    marginRight: drawerWidth,
+  },
+  drawerPaper: {
+    position: 'relative',
+    height: '100%',
+    width: drawerWidth,
+  },
+  drawerHeader: theme.mixins.toolbar,
+  content: {
+    backgroundColor: theme.palette.background.default,
+    width: '100%',
+    padding: theme.spacing.unit * 3,
+    height: 'calc(100% - 56px)',
+    marginTop: 56,
+    [theme.breakpoints.up('sm')]: {
+      height: 'calc(100% - 64px)',
+      marginTop: 64,
+    },
+  },
+});
 
 class CheatSheetDetailsPage extends Component {
   state = {
     cheatsheet: null,
+    anchor: 'left',
   }
 
   componentWillMount() {
@@ -25,14 +83,57 @@ class CheatSheetDetailsPage extends Component {
     }
   }
 
+  handleChange = event => {
+    this.setState({
+      anchor: event.target.value,
+    });
+  };
+
   render() {
     const { cheatsheet } = this.state;
+    const { anchor } = this.state;
+    const { classes } = this.props;
+
+    const drawer = (
+      <Drawer
+        type="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+          title: 'Available Notes',
+        }}
+        anchor={anchor}
+      >
+        <div className={classes.drawerHeader} />
+        
+      </Drawer>
+    );
+
+    let before = null;
+    let after = null;
+
+    if (anchor === 'left') {
+      before = drawer;
+    } else {
+      after = drawer;
+    }
     return (
-      <div className={styles.cheatsheetContainer}>
-        <Paper className={styles.cheatsheetPaper}>
-          {cheatsheet ? <strong>{cheatsheet.title}</strong> : null}
-          {cheatsheet ? <p>{cheatsheet.content}</p> : null}
-        </Paper>
+      <div className={classes.root}>
+        <div className={classes.appFrame}>
+          <AppBar className={classNames(classes.appBar, classes[`appBar-${anchor}`])}>
+            <Toolbar>
+              <Typography type="title" color="inherit" noWrap>
+              {cheatsheet ? <strong>{cheatsheet.title}</strong> : null}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          {before}
+          <main className={classes.content}>
+            <Typography type="body1">
+            {cheatsheet ? <p>{cheatsheet.content}</p> : null}
+            </Typography>
+          </main>
+        {after}
+        </div>
       </div>
     );
   }
@@ -45,4 +146,4 @@ CheatSheetDetailsPage.propTypes = {
   }).isRequired,
 };
 
-export default CheatSheetDetailsPage;
+export default withStyles(styles)(CheatSheetDetailsPage);

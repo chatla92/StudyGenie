@@ -32,7 +32,7 @@ const classestyle = {
 function NoteGridItem(props) {
   return (
     <div>
-      <Card className={styles.card}>
+      <Card onClick={() => { props.requestEditor(true); }} className={styles.card}>
         <CardHeader
           avatar={<Avatar aria-label={props.note.owner} className={styles.avatar}>{getInitials(props.note.owner)}</Avatar>}
           title={props.note.title}
@@ -76,6 +76,7 @@ NoteGridItem.propTypes = {
     isPrivate: PropTypes.bool.isRequired,
     cuid: PropTypes.number.isRequired,
     LastModified: PropTypes.number.isRequired,
+    requestEditor: PropTypes.func.isRequired,
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
 };

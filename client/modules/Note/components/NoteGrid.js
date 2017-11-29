@@ -26,6 +26,7 @@ function NoteGrid(props) {
                   note={note}
                   key={note.cuid}
                   onDelete={() => props.handleDeleteNote(note.cuid)}
+                  requestEditor={props.requestComposer}
                 />
               </GridListTile>
             ))

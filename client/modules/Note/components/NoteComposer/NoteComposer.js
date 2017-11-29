@@ -22,35 +22,6 @@ class NoteComposer extends Component {
     this.props.requestComposer(false);
   };
 
-  // createNote = () => {
-  //   const { title, tags, content } = this.state;
-  //   const { dispatch } = this.props;
-  //   dispatch(authActions.createNote({
-  //     username,
-  //     password,
-  //     fullname,
-  //   }));
-  // };
-
-  // handleTitleChange = (e) => {
-  //   this.setState({
-  //     fullname: e.target.value,
-  //   });
-  // };
-  //
-  //
-  // handleTagsChange = (e) => {
-  //   this.setState({
-  //     username: e.target.value,
-  //   });
-  // };
-  //
-  // handleContentChange = (e) => {
-  //   this.setState({
-  //     password: e.target.value,
-  //   });
-  // };
-
   upTransition = (props) => {
     return <Slide direction="up" {...props} />;
   };
