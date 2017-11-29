@@ -11,6 +11,7 @@ import ThumbUp from 'material-ui-icons/ThumbUp';
 import ThumbDown from 'material-ui-icons/ThumbDown';
 import red from 'material-ui/colors/red';
 import bg from 'material-ui/colors/blueGrey';
+import Badge from 'material-ui/Badge';
 // Import Style
 import styles from './NoteGridItem.css';
 
@@ -44,11 +45,13 @@ function NoteGridItem(props) {
           </Typography>
         </CardContent>
         <CardActions >
-          <IconButton aria-label="Upvote">
+          <Badge className={styles.badge} badgeContent={4} color="primary">
             <ThumbUp />
-          </IconButton>
-          <IconButton aria-label="Downvote">
-            <ThumbDown />
+          </Badge>
+          <IconButton aria-label="Share">
+            <Badge className={styles.badge} badgeContent={2} color="primary">
+              <ThumbDown />
+            </Badge>
           </IconButton>
           <IconButton aria-label="Share">
             <ShareIcon />

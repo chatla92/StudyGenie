@@ -85,3 +85,7 @@
 .card {
   max-width: 400px;
 }
+
+.badge{
+  margin: 0 4px;
+}
