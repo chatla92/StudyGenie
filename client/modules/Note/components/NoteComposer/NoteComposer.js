@@ -15,11 +15,11 @@ import Dialog, {
 class NoteComposer extends Component {
 
   handleSubmit = () => {
-    this.props.requestComposer(false);
+    this.props.requestComposer(false, null);
   };
 
   handleClose = () => {
-    this.props.requestComposer(false);
+    this.props.requestComposer(false, null);
   };
 
   upTransition = (props) => {
@@ -70,6 +70,7 @@ class NoteComposer extends Component {
 NoteComposer.propTypes = {
   requestComposer: PropTypes.func.isRequired,
   isComposerOpen: PropTypes.bool.isRequired,
+  
 };
 
 export default NoteComposer;

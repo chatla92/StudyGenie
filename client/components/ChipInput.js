@@ -84,7 +84,7 @@ class ChipInput extends Component {
       <div style={{ margin: '16px 0px 16px 0px' }}>
         <Chips
           theme={theme}
-          value={this.state.chips}
+          value={this.props.value==null? this.state.chips: this.props.value}
           onChange={this.onChange}
           placeholder={this.props.placeholder}
           suggestions={this.state.suggestions}

@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
+import Chip from 'material-ui/Chip';
 import ChipInput from '../../../../components/ChipInput';
+
 
 import Dialog, {
   DialogActions,
@@ -12,14 +14,15 @@ import Dialog, {
   DialogTitle,
 } from 'material-ui/Dialog';
 
-class NoteComposer extends Component {
+class NoteViewer extends Component {
 
   handleSubmit = () => {
-    this.props.requestComposer(false);
+    this.props.requestViewer(false, this.props.openedNote);
+    this.props.requestComposer(true, this.props.openedNote);
   };
 
   handleClose = () => {
-    this.props.requestComposer(false);
+    this.props.requestViewer(false, this.props.openedNote);
   };
 
   upTransition = (props) => {
@@ -27,29 +30,35 @@ class NoteComposer extends Component {
   };
 
   render() {
+    const title = this.props.openedNote==null ? '' : this.props.openedNote.title;
+    const content = this.props.openedNote==null ? '' : this.props.openedNote.content;
+    const tags = this.props.openedNote==null ? '' : this.props.openedNote.meta.tags;
     return (
       <Dialog
         fullScreen
-        title="Add new card"
+        title="view card"
         transition={this.upTransition}
         keepMounted
-        open={this.props.isComposerOpen}
+        open={this.props.isViewerOpen}
+        
       >
         <DialogTitle>
           <TextField
-            label="Title"
+            disabled = {true}
+            label= {title}
             fullWidth
           />
         </DialogTitle>
         <DialogContent>
+        <ChipInput
+            value={tags}
+         />
           <ChipInput
             placeholder="Share with"
           />
-          <ChipInput
-            placeholder="Tags"
-          />
           <TextField
-            label="Note"
+            label={content}
+            disabled = {true}
             fullWidth
             multiline
           />
@@ -59,7 +68,7 @@ class NoteComposer extends Component {
             Cancel
           </Button>
           <Button onClick={this.handleSubmit} color="primary">
-            Add Note
+            Edit Note
           </Button>
         </DialogActions>
       </Dialog>
@@ -67,9 +76,11 @@ class NoteComposer extends Component {
   }
 }
 
-NoteComposer.propTypes = {
+NoteViewer.propTypes = {
+  requestViewer: PropTypes.func.isRequired,
+  isViewerOpen: PropTypes.bool.isRequired,
   requestComposer: PropTypes.func.isRequired,
-  isComposerOpen: PropTypes.bool.isRequired,
+  openedNote: PropTypes.object,
 };
 
-export default NoteComposer;
+export default NoteViewer;
