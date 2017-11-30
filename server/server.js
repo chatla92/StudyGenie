@@ -33,6 +33,7 @@ import posts from './routes/post.router';
 import authRoute from './routes/auth.router';
 import noteRoute from './routes/note.router';
 import csRoute from './routes/cheatsheet.router';
+import userRoute from './routes/user.router';
 
 const session = require('express-session');
 
@@ -68,6 +69,7 @@ app.use('/api/posts', posts);
 app.use('/api/auth', authRoute);
 app.use('/api/note', noteRoute);
 app.use('/api/cs', csRoute);
+app.use('/api/user', userRoute);
 
 // Render Initial HTML
 const renderFullPage = () => {

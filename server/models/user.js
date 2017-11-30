@@ -9,6 +9,17 @@ const userSchema = new Schema({
     city: String,
     country: String,
   },
+  activity: {
+    login: [Date],
+    seen: [{
+      date: Date,
+      notes: [Number],
+      tags: [{
+        "tag": String,
+        "count": Number
+      }]
+    }]
+  },
   groups: [String],
   createDateTime: Date,
   modDateTime: Date,
