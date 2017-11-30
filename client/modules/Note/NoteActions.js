@@ -1,4 +1,5 @@
 import callApi from '../../util/apiCaller';
+import { createAction } from 'redux-actions';
 
 // Export Constants
 export const ADD_NOTE = 'ADD_NOTE';
@@ -25,25 +26,27 @@ export function addNoteRequest(note) {
   };
 }
 
-export function addNotes(notes) {
-  return {
-    type: ADD_NOTES,
-    notes,
-  };
-}
+export const addNotes = createAction(
+  ADD_NOTES,
+  notes => notes,
+);
 
-export function fetchNotes() {
+// Export Actions
+export function fetchNotes(pageNumber) {
   return (dispatch) => {
-    // return callApi('notes').then(res => {
-    //   dispatch(addNotes(res.notes));
-    // });
-    dispatch(addNotes([]));
+    return callApi(`note/getNotes/${pageNumber}`, 'post', {}).then(response => {
+      console.log('here')
+      dispatch(addNotes(response.result));
+    }, err => {
+      console.log('err here')
+      dispatch(getNotesFailure(err));
+    });
   };
 }
 
 export function fetchNote(cuid) {
   return (dispatch) => {
-    return callApi(`notes/${cuid}`).then(res => dispatch(addNote(res.note)));
+    return callApi(`notes/${cuid}`).then(res => dispatch(addNote(res.result)));
   };
 }
 

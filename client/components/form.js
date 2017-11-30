@@ -39,7 +39,7 @@ class SimpleSelect extends React.Component {
       <form className={classes.container} autoComplete="off">
         <AutoContent />
         <AutoComplete />
-        <Button raised color="primary" className={classes.button}>Search</Button>
+        <Button raised color="secondary" className={classes.button}>Search</Button>
       </form>
     );
   }
