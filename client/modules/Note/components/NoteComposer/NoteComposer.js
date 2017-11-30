@@ -15,41 +15,12 @@ import Dialog, {
 class NoteComposer extends Component {
 
   handleSubmit = () => {
-    this.props.requestComposer(false);
+    this.props.requestComposer(false, null);
   };
 
   handleClose = () => {
-    this.props.requestComposer(false);
+    this.props.requestComposer(false, null);
   };
-
-  // createNote = () => {
-  //   const { title, tags, content } = this.state;
-  //   const { dispatch } = this.props;
-  //   dispatch(authActions.createNote({
-  //     username,
-  //     password,
-  //     fullname,
-  //   }));
-  // };
-
-  // handleTitleChange = (e) => {
-  //   this.setState({
-  //     fullname: e.target.value,
-  //   });
-  // };
-  //
-  //
-  // handleTagsChange = (e) => {
-  //   this.setState({
-  //     username: e.target.value,
-  //   });
-  // };
-  //
-  // handleContentChange = (e) => {
-  //   this.setState({
-  //     password: e.target.value,
-  //   });
-  // };
 
   upTransition = (props) => {
     return <Slide direction="up" {...props} />;
@@ -99,6 +70,7 @@ class NoteComposer extends Component {
 NoteComposer.propTypes = {
   requestComposer: PropTypes.func.isRequired,
   isComposerOpen: PropTypes.bool.isRequired,
+  
 };
 
 export default NoteComposer;

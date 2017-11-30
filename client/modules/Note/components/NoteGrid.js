@@ -22,10 +22,11 @@ function NoteGrid(props) {
           {
             props.notes.map(note => (
               <GridListTile key={note.cuid} cols={1} rows={1}>
-                <NoteGridItem
+                <NoteGridItem 
                   note={note}
                   key={note.cuid}
                   onDelete={() => props.handleDeleteNote(note.cuid)}
+                  requestEditor={props.requestViewer}
                 />
               </GridListTile>
             ))
@@ -46,6 +47,7 @@ NoteGrid.propTypes = {
   })).isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
   requestComposer: PropTypes.func.isRequired,
+  requestViewer: PropTypes.func.isRequired,
 };
 
 export default NoteGrid;
