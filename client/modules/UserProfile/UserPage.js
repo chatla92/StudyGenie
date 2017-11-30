@@ -9,6 +9,7 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import NoteIcon from 'material-ui-icons/InsertDriveFile';
 import BorderIcon from 'material-ui-icons/BorderAll';
+import style from '../UserProfile/UserPage.css';
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -33,6 +34,9 @@ const styles = theme => ({
   dividers: {
     maxWidth: '360px',
     background: theme.palette.background.paper,
+  },
+  paper: {
+    top: 5,
   },
 });
 
@@ -70,6 +74,26 @@ function PaperSheet(props) {
             </ListItem>
           </List>
         </Card>
+      </Paper>
+      <Paper className={classes.root} elevation={4}>
+        <div>
+          <h4>
+            <strong>Your Activity:
+              <div className={style.inputcolor}>
+                <input type="text" defaultValue="Least Acitvity" />
+                <div className={style.colorbox} style={{ backgroundColor: '#A50026' }}>
+                </div>
+              </div>
+              <div className={style.inputcolor}>
+                <input type="text" defaultValue="Most Acitvity" />
+                <div className={style.colorbox} style={{ backgroundColor: '#006837' }}>
+                </div>
+              </div>
+            </strong>
+          </h4>
+          <div id="vis">
+          </div>
+        </div>
       </Paper>
     </div>
   );

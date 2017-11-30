@@ -1,0 +1,16 @@
+.inputcolor {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+}
+.inputcolor input {
+    padding-left: 20px;
+}
+.colorbox {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}

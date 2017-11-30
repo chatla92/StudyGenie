@@ -64,6 +64,8 @@ app.use(session({ secret: 'sd34124S4@4D5#FD6A6&7Sgkdlf!',
 
 // Routes
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
+app.use(Express.static(path.resolve(__dirname, '../client/assets')));
+app.use('/static/js/', Express.static(path.join(__dirname, '..', 'client', 'assets')));
 app.use('/api/posts', posts);
 app.use('/api/auth', authRoute);
 app.use('/api/note', noteRoute);
@@ -99,6 +101,8 @@ const renderFullPage = () => {
           window.webpackManifest = ${JSON.stringify(chunkManifest)};
           //]]>` : ''}
         </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+        <script src='/images/visualize.js'></script>
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/vendor.js'] : '/vendor.js'}'></script>
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/app.js'] : '/app.js'}'></script>
       </body>
@@ -115,6 +119,7 @@ const renderError = err => {
 
 app.use((req, res) => {
   match({ routes, location: req.url }, (err, redirectLocation) => {
+    console.log(req.url)
     if (err) {
       return res.status(500).end(renderError(err));
     }
