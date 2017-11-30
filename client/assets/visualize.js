@@ -1,11 +1,320 @@
-if(typeof window !== 'undefined') { 
+if (document.getElementById('fl')) {
+var graph = {
+        "nodes": [
+          {
+            "id": "Java",
+            "chapters": [
+              "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+            ],
+            "name": "Java"
+          },
+        {
+            "id": "Hibernate",
+            "chapters": [
+              "1",
+          "2"
+            ],
+            "name": "Hibernate"
+          },
+          {
+            "id": "JavaScript",
+            "chapters": [
+              "1",
+              "3",
+          "4",
+          "6"
+            ],
+            "name": "JavaScript"
+          },
+          {
+            "id": "SQL",
+            "chapters": [
+              "2",
+          "3",
+          "5",
+          "8"
+            ],
+            "name": "SQL"
+          },
+          {
+            "id": "ASP",
+            "chapters": [
+              "1",
+          "3",
+          "5",
+          "7"
+            ],
+            "name": "ASP"
+          },
+          {
+            "id": "HTML",
+            "chapters": [
+              "2",
+          "4"
+            ],
+            "name": "HTML"
+          },
+        {
+            "id": "React",
+            "chapters": [
+              "2",
+          "3",
+          "4",
+          "6",
+          "8"
+            ],
+            "name": "React"
+          },
+        {
+            "id": "CSS",
+            "chapters": [
+              "1",
+          "4",
+          "6"
+            ],
+            "name": "CSS"
+          },
+          
+          {
+            "id": "MongoDB",
+            "chapters": [
+              "1",
+          "3",
+          "5",
+          "7"
+            ],
+            "name": "MongoDB"
+          },
+          {
+            "id": "Python",
+            "chapters": [
+              "2",
+          "4",
+          "1",
+          "3",
+          "5"
+            ],
+            "name": "Python"
+          }
+        ],
+        "links": [
+          {
+            "source": "Java",
+            "target": "JavaScript",
+            "chapters": [
+              "1",
+          "3"
+          
+            ]
+          },
+          {
+            "source": "Java",
+            "target": "SQL",
+            "chapters": [
+              "2",
+          "3",
+          "5"
+            ]
+          },
+          {
+            "source": "Java",
+            "target": "HTML",
+            "chapters": [
+              "2",
+              "4"
+            ]
+          },
+          {
+            "source": "JavaScript",
+            "target": "CSS",
+            "chapters": [
+              "1",
+          "4",
+          "6"
+            ]
+          },
+          {
+            "source": "JavaScript",
+            "target": "React",
+            "chapters": [
+              "4",
+          "3",
+          "6"
+            ]
+          },
+          {
+            "source": "React",
+            "target": "MongoDB",
+            "chapters": [
+              "3"
+            ]
+          },
+        {
+            "source": "MongoDB",
+            "target": "Python",
+            "chapters": [
+              "1",
+              "3",
+          "5"
+            ]
+          },
+          {
+            "source": "Java",
+            "target": "Python",
+            "chapters": [
+              "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+            ]
+          },
+          {
+            "source": "MongoDB",
+            "target": "SQL",
+            "chapters": [
+              "5",
+          "3"
+            ]
+          },
+        {
+            "source": "Java",
+            "target": "Hibernate",
+            "chapters": [
+              "1",
+          "2"
+            ]
+          },
+        {
+            "source": "JavaScript",
+            "target": "HTML",
+            "chapters": [
+              "1",
+          "2"
+            ]
+          },
+        {
+            "source": "ASP",
+            "target": "SQL",
+            "chapters": [
+              "5",
+          "3"
+            ]
+          }
+        ]
+      }
+        
+        
+      
+      
+      var width = 960;
+      var height = 600;
+      var nodeRadius = d3.scaleSqrt().range([4, 10]);
+      var linkWidth = d3.scaleLinear().range([1, 2 * nodeRadius.range()[0]])
+      var padding = nodeRadius.range()[1] + 2;
+      var radius = Math.min(width - padding, height - padding)/2;
+      
+      var drag = d3.drag()
+        .on('start', dragStart)
+        .on('drag', dragging)
+        .on('end', dragEnd);
+      
+      var svg = d3.select('svg')
+        .attr('width', width)
+        .attr('height', height);
+      
+      var forceSim = d3.forceSimulation()
+        .force('link', d3.forceLink().id(function(d) { return d.id; }))
+        .force('charge', d3.forceManyBody())
+        .force('center', d3.forceCenter(width/2, height/2));
+      
+      
+      // Make sure small nodes are drawn on top of larger nodes
+      graph.nodes.sort(function (a, b) { return b.chapters.length - a.chapters.length; });
+      
+      nodeRadius.domain([graph.nodes[graph.nodes.length-1].chapters.length, graph.nodes[0].chapters.length]);
+      
+      linkWidth.domain(d3.extent(graph.links, function (d) { return d.chapters.length; }));
+      
+      var link = svg.append('g')
+        .attr('class', 'links')
+        .selectAll('line')
+        .data(graph.links)
+        .enter().append('line')
+        .attr('stroke-width', function (d) { return linkWidth(d.chapters.length); });
+      
+      var node = svg.append('g')
+        .attr('class', 'nodes')
+        .selectAll('circle')
+        .data(graph.nodes)
+        .enter().append('circle')
+        .attr('r', function (d) { return nodeRadius(d.chapters.length); })
+        .call(drag);
+      
+      node.append('title').text(function (d) { console.log(d.name); return d.name; });
+      
+      forceSim.nodes(graph.nodes)
+        .on('tick', tick);
+      
+      forceSim.force('link')
+        .links(graph.links)
+      
+      function tick () {
+        link
+          .attr('x1', function (d) { return d.source.x; })
+          .attr('x2', function (d) { return d.target.x; })
+          .attr('y1', function (d) { return d.source.y; })
+          .attr('y2', function (d) { return d.target.y; });
+      
+        node
+          .attr('cx', function (d) {
+            var dist = Math.sqrt((d.x - width/2) * (d.x - width/2) + (d.y - height/2) * (d.y - height/2));
+            if (dist > radius)
+              d.x = width/2 + (d.x - width/2) * radius/dist;
+            return d.x;
+          })
+          .attr('cy', function (d) {
+            var dist = Math.sqrt((d.x - width/2) * (d.x - width/2) + (d.y - height/2) * (d.y - height/2));
+            if (dist > radius)
+              d.y = height/2 + (d.y - height/2) * radius/dist;
+            return d.y;
+          });
+      }
+      
+      
+      function dragStart (d) {
+        if (!d3.event.active) forceSim.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      }
+      
+      function dragging (d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+      }
+      
+      function dragEnd (d) {
+        if (!d3.event.active) forceSim.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      }
+}
 if (document.getElementById('vis')) {
         $.ajax({
-        type : 'GET',
+        type : 'POST',
         url: "http://localhost:8000/api/user",
         contentType: "text/plain",
         success: function(response){
                 // Activity Visualiztion
+                response=response.result.activity
                 var width = 960,
                 height = 136,
                 cellSize = 17;
@@ -191,38 +500,37 @@ if (document.getElementById('vis')) {
         },
         });
 
-        }
-        function tagsvis(data,date) {
-                $('#tags svg').remove();
-                $('#tag_data').html("Time spent on each tags on "+date)
-                pie_data = {
-                        size: { 
-                                canvasHeight: 500,
-                                canvasWidth: 500
-                        },
-                        header: {
-                                title: {
-                                        text: ""
-                                }
-                        },
-                        data: {
-                                content: []
-                        },
-                        "tooltips": {
-                                "enabled": true,
-                                "type": "placeholder",
-                                "string": "{label}: {value}, {percentage}%"
-                        },
-                        "effects": {
-                                "pullOutSegmentOnClick": {
-                                        "effect": "linear",
-                                        "speed": 400,
-                                        "size": 8
-                                }
+ }
+function tagsvis(data,date) {
+        $('#tags svg').remove();
+        $('#tag_data').html("Time spent on each tags on "+date)
+        pie_data = {
+                size: { 
+                        canvasHeight: 500,
+                        canvasWidth: 500
+                },
+                header: {
+                        title: {
+                                text: ""
+                        }
+                },
+                data: {
+                        content: []
+                },
+                "tooltips": {
+                        "enabled": true,
+                        "type": "placeholder",
+                        "string": "{label}: {value}, {percentage}%"
+                },
+                "effects": {
+                        "pullOutSegmentOnClick": {
+                                "effect": "linear",
+                                "speed": 400,
+                                "size": 8
                         }
                 }
-                pie_data["data"]["content"] = data
+        }
+        pie_data["data"]["content"] = data
 
-                var pie = new d3pie("tags", pie_data);
-}
+        var pie = new d3pie("tags", pie_data);
 }
