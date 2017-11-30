@@ -129,9 +129,9 @@ class CheatSheetDetailsPage extends Component {
           </AppBar>
           {before}
           <main className={classes.content}>
-            <Typography type="body1">
+           <TextField>
             {cheatsheet ? <p>{cheatsheet.content}</p> : null}
-            </Typography>
+            </TextField>
           </main>
         </div>
       </div>

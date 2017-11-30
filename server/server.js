@@ -103,8 +103,10 @@ const renderFullPage = () => {
           window.webpackManifest = ${JSON.stringify(chunkManifest)};
           //]]>` : ''}
         </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
-        <script src='/images/visualize.js'></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/d3pie@0.2.1/d3pie/d3pie.min.js"></script> 
+        <script src='static/js/visualize.js'></script>
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/vendor.js'] : '/vendor.js'}'></script>
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/app.js'] : '/app.js'}'></script>
       </body>

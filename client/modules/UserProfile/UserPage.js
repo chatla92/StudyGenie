@@ -39,66 +39,77 @@ const styles = theme => ({
     top: 5,
   },
 });
+class PaperSheet extends React.Component {
 
-function PaperSheet(props) {
-  const { classes } = props;
-  return (
-    <div>
-      <Paper className={classes.root} elevation={4}>
-        <Card className={classes.card}>
-          <div className={classes.details}>
-            <CardContent className={classes.content}>
-              <Typography type="headline">FirstName LastName</Typography>
-              <Typography type="subheading" color="secondary">
-              user14@gmail.com
-              </Typography>
-              <CardMedia
-                className={classes.cover}
-                image="https://i.stack.imgur.com/IHLNO.jpg"
-              />
-            </CardContent>
-          </div>
-          <List className={classes.dividers}>
-            <ListItem button>
-              <Avatar>
-                <NoteIcon />
-              </Avatar>
-              <ListItemText primary="Notes Added" secondary="Private:12 Public:14" />
-            </ListItem>
-            <Divider inset />
-            <ListItem button>
-              <Avatar>
-                <BorderIcon />
-              </Avatar>
-              <ListItemText primary="Cheatsheets" secondary="1" />
-            </ListItem>
-          </List>
-        </Card>
-      </Paper>
-      <Paper className={classes.root} elevation={4}>
-        <div>
-          <h4>
-            <strong>Your Activity:
-              <div className={style.inputcolor}>
-                <input type="text" defaultValue="Least Acitvity" />
-                <div className={style.colorbox} style={{ backgroundColor: '#A50026' }}>
+  componentWillMount() {
+    const script = document.createElement('script');
+    script.src = 'static/js/visualize.js';
+    document.body.appendChild(script);
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+        <Paper className={classes.root} elevation={4}>
+          <Card className={classes.card}>
+            <div className={classes.details}>
+              <CardContent className={classes.content}>
+                <Typography type="headline">FirstName LastName</Typography>
+                <Typography type="subheading" color="secondary">
+                user14@gmail.com
+                </Typography>
+                <CardMedia
+                  className={classes.cover}
+                  image="https://i.stack.imgur.com/IHLNO.jpg"
+                />
+              </CardContent>
+            </div>
+            <List className={classes.dividers}>
+              <ListItem button>
+                <Avatar>
+                  <NoteIcon />
+                </Avatar>
+                <ListItemText primary="Notes Added" secondary="Private:12 Public:14" />
+              </ListItem>
+              <Divider inset />
+              <ListItem button>
+                <Avatar>
+                  <BorderIcon />
+                </Avatar>
+                <ListItemText primary="Cheatsheets" secondary="1" />
+              </ListItem>
+            </List>
+          </Card>
+        </Paper>
+        <Paper className={classes.root} elevation={4}>
+          <div>
+            <h4>
+              <strong>Your Activity:
+                <div className={style.inputcolor}>
+                  <input type="text" defaultValue="Least Acitvity" />
+                  <div className={style.colorbox} style={{ backgroundColor: '#A50026' }}>
+                  </div>
                 </div>
-              </div>
-              <div className={style.inputcolor}>
-                <input type="text" defaultValue="Most Acitvity" />
-                <div className={style.colorbox} style={{ backgroundColor: '#006837' }}>
+                <div className={style.inputcolor}>
+                  <input type="text" defaultValue="Most Acitvity" />
+                  <div className={style.colorbox} style={{ backgroundColor: '#006837' }}>
+                  </div>
                 </div>
-              </div>
-            </strong>
-          </h4>
-          <div id="vis">
+              </strong>
+            </h4>
+            <div id="vis">
+            </div>
           </div>
-        </div>
-      </Paper>
-    </div>
-  );
+          <div>
+            <h4><strong>Tags</strong></h4>
+            <div id="tags"><p id="tag_data"></p></div>
+          </div>
+        </Paper>
+      </div>
+    );
+  }
 }
-
 PaperSheet.propTypes = {
   classes: PropTypes.object.isRequired,
 };

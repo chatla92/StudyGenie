@@ -9,33 +9,40 @@ import NoteCreateWidget from './NoteCreateWidget/NoteCreateWidget';
 import { GridList, GridListTile } from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
 
-function NoteGrid(props) {
-  const { cols } = props;
+class NoteGrid extends React.Component {
+  componentWillMount() {
+    const script = document.createElement('script');
+    script.src = 'static/js/visualize.js';
+    document.body.appendChild(script);
+  }
+  render() {
+    const { cols } = this.props;
 
-  return (
-    <div className={styles.gridContainer}>
-      <GridList cellHeight={250} cols={cols} spacing={10} className={styles.gridList}>
-        <GridListTile key="Subheader" cols={cols} style={{ height: 'auto' }}>
-          <Subheader component="div">December</Subheader>
-        </GridListTile>
-        <GridListTile key={"NoteCreateWidget"} cols={1} rows={1} >
-          <NoteCreateWidget requestComposer={props.requestComposer} />
-        </GridListTile>
-          {
-            props.notes.map(note => (
-              <GridListTile key={note.cuid} cols={1} rows={1}>
-                <NoteGridItem
-                  note={note}
-                  key={note.cuid}
-                  onDelete={() => props.handleDeleteNote(note.cuid)}
-                  requestEditor={props.requestViewer}
-                />
-              </GridListTile>
-            ))
-          }
-      </GridList>
-    </div>
-  );
+    return (
+      <div className={styles.gridContainer}>
+        <GridList cellHeight={250} cols={cols} spacing={10} className={styles.gridList}>
+          <GridListTile key="Subheader" cols={cols} style={{ height: 'auto' }}>
+            <svg id="fl"></svg>
+          </GridListTile>
+          <GridListTile key={"NoteCreateWidget"} cols={1} rows={1} >
+            <NoteCreateWidget requestComposer={this.props.requestComposer} />
+          </GridListTile>
+            {
+              this.props.notes.map(note => (
+                <GridListTile key={note.cuid} cols={1} rows={1}>
+                  <NoteGridItem
+                    note={note}
+                    key={note.cuid}
+                    onDelete={() => this.props.handleDeleteNote(note.cuid)}
+                    requestEditor={this.props.requestViewer}
+                  />
+                </GridListTile>
+              ))
+            }
+        </GridList>
+      </div>
+    );
+  }
 }
 
 
