@@ -32,16 +32,21 @@ export const addNotes = createAction(
 );
 
 // Export Actions
-export function fetchNotes(pageNumber) {
+export function fetchNotes({pageNumber, contentQuery, tagQuery}) {
+  let query = {}
+  if (contentQuery) {
+    query.contentQuery = contentQuery
+  } else if(tagQuery) {
+    query.tagQuery = tagQuery
+  }
   return (dispatch) => {
-    return callApi(`note/getNotes/${pageNumber}`, 'post', {}).then(response => {
-      console.log('here')
+    return callApi(`note/getNotes/${pageNumber}`, 'post', query).then(response => {
       dispatch(addNotes(response.result));
     }, err => {
-      console.log('err here')
       dispatch(getNotesFailure(err));
     });
   };
+
 }
 
 export function fetchNote(cuid) {

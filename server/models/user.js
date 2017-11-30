@@ -9,6 +9,12 @@ const userSchema = new Schema({
     city: String,
     country: String,
   },
+  searchActivity: [
+    {
+      "tag" : String,
+      "count" : Number
+    }
+  ],
   activity: {
     login: [Date],
     seen: [{

@@ -5,6 +5,8 @@ import AutoComplete from '../components/autocomplete';
 import AutoContent from '../components/autocontent';
 import Button from 'material-ui/Button';
 
+import NoteActions from '../modules/Note/NoteActions';
+
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -24,22 +26,43 @@ const styles = theme => ({
 
 class SimpleSelect extends React.Component {
   state = {
-    age: '',
-    name: 'hai',
+    contentQuery : '',
+    tagQuery : '',
   };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleAutoContent(e) {
+    this.setState({
+      contentQuery: e.target.value,
+    })
+  }
+
+  handleAutoContent(e) {
+    this.setState({
+      tagQuery: e.target.value,
+    })
+  }
+
+  search = () => {
+    const { tagQuery, contentQuery } = this.state;
+    this.props.dispatch(NoteActions.fetchNotes({pageNumber: 1, contentQuery, tagQuery}));
+  }
+
   render() {
     const { classes } = this.props;
 
     return (
       <form className={classes.container} autoComplete="off">
-        <AutoContent />
+        <AutoContent onChange={this.handleAutoContent}/>
         <AutoComplete />
-        <Button raised color="secondary" className={classes.button}>Search</Button>
+        <Button
+          raised
+          onClick={this.search}
+          color="secondary"
+          className={classes.button}>Search</Button>
       </form>
     );
   }
@@ -47,6 +70,7 @@ class SimpleSelect extends React.Component {
 
 SimpleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SimpleSelect);

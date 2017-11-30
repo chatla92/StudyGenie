@@ -1,4 +1,5 @@
 import Note from '../models/note';
+import User from '../models/user';
 const request = require('request');
 const rp = require('request-promise');
 
@@ -13,13 +14,14 @@ export function getTopNotes(req, res) {
   const filter = req.body.filter;
   const page = req.params.pageId;
   const notesPerPage = 24;
+  const initialLoadSize = 200;
   const start = (page - 1) * notesPerPage;
   const end = page * notesPerPage;
 
   if (page <= 0)
     return res.status(400).send();
 
-  if (req.session.topNotes) {
+  if (page != 1 && req.session.topNotes) {
     console.log('Inside topNotes');
     console.log(req.session.topNotes.length);
     // console.log(req.session.topNotes)
@@ -28,16 +30,53 @@ export function getTopNotes(req, res) {
   }
 
   var query_str = {};
-
-  if (!filter) {
+  console.log("filter = " + filter);
+  
+  if (typeof filter === "undefined") {
     query_str = {
+      "from":0,
+      "size":initialLoadSize,
       'query': {
-        'match_all': {},
+        'bool': {
+          'should': []
+        },
       },
     };
+
+    const username = "user14@gmail.com";  //req.session.user;
+    User.findOne({username}, function(err, foundUser) {
+      if(err) return res.status(500).send();
+      if(foundUser) {
+        console.log(foundUser);
+        const searchList = foundUser.searchActivity;
+        console.log(searchList);
+
+        // const keys = Object.keys(searchList);
+
+        searchList.forEach(function (ele) {
+          // filter[key].forEach(function (tag) {
+          query_str.query.bool.should.push({
+            'constant_score': {
+              'filter': {
+                'term': {
+                  'content': ele['tag'],
+                }
+              },
+              'boost': ele['count']
+            }
+          });
+        });
+        console.log("query_str = " + JSON.stringify(query_str))
+      }
+      else {
+        return res.status(409).send();
+      }
+    })
   }
   else {
     query_str = {
+      "from":0,
+      "size":initialLoadSize,
       'query': {
         'bool': {
           'should': [],
@@ -71,7 +110,7 @@ export function getTopNotes(req, res) {
           },
         });
       }
-      if (key === 'content') {
+      if (key === 'content' || key === 'title') {
         query_str.query.bool.should.push({
           'constant_score': {
             'filter': {
@@ -85,6 +124,7 @@ export function getTopNotes(req, res) {
         });
       }
     });
+    console.log("query_str = " + JSON.stringify(query_str))
   }
 
   const options = {
@@ -98,7 +138,7 @@ export function getTopNotes(req, res) {
     .then(function (response) {
       req.session.topNotes = response.hits.hits;
       console.log(response.hits.hits.length);
-      return res.status(200).json({ status: 'success', result: response.hits.hits });
+      return res.status(200).json({ status: 'success', result: req.session.topNotes.slice(start, end) });
     })
     .catch(function (err) {
       console.log('error = ' + err);

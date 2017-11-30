@@ -22,7 +22,7 @@ class NoteGridPage extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchNotes(1));
+    this.props.dispatch(fetchNotes({pageNumber: 1}));
   }
 
   handleDeleteNote = note => {
