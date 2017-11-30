@@ -17,6 +17,7 @@ import Form from '../../../../components/form';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import FaceIcon from 'material-ui-icons/Face';
+import { browserHistory } from 'react-router';
 
 // Import Style
 import styles from './Header.css';
@@ -37,7 +38,9 @@ class Header extends React.Component {
       <div className={styles.drawer_list}>
         <List>
           <ListItem button>
-            <ListItemText primary="Browse Notes" />
+            <ListItemText
+              primary="Browse Notes"
+              onClick={() => {browserHistory.push('/notes')}} />
           </ListItem>
           <ListItem button>
             <ListItemText primary="My Notes" />
@@ -46,10 +49,9 @@ class Header extends React.Component {
         <Divider />
         <List>
           <ListItem button>
-            <ListItemText primary="My Cheatsheets" />
-          </ListItem>
-          <ListItem button>
-            <ListItemText primary="My groups" />
+            <ListItemText
+            primary="My Cheatsheets"
+            onClick={() => {browserHistory.push('/cheatsheets')}} />
           </ListItem>
         </List>
       </div>
@@ -100,10 +102,12 @@ class Header extends React.Component {
 
 
   handleLogout = event => {
+    this.toggleDrawer(false)
     this.props.dispatch(signout());
   };
 
   handleUserProfileClicked = () => {
+    this.toggleDrawer(false)
     browserHistory.push('/userprofile');
   };
   handleOnClick = () => {
@@ -130,17 +134,7 @@ class Header extends React.Component {
           <Typography type="title" color="inherit" style={titleStyle}>
             Study Genie
           </Typography>
-          <Form />
-          <Chip
-            avatar={
-              <Avatar>
-                <FaceIcon className={styles.svgIcon} />
-              </Avatar>
-              }
-            label="user14@gmail.com"
-            onClick={this.handleOnClick}
-            className={styles.chip}
-          />
+          {auth_status === AUTH_STAT.AUTHENTICATED ? <Form /> : null}
           <Drawer open={this.state.isDrawerOpen} onRequestClose={this.toggleDrawer(false)}>
             <div
               tabIndex={0}

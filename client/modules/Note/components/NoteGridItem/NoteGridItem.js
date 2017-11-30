@@ -81,7 +81,7 @@ NoteGridItem.propTypes = {
     cuid: PropTypes.number.isRequired,
     LastModified: PropTypes.number.isRequired,
   }).isRequired,
-  requestEditor: PropTypes.func.isRequired,
+  requestEditor: PropTypes.func,
 };
 
 export default NoteGridItem;
