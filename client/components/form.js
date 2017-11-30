@@ -48,7 +48,7 @@ class SimpleSelect extends React.Component {
 
   search = () => {
     const { tagQuery, contentQuery } = this.state;
-    this.dispatch(NoteActions.fetchNotes({pageNumber: 1, contentQuery, tagQuery}));
+    this.props.dispatch(NoteActions.fetchNotes({pageNumber: 1, contentQuery, tagQuery}));
   }
 
   render() {
@@ -70,6 +70,7 @@ class SimpleSelect extends React.Component {
 
 SimpleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SimpleSelect);
