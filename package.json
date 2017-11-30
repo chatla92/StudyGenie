@@ -17,9 +17,6 @@
     "lint": "eslint client server",
     "lint:fix": "eslint --fix client server"
   },
-  "pre-commit": [
-    "lint"
-  ],
   "browserslist": [
     "> 1%",
     "ie > 9"
@@ -56,6 +53,7 @@
     "prop-types": "^15.6.0",
     "react": "^15.1.0",
     "react-chips": "^0.6.4",
+    "react-dnd": "^2.5.4",
     "react-dom": "^15.1.0",
     "react-helmet": "^3.1.0",
     "react-intl": "^2.1.2",

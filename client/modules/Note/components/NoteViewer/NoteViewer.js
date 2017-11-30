@@ -32,7 +32,7 @@ class NoteViewer extends Component {
   render() {
     const title = this.props.openedNote==null ? '' : this.props.openedNote.title;
     const content = this.props.openedNote==null ? '' : this.props.openedNote.content;
-    const tags = this.props.openedNote==null ? '' : this.props.openedNote.meta.tags;
+    const tags = this.props.openedNote==null ? [] : this.props.openedNote.meta.tags;
     return (
       <Dialog
         fullScreen
@@ -40,7 +40,7 @@ class NoteViewer extends Component {
         transition={this.upTransition}
         keepMounted
         open={this.props.isViewerOpen}
-        
+
       >
         <DialogTitle>
           <TextField

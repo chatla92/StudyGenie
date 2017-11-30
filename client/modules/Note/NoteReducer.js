@@ -30,7 +30,7 @@ const dummyNotes = [{
   },
 }];
 
-const initialState = { notes: dummyNotes };
+const initialState = { notes: [] };
 
 const NoteReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -40,8 +40,13 @@ const NoteReducer = (state = initialState, action) => {
       };
 
     case ADD_NOTES :
+      const notes  = action.payload.map(note => {
+        note._source.upvotes =  Math.floor(Math.random()* 26)
+        note._source.downvotes =  Math.floor(Math.random()* 6)
+        return note._source;
+      })
       return {
-        notes: [...action.notes, ...state.notes],
+        notes,
       };
 
     case DELETE_NOTE :
