@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import style from './CheatSheetDetailsPage.css';
@@ -14,7 +15,7 @@ import { MenuItem } from 'material-ui/Menu';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
-
+import NoteGrid from '../../Note/components/NoteGrid';
 
 const drawerWidth = 240;
 
@@ -103,18 +104,18 @@ class CheatSheetDetailsPage extends Component {
         }}
         anchor={anchor}
       >
-        <div className={classes.drawerHeader} />
-        
-      </Drawer>
+        <NoteGrid
+          cols={1}
+          handleDeleteNote={this.handleDeleteNote}
+          notes={this.props.notes}
+        />
+        </Drawer>
     );
 
     let before = null;
-    let after = null;
 
     if (anchor === 'left') {
       before = drawer;
-    } else {
-      after = drawer;
     }
     return (
       <div className={classes.root}>
@@ -132,7 +133,6 @@ class CheatSheetDetailsPage extends Component {
             {cheatsheet ? <p>{cheatsheet.content}</p> : null}
             </Typography>
           </main>
-        {after}
         </div>
       </div>
     );
@@ -144,6 +144,16 @@ CheatSheetDetailsPage.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.object,
   }).isRequired,
+  notes: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
-export default withStyles(styles)(CheatSheetDetailsPage);
+function mapStateToProps(state) {
+  return {
+    notes: state.notebook.notes,
+  };
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(CheatSheetDetailsPage));

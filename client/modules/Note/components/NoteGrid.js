@@ -10,19 +10,21 @@ import { GridList, GridListTile } from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
 
 function NoteGrid(props) {
+  const { cols } = props;
+
   return (
     <div className={styles.gridContainer}>
-      <GridList cellHeight={250} cols={5} spacing={10} className={styles.gridList}>
-        <GridListTile key="Subheader" cols={5} style={{ height: 'auto' }}>
+      <GridList cellHeight={250} cols={cols} spacing={10} className={styles.gridList}>
+        <GridListTile key="Subheader" cols={cols} style={{ height: 'auto' }}>
           <Subheader component="div">December</Subheader>
         </GridListTile>
-        <GridListTile key={"NoteCreateWidget"} cols={1} rows={1}>
+        <GridListTile key={"NoteCreateWidget"} cols={1} rows={1} >
           <NoteCreateWidget requestComposer={props.requestComposer} />
         </GridListTile>
           {
             props.notes.map(note => (
               <GridListTile key={note.cuid} cols={1} rows={1}>
-                <NoteGridItem 
+                <NoteGridItem
                   note={note}
                   key={note.cuid}
                   onDelete={() => props.handleDeleteNote(note.cuid)}

@@ -16,6 +16,9 @@ import Badge from 'material-ui/Badge';
 import styles from './NoteGridItem.css';
 
 function getInitials(string) {
+  if (!string ) {
+    string = 'Unknown'
+  }
   const names = string.split(' ');
   let initials = names[0].substring(0, 1).toUpperCase();
 
@@ -46,11 +49,11 @@ function NoteGridItem(props) {
           </Typography>
         </CardContent>
         <CardActions >
-          <Badge className={styles.badge} badgeContent={4} color="primary">
+          <Badge className={styles.badge} badgeContent={props.note.upvotes} color="primary">
             <ThumbUp />
           </Badge>
           <IconButton aria-label="Share">
-            <Badge className={styles.badge} badgeContent={2} color="primary">
+            <Badge className={styles.badge} badgeContent={props.note.downvotes} color="primary">
               <ThumbDown />
             </Badge>
           </IconButton>

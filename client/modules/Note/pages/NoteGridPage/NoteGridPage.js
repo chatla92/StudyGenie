@@ -22,7 +22,7 @@ class NoteGridPage extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchNotes());
+    this.props.dispatch(fetchNotes(1));
   }
 
   handleDeleteNote = note => {
@@ -53,6 +53,7 @@ class NoteGridPage extends Component {
     return (
       <div>
         <NoteGrid
+          cols={5}
           requestComposer={this.requestComposer}
           requestViewer ={this.requestViewer}
           handleDeleteNote={this.handleDeleteNote}
