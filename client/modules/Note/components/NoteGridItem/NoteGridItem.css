@@ -91,7 +91,14 @@
   margin: 0 4px;
 }
 
-.content {
-  width: 400;
-  height: 200;
+.truncate {
+  width: 400px;
+  height: 70px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+ .header {
+   height: 10px;
+   display: block;
+ }
