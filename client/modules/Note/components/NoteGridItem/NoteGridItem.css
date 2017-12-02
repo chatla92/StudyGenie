@@ -84,8 +84,14 @@
 
 .card {
   max-width: 400px;
+  height: 400px;
 }
 
 .badge{
   margin: 0 4px;
+}
+
+.content {
+  width: 400;
+  height: 200;
 }

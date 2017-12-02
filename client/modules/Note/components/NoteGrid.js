@@ -21,9 +21,6 @@ class NoteGrid extends React.Component {
   return (
     <div className={styles.gridContainer}>
       <GridList cellHeight={250} cols={cols} spacing={10} className={styles.gridList}>
-        <GridListTile key="Subheader" cols={cols} style={{ height: 'auto' }}>
-          <Subheader component="div">December</Subheader>
-        </GridListTile>
         <GridListTile key={"NoteCreateWidget"} cols={1} rows={1} >
           <NoteCreateWidget requestComposer={this.props.requestComposer} />
         </GridListTile>

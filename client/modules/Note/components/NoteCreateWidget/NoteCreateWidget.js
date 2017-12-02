@@ -3,27 +3,57 @@ import PropTypes from 'prop-types';
 
 import NoteAddIcon from 'material-ui-icons/NoteAdd';
 import Paper from 'material-ui/Paper';
+import { withStyles } from 'material-ui/styles';
+import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
+import green from 'material-ui/colors/green';
+import Switch from 'material-ui/Switch';
 
 // Import Style
-import styles from './NoteCreateWidget.css';
+import style from './NoteCreateWidget.css';
 
-function NoteCreateWidget(props) {
-  const iconStyle = { color: '#999', display: 'block', width: '100%', height: '100%' };
-  return (
-    <div className={styles.root}>
-      <Paper className={styles.paper}>
-        <NoteAddIcon
-          style={iconStyle}
-          onClick={() => { props.requestComposer(true); }}
-        />
-        <div>Add a new note</div>
-      </Paper>
-    </div>
-  );
+const styles = theme => ({
+  card: {
+    maxWidth: 400,
+    height: 400,
+  },
+  flexGrow: {
+    flex: '1 1 auto',
+  },
+});
+
+class NoteCreateWidget extends React.Component {
+  state = {
+    checkedA: true,
+    checkedB: false,
+    checkedE: true,
+  };
+  handleChange = name => (event, checked) => {
+    this.setState({ [name]: checked });
+  };
+
+  render() {
+    const iconStyle = { color: '#999', display: 'block', marginLeft: 'auto', marginRight: 'auto', width: '60%', height: '60%' };
+    const { classes } = this.props;
+    return (
+      <div className={style.root}>
+        <Card className={classes.card}>
+          <CardHeader
+            title="Add a New Note"
+          />
+          <CardContent>
+            <NoteAddIcon
+              style={iconStyle}
+              onClick={() => { this.props.requestComposer(true); }}
+            />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 }
-
 NoteCreateWidget.propTypes = {
   requestComposer: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default NoteCreateWidget;
+export default withStyles(styles)(NoteCreateWidget);

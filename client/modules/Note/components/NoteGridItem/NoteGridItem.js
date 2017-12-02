@@ -29,6 +29,13 @@ function getInitials(string) {
   return initials;
 }
 
+function truncate(string){
+  if (string.length > 5)
+     return string.substring(0,5)+'...';
+  else
+     return string;
+};
+
 const classestyle = {
 
 };
@@ -43,16 +50,17 @@ class NoteGridItem extends React.Component {
   render() {
     return (
       <div>
-        <Card  className={styles.card}>
-          <CardHeader onClick={() => { this.props.requestEditor(true, this.props.note); }}
-            avatar={<Avatar aria-label={this.props.note.owner} className={styles.avatar}>{getInitials(this.props.note.owner)}</Avatar>}
-            title={this.props.note.title}
-            subheader={`created by ${this.props.note.owner}`}
+        <Card className={styles.card}>
+          <CardHeader
+            onClick={() => { this.props.requestEditor(true, this.props.note); }}
+            avatar={<Avatar aria-label={this.props.note.owner} className={styles.avatar}>{getInitials(this.props.note.owner.fullname)}</Avatar>}
+            title={truncate(this.props.note.title)}
+            subheader={`created by ${this.props.note.owner.fullname}`}
             classes={classestyle.header}
           />
-          <CardContent>
+          <CardContent className={styles.content}>
             <Typography paragraph noWrap>
-            {this.props.note.content}
+               {this.props.note.content}
             </Typography>
           </CardContent>
           <CardActions >
@@ -67,7 +75,7 @@ class NoteGridItem extends React.Component {
             <IconButton>
               <Badge
                 className={styles.badge}
-                badgeContent={this.props.note.downvotes}
+                badgeContent={this.props.note.meta.downvotes.length}
                 color="primary">
                 <ThumbDown />
               </Badge>

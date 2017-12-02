@@ -8,11 +8,28 @@ import ChipInput from '../../../../components/ChipInput';
 
 import { addNoteRequest } from '../../NoteActions';
 
+import { withStyles } from 'material-ui/styles';
+import green from 'material-ui/colors/green';
+import Switch from 'material-ui/Switch';
+
+import { FormControlLabel } from 'material-ui/Form';
+
 import Dialog, {
   DialogActions,
   DialogContent,
   DialogTitle,
 } from 'material-ui/Dialog';
+
+const styles = {
+  bar: {},
+  checked: {
+    color: green[500],
+    '& + $bar': {
+      backgroundColor: green[500],
+    },
+  },
+};
+
 
 class NoteComposer extends Component {
 
@@ -21,6 +38,11 @@ class NoteComposer extends Component {
     content: '',
     sharedWith: [],
     tags: [],
+    public: false,
+  };
+
+  handleChange = name => (event, checked) => {
+    this.setState({ [name]: checked });
   };
 
   submit() {
@@ -42,7 +64,6 @@ class NoteComposer extends Component {
   }
 
   handleTagsChange = (tags) => {
-    console.log(tags)
     this.setState({
       tags,
     });
@@ -67,6 +88,7 @@ class NoteComposer extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <Dialog
         fullScreen
@@ -95,13 +117,31 @@ class NoteComposer extends Component {
           />
         </DialogContent>
         <DialogActions>
+          <FormControlLabel
+            control={
+              <Switch
+                classes={{
+                  checked: classes.checked,
+                  bar: classes.bar,
+                }}
+                checked={this.state.public}
+                onChange={this.handleChange('public')}
+                aria-label="notePublic"
+              />
+            }
+            label="To make public, click the switch?"
+          />
+
           <Button
-            onClick={this.handleClose} color="primary">
+            onClick={this.handleClose} color="primary"
+          >
             Cancel
           </Button>
-          <Button onClick={this.handleSubmit}
+          <Button
+            onClick={this.handleSubmit}
             disabled={this.isSubmitAllowed()}
-            color="primary">
+            color="primary"
+          >
             Add Note
           </Button>
         </DialogActions>
@@ -114,6 +154,7 @@ NoteComposer.propTypes = {
   requestComposer: PropTypes.func.isRequired,
   isComposerOpen: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default NoteComposer;
+export default withStyles(styles)(NoteComposer);
