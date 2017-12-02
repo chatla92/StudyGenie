@@ -1,5 +1,5 @@
 
-import { ADD_NOTE, ADD_NOTES, DELETE_NOTE } from './NoteActions';
+import { ADD_NOTE, ADD_NOTES, DELETE_NOTE, UPVOTE } from './NoteActions';
 const dummyNotes = [{
   title: 'String',
   content: 'Ipsum vero ab sequi tenetur labore vero amet facilis tempora tempora eos. Neque aliquid cum quam porro sunt sint, ducimus. Sunt neque odit non quia eveniet magnam. Eum facilis blanditiis.Ipsum vero ab sequi tenetur labore vero amet facilis tempora tempora eos. Neque aliquid cum quam porro sunt sint, ducimus. Sunt neque odit non quia eveniet magnam. Eum facilis blanditiis.',
@@ -41,6 +41,7 @@ const NoteReducer = (state = initialState, action) => {
 
     case ADD_NOTES :
       const notes  = action.payload.map(note => {
+        note._source.id = note._id;
         note._source.upvotes =  Math.floor(Math.random()* 26)
         note._source.downvotes =  Math.floor(Math.random()* 6)
         return note._source;
@@ -53,6 +54,27 @@ const NoteReducer = (state = initialState, action) => {
       return {
         notes: state.notes.filter(note => note.cuid !== action.cuid),
       };
+
+    case UPVOTE:
+      return {
+        notes: state.notes.map((note) => {
+          const { noteId, username } = action.payload
+          if(note.id === noteId) {
+            // let upvotes = note.
+            // if note.meta.upvotes.contains(username) {
+            //
+            // }
+            return {
+              ...note,
+              meta: {
+                ...note.meta,
+                upvotes: [...note.meta.upvotes, username]
+              }
+            }
+          }
+          return note;
+        })
+      }
 
     default:
       return state;

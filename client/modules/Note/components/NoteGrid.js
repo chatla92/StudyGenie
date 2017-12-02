@@ -18,33 +18,33 @@ class NoteGrid extends React.Component {
   render() {
     const { cols } = this.props;
 
-    return (
-      <div className={styles.gridContainer}>
-        <GridList cellHeight={250} cols={cols} spacing={10} className={styles.gridList}>
-          <GridListTile key="Subheader" cols={cols} style={{ height: 'auto' }}>
-            <svg id="fl"></svg>
-          </GridListTile>
-          <GridListTile key={"NoteCreateWidget"} cols={1} rows={1} >
-            <NoteCreateWidget requestComposer={this.props.requestComposer} />
-          </GridListTile>
-            {
-              this.props.notes.map(note => (
-                <GridListTile key={note.cuid} cols={1} rows={1}>
-                  <NoteGridItem
-                    note={note}
-                    key={note.cuid}
-                    onDelete={() => this.props.handleDeleteNote(note.cuid)}
-                    requestEditor={this.props.requestViewer}
-                  />
-                </GridListTile>
-              ))
-            }
+  return (
+    <div className={styles.gridContainer}>
+      <GridList cellHeight={250} cols={cols} spacing={10} className={styles.gridList}>
+        <GridListTile key="Subheader" cols={cols} style={{ height: 'auto' }}>
+          <Subheader component="div">December</Subheader>
+        </GridListTile>
+        <GridListTile key={"NoteCreateWidget"} cols={1} rows={1} >
+          <NoteCreateWidget requestComposer={this.props.requestComposer} />
+        </GridListTile>
+          {
+            this.props.notes.map(note => (
+              <GridListTile key={note.id} cols={1} rows={1}>
+                <NoteGridItem
+                  dispatch={this.props.dispatch}
+                  note={note}
+                  key={note.cuid}
+                  onDelete={() => this.props.handleDeleteNote(note.cuid)}
+                  requestEditor={this.props.requestViewer}
+                />
+              </GridListTile>
+            ))
+          }
         </GridList>
       </div>
     );
   }
 }
-
 
 NoteGrid.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
@@ -57,6 +57,7 @@ NoteGrid.propTypes = {
   handleDeleteNote: PropTypes.func.isRequired,
   requestComposer: PropTypes.func.isRequired,
   requestViewer: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default NoteGrid;

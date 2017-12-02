@@ -1,30 +1,46 @@
 import callApi from '../../util/apiCaller';
 import { createAction } from 'redux-actions';
+import localStorage from 'localStorage';
 
 // Export Constants
 export const ADD_NOTE = 'ADD_NOTE';
 export const ADD_NOTES = 'ADD_NOTES';
 export const DELETE_NOTE = 'DELETE_NOTE';
+export const UPVOTE = 'UPVOTE';
 
-// Export Actions
-export function addNote(note) {
-  return {
-    type: ADD_NOTE,
-    note,
-  };
-}
+export const addNote = createAction(
+  ADD_NOTE,
+  note => note,
+);
 
-export function addNoteRequest(note) {
+export function addNoteRequest(title, content, tags) {
   return (dispatch) => {
-    return callApi('notes', 'post', {
-      note: {
-        owner: note.owner,
-        title: note.title,
-        content: note.content,
-      },
-    }).then(res => dispatch(addNote(res.note)));
+    return callApi('note/new', 'post', {
+      title,
+      content,
+      tags,
+      isPrivate: true,
+      owner: {
+        username: localStorage.getItem('username'),
+        fullname: localStorage.getItem('fullname'),
+      }
+    }, {title, content, tags}).then(res => dispatch(addNote(res.note)));
   };
 }
+
+export function requestNoteUpvote(noteId) {
+  const username = localStorage.getItem('username');
+  return (dispatch) => {
+    return callApi('note/upvote', 'post', {
+      noteId
+    }).then(res => dispatch(upVote({noteId, username})));
+  }
+}
+
+export const upVote = createAction(
+  UPVOTE,
+  obj => obj,
+)
 
 export const addNotes = createAction(
   ADD_NOTES,
@@ -42,8 +58,6 @@ export function fetchNotes({pageNumber, contentQuery, tagQuery}) {
   return (dispatch) => {
     return callApi(`note/getNotes/${pageNumber}`, 'post', query).then(response => {
       dispatch(addNotes(response.result));
-    }, err => {
-      dispatch(getNotesFailure(err));
     });
   };
 

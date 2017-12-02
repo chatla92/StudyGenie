@@ -6,6 +6,8 @@ import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
 import ChipInput from '../../../../components/ChipInput';
 
+import { addNoteRequest } from '../../NoteActions';
+
 import Dialog, {
   DialogActions,
   DialogContent,
@@ -14,7 +16,40 @@ import Dialog, {
 
 class NoteComposer extends Component {
 
+  state = {
+    title: '',
+    content: '',
+    sharedWith: [],
+    tags: [],
+  };
+
+  submit() {
+    const { title, content, tags } = this.state;
+    const { dispatch } = this.props;
+    dispatch(addNoteRequest(title, content, tags));
+  }
+
+  handleTitleChange = (e) => {
+    this.setState({
+      title: e.target.value,
+    });
+  }
+
+  handleContentChange = (e) => {
+    this.setState({
+      content: e.target.value,
+    });
+  }
+
+  handleTagsChange = (tags) => {
+    console.log(tags)
+    this.setState({
+      tags,
+    });
+  }
+
   handleSubmit = () => {
+    this.submit();
     this.props.requestComposer(false, null);
   };
 
@@ -25,6 +60,11 @@ class NoteComposer extends Component {
   upTransition = (props) => {
     return <Slide direction="up" {...props} />;
   };
+
+  isSubmitAllowed = () => {
+    const { title, content } = this.state;
+    return (!content || !title);
+  }
 
   render() {
     return (
@@ -37,28 +77,31 @@ class NoteComposer extends Component {
       >
         <DialogTitle>
           <TextField
+            onChange={this.handleTitleChange}
             label="Title"
             fullWidth
           />
         </DialogTitle>
         <DialogContent>
           <ChipInput
-            placeholder="Share with"
-          />
-          <ChipInput
+            onChange={this.handleTagsChange}
             placeholder="Tags"
           />
           <TextField
+            onChange={this.handleContentChange}
             label="Note"
             fullWidth
             multiline
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
+          <Button
+            onClick={this.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={this.handleSubmit} color="primary">
+          <Button onClick={this.handleSubmit}
+            disabled={this.isSubmitAllowed()}
+            color="primary">
             Add Note
           </Button>
         </DialogActions>
@@ -70,7 +113,7 @@ class NoteComposer extends Component {
 NoteComposer.propTypes = {
   requestComposer: PropTypes.func.isRequired,
   isComposerOpen: PropTypes.bool.isRequired,
-  
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default NoteComposer;

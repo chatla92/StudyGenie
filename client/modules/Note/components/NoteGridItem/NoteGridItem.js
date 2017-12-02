@@ -14,6 +14,7 @@ import bg from 'material-ui/colors/blueGrey';
 import Badge from 'material-ui/Badge';
 // Import Style
 import styles from './NoteGridItem.css';
+import { requestNoteUpvote } from '../../NoteActions';
 
 function getInitials(string) {
   if (!string ) {
@@ -32,44 +33,59 @@ const classestyle = {
 
 };
 
-function NoteGridItem(props) {
-  return (
-    <div>
-      <Card  className={styles.card}>
+class NoteGridItem extends React.Component {
 
-        <CardHeader onClick={() => { props.requestEditor(true, props.note); }}
-          avatar={<Avatar aria-label={props.note.owner} className={styles.avatar}>{getInitials(props.note.owner)}</Avatar>}
-          title={props.note.title}
-          subheader={`created by ${props.note.owner}`}
-          classes={classestyle.header}
-        />
-        <CardContent>
-          <Typography paragraph noWrap>
-          {props.note.content}
-          </Typography>
-        </CardContent>
-        <CardActions >
-          <Badge className={styles.badge} badgeContent={props.note.upvotes} color="primary">
-            <ThumbUp />
-          </Badge>
-          <IconButton aria-label="Share">
-            <Badge className={styles.badge} badgeContent={props.note.downvotes} color="primary">
-              <ThumbDown />
-            </Badge>
-          </IconButton>
-          <IconButton aria-label="Share">
-            <ShareIcon />
-          </IconButton>
-          <IconButton aria-label="Edit">
-            <ModeEditIcon />
-          </IconButton>
-        </CardActions>
-      </Card>
-     { /* <Button fab color="accent" aria-label="edit" className={styles.edit_button}>
-        <ModeEditIcon />
-  </Button> */ }
-    </div>
-  );
+  handleUpvoteClick = (e) => {
+    const { id } = this.props.note;
+    this.props.dispatch(requestNoteUpvote(id))
+  }
+
+  render() {
+    return (
+      <div>
+        <Card  className={styles.card}>
+          <CardHeader onClick={() => { this.props.requestEditor(true, this.props.note); }}
+            avatar={<Avatar aria-label={this.props.note.owner} className={styles.avatar}>{getInitials(this.props.note.owner)}</Avatar>}
+            title={this.props.note.title}
+            subheader={`created by ${this.props.note.owner}`}
+            classes={classestyle.header}
+          />
+          <CardContent>
+            <Typography paragraph noWrap>
+            {this.props.note.content}
+            </Typography>
+          </CardContent>
+          <CardActions >
+            <IconButton onClick={this.handleUpvoteClick}>
+              <Badge
+                className={styles.badge}
+                badgeContent={this.props.note.meta.upvotes.length}
+                color="primary">
+                <ThumbUp />
+              </Badge>
+            </IconButton>
+            <IconButton>
+              <Badge
+                className={styles.badge}
+                badgeContent={this.props.note.downvotes}
+                color="primary">
+                <ThumbDown />
+              </Badge>
+            </IconButton>
+            <IconButton>
+              <ShareIcon />
+            </IconButton>
+            <IconButton>
+              <ModeEditIcon />
+            </IconButton>
+          </CardActions>
+        </Card>
+       { /* <Button fab color="accent" aria-label="edit" className={styles.edit_button}>
+          <ModeEditIcon />
+    </Button> */ }
+      </div>
+    );
+  }
 }
 
 NoteGridItem.propTypes = {
@@ -82,6 +98,7 @@ NoteGridItem.propTypes = {
     LastModified: PropTypes.number.isRequired,
   }).isRequired,
   requestEditor: PropTypes.func,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default NoteGridItem;

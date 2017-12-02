@@ -13,6 +13,7 @@ class ChipInput extends Component {
   }
 
   onChange = chips => {
+    this.props.onChange(chips);
     this.setState({
       chips,
     });
@@ -96,6 +97,7 @@ class ChipInput extends Component {
 
 ChipInput.propTypes = {
   placeholder: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default ChipInput;

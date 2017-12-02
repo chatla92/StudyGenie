@@ -54,12 +54,14 @@ class NoteGridPage extends Component {
       <div>
         <NoteGrid
           cols={5}
+          dispatch={this.props.dispatch}
           requestComposer={this.requestComposer}
           requestViewer ={this.requestViewer}
           handleDeleteNote={this.handleDeleteNote}
           notes={this.props.notes}
         />
         <NoteComposer
+          dispatch={this.props.dispatch}
           requestComposer={this.requestComposer}
           isComposerOpen={this.state.isComposerOpen}
           openedNote={this.state.openedNote}
