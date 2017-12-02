@@ -52,12 +52,9 @@ class NoteGridItem extends React.Component {
             avatar={<Avatar aria-label={this.props.note.owner} className={styles.avatar}>{getInitials(this.props.note.owner)}</Avatar>}
             title={truncate(this.props.note.title,10)}
             subheader={`created by ${this.props.note.owner}`}
-            classes={styles.header}
           />
           <CardContent>
-            <Typography >
-              <div className={styles.truncate} dangerouslySetInnerHTML={{ __html: this.props.note.content }} />
-            </Typography>
+            <div className={styles.truncate} dangerouslySetInnerHTML={{ __html: this.props.note.content }} />
           </CardContent>
           <CardActions className={styles.action}>
             <IconButton onClick={this.handleUpvoteClick}>
