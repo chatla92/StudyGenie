@@ -1,7 +1,9 @@
 import Note from '../models/note';
 const request = require('request');
 const rp = require('request-promise');
-
+var express = require('express')
+var session = require('express-session')
+var authVar = require('./auth.controller')
 /**
  * Returns top notes and their metadata
  * @param req
@@ -20,9 +22,6 @@ export function getTopNotes(req, res) {
     return res.status(400).send();
 
   if (req.session.topNotes) {
-    console.log('Inside topNotes');
-    console.log(req.session.topNotes.length);
-    // console.log(req.session.topNotes)
     console.log('Start = ' + start + ' end = ' + end);
     return res.status(200).json({ status: 'success', result: req.session.topNotes.slice(start, end) });
   }
@@ -134,9 +133,8 @@ export function addNote(req, res) {
 
   rp(options)
     .then(function (response) {
-      console.log('response = ');
-      console.log(response);
-      res.status(200).json({ status: 'success', result: { 'noteId': response._id } });
+      new_doc._id = response._id;
+      res.status(200).json({ status: 'success', result: new_doc });
     })
     .catch(function (err) {
       console.log('error = ' + err);
@@ -235,10 +233,7 @@ export function deleteNote(req, res) {
 export function clickFav(req, res) {
   console.log('Inside clickFav');
   const noteId = req.body.noteId;
-  // //////////////////////////////
-  // Change this to req.session.username
-  // //////////////////////////////
-  const username = 'user12@gmail.com';
+  const username = authVar.username   //'user12@gmail.com';
   updateList('fav', username, req, res);
 }
 
@@ -251,10 +246,7 @@ export function clickFav(req, res) {
 export function clickUpvote(req, res) {
   console.log('Inside clickUpvote');
   const noteId = req.body.noteId;
-  // //////////////////////////////
-  // Change this to req.session.username
-  // //////////////////////////////
-  const username = 'user22@gmail.com';
+  const username = authVar.username   //'user20@gmail.com';
   updateList('upvotes', username, req, res);
 }
 
@@ -267,10 +259,7 @@ export function clickUpvote(req, res) {
 export function clickDownvote(req, res) {
   console.log('Inside clickDownvote');
   const noteId = req.body.noteId;
-  // //////////////////////////////
-  // Change this to req.session.username
-  // //////////////////////////////
-  const username = 'user20@gmail.com';
+  const username = authVar.username   //'user20@gmail.com';
   updateList('downvotes', username, req, res);
 }
 
@@ -284,10 +273,7 @@ export function addTag(req, res) {
   console.log('Inside addTag');
   const noteId = req.body.noteId;
   const tag = req.body.tag;
-  // //////////////////////////////
-  // Change this to req.session.username
-  // //////////////////////////////
-  const username = 'user20@gmail.com';
+  const username = authVar.username   //'user20@gmail.com';
   updateList('tagsAdd', tag, req, res);
 }
 
@@ -301,10 +287,7 @@ export function removeTag(req, res) {
   console.log('Inside removeTag');
   const noteId = req.body.noteId;
   const tag = req.body.tag;
-  // //////////////////////////////
-  // Change this to req.session.username
-  // //////////////////////////////
-  const username = 'user20@gmail.com';
+  const username = authVar.username   //'user20@gmail.com';
   updateList('tagsRemove', tag, req, res);
 }
 
@@ -333,8 +316,9 @@ function updateList(listType, username, req, res) {
         index = noteInfo.meta.fav.indexOf(username);
       if (listType === 'upvotes')
         index = noteInfo.meta.upvotes.indexOf(username);
-      if (listType === 'downvotes')
+      if (listType === 'downvotes') {
         index = noteInfo.meta.downvotes.indexOf(username);
+      }
       if (listType === 'tagsAdd') {
         index = noteInfo.meta.tags.indexOf(username);
         if (index >= 0)
@@ -349,30 +333,33 @@ function updateList(listType, username, req, res) {
         else
           listType = 'tags';
       }
-
+      console.log("Outside Current username = " + username)
+      // If already present in the list, send error
       if (index > -1) {
-        // Delete user from list
-        const fav_body = {
-          'script': {
-            'lang': 'painless',
-            'inline': 'ctx._source.meta.' + listType + '.remove(' + index + ')',
-          },
-        };
+        console.log("Current username = " + username)
+        res.status(500).send();
+        // // Delete user from list
+        // const fav_body = {
+        //   'script': {
+        //     'lang': 'painless',
+        //     'inline': 'ctx._source.meta.' + listType + '.remove(' + index + ')',
+        //   },
+        // };
 
-        const options = {
-          'method': 'POST',
-          'uri': 'http://localhost:9200/studygenie/notes/' + req.body.noteId + '/_update',
-          'json': true,
-          'body': fav_body,
-        };
+        // const options = {
+        //   'method': 'POST',
+        //   'uri': 'http://localhost:9200/studygenie/notes/' + req.body.noteId + '/_update',
+        //   'json': true,
+        //   'body': fav_body,
+        // };
 
-        return rp(options)
-          .then(function (removeResponse) {
-            res.status(200).json({ status: 'success', result: 'Action successful' });
-          })
-          .catch(function (removeError) {
-            res.status(404).json({ status: 'error', result: removeError });
-          });
+        // return rp(options)
+        //   .then(function (removeResponse) {
+        //     res.status(200).json({ status: 'success', result: 'Action successful' });
+        //   })
+        //   .catch(function (removeError) {
+        //     res.status(404).json({ status: 'error', result: removeError });
+        //   });
       }
       else {
         // Add user to list

@@ -14,7 +14,7 @@ import bg from 'material-ui/colors/blueGrey';
 import Badge from 'material-ui/Badge';
 // Import Style
 import styles from './NoteGridItem.css';
-import { requestNoteUpvote } from '../../NoteActions';
+import { requestNoteUpvote, requestNoteDownvote } from '../../NoteActions';
 
 function getInitials(string) {
   if (!string ) {
@@ -38,6 +38,11 @@ class NoteGridItem extends React.Component {
   handleUpvoteClick = (e) => {
     const { id } = this.props.note;
     this.props.dispatch(requestNoteUpvote(id))
+  }
+
+  handleDownvoteClick = (e) => {
+    const { id } = this.props.note;
+    this.props.dispatch(requestNoteDownvote(id))
   }
 
   render() {
@@ -64,10 +69,10 @@ class NoteGridItem extends React.Component {
                 <ThumbUp />
               </Badge>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={this.handleDownvoteClick}>
               <Badge
                 className={styles.badge}
-                badgeContent={this.props.note.downvotes}
+                badgeContent={this.props.note.meta.downvotes.length}
                 color="primary">
                 <ThumbDown />
               </Badge>

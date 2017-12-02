@@ -7,6 +7,7 @@ export const ADD_NOTE = 'ADD_NOTE';
 export const ADD_NOTES = 'ADD_NOTES';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const UPVOTE = 'UPVOTE';
+export const DOWNVOTE = 'DOWNVOTE';
 
 export const addNote = createAction(
   ADD_NOTE,
@@ -37,8 +38,22 @@ export function requestNoteUpvote(noteId) {
   }
 }
 
+export function requestNoteDownvote(noteId) {
+  const username = localStorage.getItem('username');
+  return (dispatch) => {
+    return callApi('note/downvote', 'post', {
+      noteId
+    }).then(res => dispatch(downVote({noteId, username})));
+  }
+}
+
 export const upVote = createAction(
   UPVOTE,
+  obj => obj,
+)
+
+export const downVote = createAction(
+  DOWNVOTE,
   obj => obj,
 )
 
