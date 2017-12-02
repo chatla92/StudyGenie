@@ -53,15 +53,14 @@ class NoteGridItem extends React.Component {
         <Card className={styles.card}>
           <CardHeader
             onClick={() => { this.props.requestEditor(true, this.props.note); }}
-            avatar={<Avatar aria-label={this.props.note.owner} className={styles.avatar}>{getInitials(this.props.note.owner.fullname)}</Avatar>}
+            avatar={<Avatar aria-label={this.props.note.owner} className={styles.avatar}>{getInitials(this.props.note.owner)}</Avatar>}
             title={truncate(this.props.note.title)}
-            subheader={`created by ${this.props.note.owner.fullname}`}
+            subheader={`created by ${this.props.note.owner}`}
             classes={classestyle.header}
           />
           <CardContent className={styles.content}>
-            <Typography paragraph noWrap>
-               {this.props.note.content}
-            </Typography>
+            <div dangerouslySetInnerHTML={{ __html: this.props.note.content }} />
+            
           </CardContent>
           <CardActions >
             <IconButton onClick={this.handleUpvoteClick}>
