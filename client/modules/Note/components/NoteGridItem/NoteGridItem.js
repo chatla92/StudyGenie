@@ -29,9 +29,9 @@ function getInitials(string) {
   return initials;
 }
 
-function truncate(string,len){
-  if (string.length > 5)
-     return string.substring(0,len)+'...';
+function truncate(string,maxLen){
+  if (string.length > maxLen)
+     return string.substring(0,maxLen)+'...';
   else
      return string;
 };
@@ -55,7 +55,7 @@ class NoteGridItem extends React.Component {
           <CardHeader
             onClick={() => { this.props.requestEditor(true, this.props.note); }}
             avatar={<Avatar aria-label={this.props.note.owner} className={styles.avatar}>{getInitials(this.props.note.owner.fullname)}</Avatar>}
-            title={truncate(this.props.note.title,20)}
+            title={truncate(this.props.note.title,30)}
             subheader={`created by ${this.props.note.owner.fullname}`}
           />
           <CardContent>

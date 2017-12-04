@@ -14,7 +14,7 @@ export function getTopNotes(req, res) {
   // Only top 10 notes are being returned by elastic search server - need to rectify that
   const filter = req.body.filter;
   const page = req.params.pageId;
-  const notesPerPage = 24;
+  const notesPerPage = 99;
   const start = (page - 1) * notesPerPage;
   const end = page * notesPerPage;
 
@@ -31,7 +31,7 @@ export function getTopNotes(req, res) {
   if (!filter) {
     query_str = {
       'from': 0,
-      'size': 100,
+      'size': 99,
       'query': {
         'match_all': {},
       },
@@ -40,7 +40,7 @@ export function getTopNotes(req, res) {
   else {
     query_str = {
       'from': 0,
-      'size': 100,
+      'size': 99,
       'query': {
         'bool': {
           'should': [],
