@@ -92,7 +92,7 @@ export function getTopNotes(req, res) {
 
   const options = {
     'method': 'GET',
-    'uri': 'http://localhost:9200/studygenie/notes/_search',
+    'uri': 'https://search-adaptiveweb-nmy2msxq5iur6djqwumxvxdscy.us-east-1.es.amazonaws.com/studygenie/notes/_search',
     'json': true,
     'body': query_str,
   };
@@ -130,7 +130,7 @@ export function addNote(req, res) {
 
   var options = {
     'method': 'POST',
-    'uri': 'http://localhost:9200/studygenie/notes/',
+    'uri': 'https://search-adaptiveweb-nmy2msxq5iur6djqwumxvxdscy.us-east-1.es.amazonaws.com/studygenie/notes/',
     'json': true,
     'body': new_doc,
   };
@@ -154,7 +154,7 @@ export function addNote(req, res) {
 export function getNoteContent(req, res) {
   var options = {
     'method': 'GET',
-    'uri': 'http://localhost:9200/studygenie/notes/' + req.params.noteId,
+    'uri': 'https://search-adaptiveweb-nmy2msxq5iur6djqwumxvxdscy.us-east-1.es.amazonaws.com/studygenie/notes/' + req.params.noteId,
     'json': true,
     'body': null,
   };
@@ -186,7 +186,7 @@ export function updateNote(req, res) {
 
   const options = {
     'method': 'POST',
-    'uri': 'http://localhost:9200/studygenie/notes/' + req.params.noteId + '/_update',
+    'uri': 'https://search-adaptiveweb-nmy2msxq5iur6djqwumxvxdscy.us-east-1.es.amazonaws.com/studygenie/notes/' + req.params.noteId + '/_update',
     'json': true,
     'body': query_str,
   };
@@ -213,7 +213,7 @@ export function deleteNote(req, res) {
 
   const options = {
     'method': 'DELETE',
-    'uri': 'http://localhost:9200/studygenie/notes/' + req.params.noteId,
+    'uri': 'https://search-adaptiveweb-nmy2msxq5iur6djqwumxvxdscy.us-east-1.es.amazonaws.com/studygenie/notes/' + req.params.noteId,
     'json': true,
     'body': null,
   };
@@ -305,7 +305,7 @@ export function removeTag(req, res) {
 function updateList(listType, username, req, res) {
   const getReqOptions = {
     'method': 'GET',
-    'uri': 'http://localhost:9200/studygenie/notes/' + req.body.noteId,
+    'uri': 'https://search-adaptiveweb-nmy2msxq5iur6djqwumxvxdscy.us-east-1.es.amazonaws.com/studygenie/notes/' + req.body.noteId,
     'json': true,
     'body': null,
   };
@@ -352,7 +352,7 @@ function updateList(listType, username, req, res) {
 
         // const options = {
         //   'method': 'POST',
-        //   'uri': 'http://localhost:9200/studygenie/notes/' + req.body.noteId + '/_update',
+        //   'uri': 'https://search-adaptiveweb-nmy2msxq5iur6djqwumxvxdscy.us-east-1.es.amazonaws.com/studygenie/notes/' + req.body.noteId + '/_update',
         //   'json': true,
         //   'body': fav_body,
         // };
@@ -376,7 +376,7 @@ function updateList(listType, username, req, res) {
 
         const options = {
           'method': 'POST',
-          'uri': 'http://localhost:9200/studygenie/notes/' + req.body.noteId + '/_update',
+          'uri': 'https://search-adaptiveweb-nmy2msxq5iur6djqwumxvxdscy.us-east-1.es.amazonaws.com/studygenie/notes/' + req.body.noteId + '/_update',
           'json': true,
           'body': fav_body,
         };
