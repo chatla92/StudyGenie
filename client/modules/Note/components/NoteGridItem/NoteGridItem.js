@@ -14,7 +14,7 @@ import bg from 'material-ui/colors/blueGrey';
 import Badge from 'material-ui/Badge';
 // Import Style
 import styles from './NoteGridItem.css';
-import { requestNoteUpvote } from '../../NoteActions';
+import { requestNoteUpvote, requestNoteDownvote } from '../../NoteActions';
 
 function getInitials(string) {
   if (!string ) {
@@ -43,15 +43,20 @@ class NoteGridItem extends React.Component {
     this.props.dispatch(requestNoteUpvote(id))
   }
 
+  handleDownvoteClick = (e) => {
+    const { id } = this.props.note;
+    this.props.dispatch(requestNoteDownvote(id))
+  }
+
   render() {
     return (
       <div>
         <Card className={styles.card}>
           <CardHeader
             onClick={() => { this.props.requestEditor(true, this.props.note); }}
-            avatar={<Avatar aria-label={this.props.note.owner} className={styles.avatar}>{getInitials(this.props.note.owner)}</Avatar>}
-            title={truncate(this.props.note.title,10)}
-            subheader={`created by ${this.props.note.owner}`}
+            avatar={<Avatar aria-label={this.props.note.owner} className={styles.avatar}>{getInitials(this.props.note.owner.fullname)}</Avatar>}
+            title={truncate(this.props.note.title,20)}
+            subheader={`created by ${this.props.note.owner.fullname}`}
           />
           <CardContent>
             <div className={styles.truncate} dangerouslySetInnerHTML={{ __html: this.props.note.content }} />
@@ -65,7 +70,7 @@ class NoteGridItem extends React.Component {
                 <ThumbUp />
               </Badge>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={this.handleDownvoteClick}>
               <Badge
                 className={styles.badge}
                 badgeContent={this.props.note.meta.downvotes.length}
