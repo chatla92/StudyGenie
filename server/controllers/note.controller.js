@@ -30,6 +30,8 @@ export function getTopNotes(req, res) {
 
   if (!filter) {
     query_str = {
+      'from': 0,
+      'size': 100,
       'query': {
         'match_all': {},
       },
@@ -37,6 +39,8 @@ export function getTopNotes(req, res) {
   }
   else {
     query_str = {
+      'from': 0,
+      'size': 100,
       'query': {
         'bool': {
           'should': [],
