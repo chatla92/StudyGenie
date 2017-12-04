@@ -13,6 +13,7 @@ import green from 'material-ui/colors/green';
 import Switch from 'material-ui/Switch';
 
 import { FormControlLabel } from 'material-ui/Form';
+import Editor from '../../../../components/editor_note';
 
 import Dialog, {
   DialogActions,
@@ -109,12 +110,7 @@ class NoteComposer extends Component {
             onChange={this.handleTagsChange}
             placeholder="Tags"
           />
-          <TextField
-            onChange={this.handleContentChange}
-            label="Note"
-            fullWidth
-            multiline
-          />
+          <Editor content={''} />
         </DialogContent>
         <DialogActions>
           <FormControlLabel

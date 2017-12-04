@@ -3,26 +3,25 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import style from './CheatSheetDetailsPage.css';
-import Paper from 'material-ui/Paper';
 
+import Paper from 'material-ui/Paper';
 import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
-import { MenuItem } from 'material-ui/Menu';
-import TextField from 'material-ui/TextField';
+
 import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
 import NoteGrid from '../../Note/components/NoteGrid';
 
-const drawerWidth = 240;
+import Editor from '../../../components/editor';
+
+const drawerWidth = 250;
 
 const styles = theme => ({
   root: {
     width: '100%',
-    height: 430,
+    height: 700,
     marginTop: theme.spacing.unit * 3,
     zIndex: 1,
     overflow: 'hidden',
@@ -52,9 +51,9 @@ const styles = theme => ({
   content: {
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
-    marginTop: 100,
-    width: '18cm',
-    height: '27.7cm',
+    height: 'calc(100% - 56px)',
+    width: '100%',
+    marginTop: 56,
     [theme.breakpoints.up('sm')]: {
       height: 'calc(100% - 64px)',
       marginTop: 64,
@@ -109,10 +108,11 @@ class CheatSheetDetailsPage extends Component {
           handleDeleteNote={this.handleDeleteNote}
           notes={this.props.notes}
         />
-        </Drawer>
+      </Drawer>
     );
 
     let before = null;
+    let after = null;
 
     if (anchor === 'left') {
       before = drawer;
@@ -128,11 +128,8 @@ class CheatSheetDetailsPage extends Component {
             </Toolbar>
           </AppBar>
           {before}
-          <main className={classes.content}>
-           <TextField>
-            {cheatsheet ? <p>{cheatsheet.content}</p> : null}
-            </TextField>
-          </main>
+          <Editor className={style.cheatsheetContainer} content={(cheatsheet ? '<strong>'+cheatsheet.title+'</strong><p>'+cheatsheet.content+'</p>' : '')} />
+          {after}
         </div>
       </div>
     );

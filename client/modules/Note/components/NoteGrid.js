@@ -10,23 +10,18 @@ import { GridList, GridListTile } from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
 
 class NoteGrid extends React.Component {
-  componentWillMount() {
-    const script = document.createElement('script');
-    script.src = 'static/js/visualize.js';
-    document.body.appendChild(script);
-  }
   render() {
     const { cols } = this.props;
 
   return (
     <div className={styles.gridContainer}>
       <GridList cellHeight={250} cols={cols} spacing={10} className={styles.gridList}>
-        <GridListTile key={"NoteCreateWidget"} cols={1} rows={1} >
+        <GridListTile key={"NoteCreateWidget"} cols={1} rows={1} className={styles.tile}>
           <NoteCreateWidget requestComposer={this.props.requestComposer} />
         </GridListTile>
           {
             this.props.notes.map(note => (
-              <GridListTile key={note.id} cols={1} rows={1}>
+              <GridListTile key={note.id} cols={1} rows={1} className={styles.tile}>
                 <NoteGridItem
                   dispatch={this.props.dispatch}
                   note={note}

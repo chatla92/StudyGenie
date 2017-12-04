@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import AddIcon from 'material-ui-icons/Add';
+import Button from 'material-ui/Button';
 import { connect } from 'react-redux';
 import CheatSheetList from '../components/CheatSheetList';
+import styles from '../CheatSheetListPage/CheatSheetListPage.css';
+import Tooltip from 'material-ui/Tooltip';
 
 // Import Actions
 import { addCheatSheetRequest, fetchCheatsheets, deleteCheatSheetRequest } from '../CheatSheetActions';
@@ -42,6 +45,11 @@ class CheatSheetListPage extends Component {
           handleDeleteCheatSheet={this.n}
           cheatsheets={this.props.cheatsheets}
         />
+        <Tooltip placement="bottom" title="Add Cheatsheet">
+          <Button fab color="accent" aria-label="edit" className={styles.edit_button}>
+            <AddIcon />
+          </Button>
+        </Tooltip>
       </div>
     );
   }

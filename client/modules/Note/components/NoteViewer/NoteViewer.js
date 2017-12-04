@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
-import Chip from 'material-ui/Chip';
 import ChipInput from '../../../../components/ChipInput';
-
+import Editor from '../../../../components/editor_note';
 
 import Dialog, {
   DialogActions,
@@ -56,12 +55,7 @@ class NoteViewer extends Component {
           <ChipInput
             placeholder="Share with"
           />
-          <TextField
-            label={content}
-            disabled = {true}
-            fullWidth
-            multiline
-          />
+          <Editor content={content} />
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleClose} color="primary">
