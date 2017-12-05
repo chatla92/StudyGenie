@@ -22,11 +22,7 @@ class Register extends Component {
   register = () => {
     const { username, password, fullname } = this.state;
     const { dispatch } = this.props;
-    dispatch(authActions.register({
-      username,
-      password,
-      fullname,
-    }));
+    dispatch(authActions.register(username,password,fullname));
   };
 
   handleFullnameChange = (e) => {

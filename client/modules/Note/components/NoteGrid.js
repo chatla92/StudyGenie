@@ -25,8 +25,8 @@ class NoteGrid extends React.Component {
                 <NoteGridItem
                   dispatch={this.props.dispatch}
                   note={note}
-                  key={note.cuid}
-                  onDelete={() => this.props.handleDeleteNote(note.cuid)}
+                  key={note.id}
+                  onDelete={() => this.props.handleDeleteNote(note.id)}
                   requestEditor={this.props.requestViewer}
                 />
               </GridListTile>
@@ -40,11 +40,14 @@ class NoteGrid extends React.Component {
 
 NoteGrid.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
-    owner: PropTypes.string.isRequired,
+    owner: PropTypes.shape({
+      fullname: PropTypes.string,
+      username: PropTypes.string,
+    }),
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     isPrivate: PropTypes.bool.isRequired,
-    cuid: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
   requestComposer: PropTypes.func.isRequired,

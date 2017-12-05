@@ -17,9 +17,7 @@ class ForgotPassword extends Component {
   requestPassword = () => {
     const { username } = this.state;
     const { dispatch } = this.props;
-    dispatch(authActions.requestPassword({
-      username,
-    }));
+    dispatch(authActions.requestPassword(username));
   };
 
   handleUsernameChange = (e) => {

@@ -29,23 +29,26 @@ export function NoteDetailPage(props) {
 
 // Actions required to provide data for this component to render in sever side.
 NoteDetailPage.need = [params => {
-  return fetchNote(params.cuid);
+  return fetchNote(params.id);
 }];
 
 // Retrieve data from store as props
 function mapStateToProps(state, props) {
   return {
-    note: getNote(state, props.params.cuid),
+    note: getNote(state, props.params.id),
   };
 }
 
 NoteDetailPage.propTypes = {
   note: PropTypes.shape({
-    owner: PropTypes.string.isRequired,
+    owner: PropTypes.shape({
+      fullname: PropTypes.string,
+      username: PropTypes.string,
+    }),
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     isPrivate: PropTypes.bool.isRequired,
-    cuid: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
   }).isRequired,
 };
 
