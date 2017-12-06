@@ -19,18 +19,28 @@ with open('../csvFiles/FullData.csv') as csvDataFile:
         data['owner']['username'] = "user" + row[1] + "@gmail.com"
         data['owner']['fullname'] = "user" + row[1]
 
-        
-
         data['type'] = row[2]
+        # if row[2] == 1:
+        #    data['type'] = "TRUE"
+        # else:
+        #    data['type'] = "FALSE"
+
+        if (row[3]=='NULL' or row[3] == ''):
+            continue
         data['title'] = row[3]
-        data['content'] = row[4]
+        if (row[4]=='NULL' or row[4] == ''):
+            continue
+        data['content'] = """""" + row[4]
+    
         data['createDateTime'] = {"$date" : strftime("%Y-%m-%d %H:%M:%S", gmtime())}
+
         data['meta'] =  {
                             "downvotes" : [],
                             "upvotes" : [],
                             "fav" : [],
                             "tags" : []
                         }
+        data['meta']['tags'] = [row[5]]
         try:
             es_data = json.dumps(data)
         except:

@@ -90,38 +90,45 @@ export function getCSDetail(req, res) {
 	CheatSheet.findOne({_id:cs_id}, function(err, foundCS) {
 		if(err) return res.status(500).json({status:"failed", result:err});
 		if(foundCS) {
-			const noteList = foundCS.notes;
-			var noteIds = [];
-			for(let i=0; i < noteList.length; i++) {
-				noteIds.push(noteList[i].noteId);
-			}
+			// Below code is when cheatsheet is a collection of notes
+			// const noteList = foundCS.notes;
+			// var noteIds = [];
+			// for(let i=0; i < noteList.length; i++) {
+			// 	noteIds.push(noteList[i].noteId);
+			// }
 
-			const reqBody = {
-				"query": {
-				    "terms": {
-				      "_id": noteIds
-				    }
-				}
-			};
-			console.log("reqBody = " + JSON.stringify(reqBody));
+			// const reqBody = {
+			// 	"query": {
+			// 	    "terms": {
+			// 	      "_id": noteIds
+			// 	    }
+			// 	}
+			// };
+			// console.log("reqBody = " + JSON.stringify(reqBody));
+			
+			// const options = {
+			//     'method': 'GET',
+			//     'uri': 'http://localhost:9200/studygenie/notes/_search',
+			//     'json': true,
+			//     'body': reqBody,
+			// };
 
-			const options = {
-			    'method': 'GET',
-			    'uri': 'http://localhost:9200/studygenie/notes/_search',
-			    'json': true,
-			    'body': reqBody,
-			};
+			// rp(options)
+			// .then(function (response) {
+			// 	const result = response.hits.hits;
+			// 	console.log(result.length);
+			// 	return res.status(200).json({ status: 'success', result });
+			// })
+			// .catch(function (err) {
+			// 	console.log('error = ' + err);
+			// 	return res.status(500).json({ status: 'failed', result: "Failed to get note details" });
+			// });
 
-			rp(options)
-			.then(function (response) {
-				const result = response.hits.hits;
-				console.log(result.length);
-				return res.status(200).json({ status: 'success', result });
-			})
-			.catch(function (err) {
-				console.log('error = ' + err);
-				return res.status(500).json({ status: 'failed', result: "Failed to get note details" });
-			});
+			// Below logic is when cheatsheet is just a string
+			console.log("CheatSheet content = ");
+			console.log(JSON.stringify(foundCS));
+			return res.status(200).json({ status:"success", result:foundCS })
+
 		}
 		else {
 			return res.status(404).json({status:"failed", result:"Could not find the requested cheatsheet in the database"})

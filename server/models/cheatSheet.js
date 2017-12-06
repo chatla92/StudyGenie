@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const csSchema = new Schema({
   _id: Schema.Types.ObjectId,
   title: String,
+  content: String,
   notes: [
     {
       noteId: Number,
