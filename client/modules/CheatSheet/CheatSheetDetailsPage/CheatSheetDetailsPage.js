@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { browserHistory } from 'react-router';
 
 import style from './CheatSheetDetailsPage.css';
 
@@ -10,6 +11,7 @@ import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
+import Button from 'material-ui/Button';
 
 import Typography from 'material-ui/Typography';
 import NoteGrid from '../../Note/components/NoteGrid';
@@ -58,6 +60,9 @@ const styles = theme => ({
       height: 'calc(100% - 64px)',
       marginTop: 64,
     },
+  },  
+  flex: {
+    flex: 1
   },
 });
 
@@ -122,9 +127,10 @@ class CheatSheetDetailsPage extends Component {
         <div className={classes.appFrame}>
           <AppBar className={classNames(classes.appBar, classes[`appBar-${anchor}`])}>
             <Toolbar>
-              <Typography type="title" color="inherit" noWrap>
+              <Typography type="title" color="inherit" noWrap className={classes.flex}>
               {cheatsheet ? <strong>{cheatsheet.title}</strong> : null}
               </Typography>
+              <Button onClick={function(){browserHistory.push('/cheatsheets')}} color="contrast">Save</Button>
             </Toolbar>
           </AppBar>
           {before}

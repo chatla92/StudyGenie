@@ -47,7 +47,7 @@ export default class Editor extends Component {
               activeClass="p10"
               content={this.state.content}
               events={{
-                "instanceReady": this.onResizer(data),
+                "instanceReady": this.onResizer,
                 "blur": this.onBlur,
                 "afterPaste": this.afterPaste,
                 "change": this.onChange,

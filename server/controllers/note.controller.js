@@ -84,16 +84,16 @@ export function getTopNotes(req, res) {
 
     keys.forEach(function (key) {
       if (key === 'tags') {
-        filter[key].forEach(function (tag) {
-          query_str.query.bool.should.push({
-            'constant_score': {
-              'filter': {
-                'term': {
-                  'tags': tag,
-                },
+        query_str.query.bool.should.push({
+          'constant_score': {
+            'filter': {
+              'multi_match': {
+                'query': filter[key],
+                'fields': ['title^1.5', 'content'],
+                'operator': 'or',
               },
             },
-          });
+          },
         });
       }
       if (key === 'isPrivate') {
