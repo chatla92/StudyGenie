@@ -30,11 +30,44 @@ export function getTopNotes(req, res) {
 
   if (!filter) {
     query_str = {
-      'from': 0,
-      'size': 99,
-      'query': {
-        'match_all': {},
-      },
+      "from": 0,
+      "size": 99,
+      "query": {
+        "bool": {
+          "should": [
+            {
+              "constant_score": {
+                "filter": {
+                  "term": {
+                    "content": "java"
+                  }
+                },
+                "boost": 5
+              }
+            },
+            {
+              "constant_score": {
+                "filter": {
+                  "term": {
+                    "content": "SQL"
+                  }
+                },
+                "boost": 2
+              }
+            },
+            {
+              "constant_score": {
+                "filter": {
+                  "term": {
+                    "content": "python"
+                  }
+                },
+                "boost": 1
+              }
+            }
+          ]
+        }
+      }
     };
   }
   else {
