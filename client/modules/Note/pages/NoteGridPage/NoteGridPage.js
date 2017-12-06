@@ -7,10 +7,11 @@ import { connect } from 'react-redux';
 import NoteGrid from '../../components/NoteGrid';
 import NoteComposer from '../../components/NoteComposer/NoteComposer';
 import NoteViewer from '../../components/NoteViewer/NoteViewer';
+import { bindActionCreators } from 'redux';
 
 // Import Actions
 import { addNoteRequest, fetchNotes, deleteNoteRequest } from '../../NoteActions';
-
+import { signinSuccessful } from '../../../Auth/AuthActions';
 // Import Selectors
 import { getNotes } from '../../NoteReducer';
 
@@ -22,6 +23,11 @@ class NoteGridPage extends Component {
   }
 
   componentDidMount() {
+    if(localStorage.getItem('username')) {
+      const username = localStorage.getItem('username');
+      const fullname = localStorage.getItem('fullname');
+      this.props.signinSuccessful({username, fullname});
+    }
     this.props.dispatch(fetchNotes({pageNumber: 1}));
   }
 
@@ -50,6 +56,10 @@ class NoteGridPage extends Component {
   };
 
   render() {
+    let { notes, username, filter } = this.props;
+    if (filter === 'mynotes') {
+      notes = notes.filter(note => note.owner.username === username)
+    }
     return (
       <div>
         <NoteGrid
@@ -58,7 +68,7 @@ class NoteGridPage extends Component {
           requestComposer={this.requestComposer}
           requestViewer ={this.requestViewer}
           handleDeleteNote={this.handleDeleteNote}
-          notes={this.props.notes}
+          notes={notes}
         />
         <NoteComposer
           dispatch={this.props.dispatch}
@@ -84,6 +94,8 @@ NoteGridPage.need = [() => { return fetchNotes(); }];
 function mapStateToProps(state) {
   return {
     notes: getNotes(state),
+    filter: state.notebook.filter,
+    username: state.auth.username,
   };
 }
 
@@ -94,10 +106,20 @@ NoteGridPage.propTypes = {
     id: PropTypes.number.isRequired,
   })).isRequired,
   dispatch: PropTypes.func.isRequired,
+  filter: PropTypes.string,
 };
 
 NoteGridPage.contextTypes = {
   router: PropTypes.object,
 };
 
-export default connect(mapStateToProps)(NoteGridPage);
+function mapDispatchToProp(dispatch) {
+  return {
+    ...bindActionCreators({
+      signinSuccessful,
+    }, dispatch),
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(NoteGridPage);

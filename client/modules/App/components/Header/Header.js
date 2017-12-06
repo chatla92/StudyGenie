@@ -40,10 +40,20 @@ class Header extends React.Component {
           <ListItem button>
             <ListItemText
               primary="Browse Notes"
-              onClick={() => {browserHistory.push('/notes')}} />
+              onClick={() => {
+                this.props.removeMyNoteFilter();
+                browserHistory.push('/notes')
+              }}
+            />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="My Notes" />
+            <ListItemText
+              onClick={() => {
+                this.props.addMyNoteFilter()
+                browserHistory.push('/notes')
+              }}
+              primary="My Notes"
+            />
           </ListItem>
         </List>
         <Divider />
@@ -115,6 +125,8 @@ class Header extends React.Component {
     // then redirect
     this.setState({ redirect: true });
   }
+
+
   render() {
     const titleStyle = {
       flex: 1,
@@ -134,8 +146,7 @@ class Header extends React.Component {
           <Typography type="title" color="inherit" style={titleStyle}>
             Study Genie
           </Typography>
-          <Form dispatch={this.props.dispatch} />
-          {/* auth_status === AUTH_STAT.AUTHENTICATED ? <Form dispatch={this.props.dispatch} /> : null */}
+          {auth_status === AUTH_STAT.AUTHENTICATED ? <Form dispatch={this.props.dispatch} /> : null }
           <Drawer open={this.state.isDrawerOpen} onRequestClose={this.toggleDrawer(false)}>
             <div
               tabIndex={0}
@@ -156,6 +167,8 @@ class Header extends React.Component {
 Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
   auth_status: PropTypes.string.isRequired,
+  addMyNoteFilter: PropTypes.func.isRequired,
+  removeMyNoteFilter: PropTypes.func.isRequired,
 }
 
 export default Header;

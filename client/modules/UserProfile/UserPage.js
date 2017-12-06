@@ -10,6 +10,7 @@ import Divider from 'material-ui/Divider';
 import NoteIcon from 'material-ui-icons/InsertDriveFile';
 import BorderIcon from 'material-ui-icons/BorderAll';
 import style from '../UserProfile/UserPage.css';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -55,9 +56,9 @@ class PaperSheet extends React.Component {
           <Card className={classes.card}>
             <div className={classes.details}>
               <CardContent className={classes.content}>
-                <Typography type="headline">FirstName LastName</Typography>
+                <Typography type="headline">{this.props.fullname}</Typography>
                 <Typography type="subheading" color="secondary">
-                user14@gmail.com
+                {this.props.username}
                 </Typography>
                 <CardMedia
                   className={classes.cover}
@@ -110,8 +111,16 @@ class PaperSheet extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    fullname: state.auth.fullname,
+    username: state.auth.username,
+  };
+}
+
 PaperSheet.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PaperSheet);
+export default connect(mapStateToProps)(withStyles(styles)(PaperSheet));

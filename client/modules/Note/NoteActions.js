@@ -8,6 +8,8 @@ export const ADD_NOTES = 'ADD_NOTES';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const UPVOTE = 'UPVOTE';
 export const DOWNVOTE = 'DOWNVOTE';
+export const ADD_MYNOTE_FILTER = 'ADD_MYNOTE_FILTER';
+export const REMOVE_MYNOTE_FILTER = 'REMOVE_MYNOTE_FILTER';
 
 export const addNote = createAction(
   ADD_NOTE,
@@ -62,10 +64,17 @@ export const addNotes = createAction(
   notes => notes,
 );
 
+export const addMyNoteFilter = createAction(
+  ADD_MYNOTE_FILTER
+)
+
+export const removeMyNoteFilter = createAction(
+  REMOVE_MYNOTE_FILTER
+)
+
 // Export Actions
 export function fetchNotes({pageNumber, contentQuery, tagQuery}) {
-  let query = {}
-  query.filter = {}
+  let query = { 'filter':{} }
   if (contentQuery) {
     query.filter.content = contentQuery
   } else if(tagQuery) {

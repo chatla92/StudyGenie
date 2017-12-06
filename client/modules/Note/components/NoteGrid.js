@@ -55,4 +55,11 @@ NoteGrid.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
+function mapStateToProps(state) {
+  return {
+    fullname: state.auth.fullname,
+    username: state.auth.username,
+  };
+}
+
 export default NoteGrid;
