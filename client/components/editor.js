@@ -15,7 +15,7 @@ export default class Editor extends Component {
             content: newContent
         })
     }
-    
+
     onChange(evt){
       console.log("onChange fired with event info: ", evt);
       var newContent = evt.editor.getData();
@@ -26,14 +26,14 @@ export default class Editor extends Component {
 
     onResizer(evt){
         evt.editor.resize("100%", 643);
-        document.getElementById("cke_editor3").style.marginTop = "58px";
+        document.querySelectorAll('div[id^="cke_editor"]')[0].style.marginTop = "58px";
         document.getElementsByClassName("p10")[0].style.width = "100%";
       }
-    
+
     onBlur(evt){
       console.log("onBlur event called with event info: ", evt);
     }
-    
+
     afterPaste(evt){
       console.log("afterPaste event called with event info: ", evt);
     }
@@ -42,8 +42,8 @@ export default class Editor extends Component {
         return (
             <CKEditor
               style={{height: '100%'}}
-              activeClass="p10" 
-              content={this.state.content} 
+              activeClass="p10"
+              content={this.state.content}
               events={{
                 "instanceReady": this.onResizer,
                 "blur": this.onBlur,

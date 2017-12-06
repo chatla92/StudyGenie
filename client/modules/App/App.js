@@ -10,6 +10,8 @@ import Helmet from 'react-helmet';
 import DevTools from './components/DevTools';
 
 import Header from './components/Header/Header';
+import { addMyNoteFilter, removeMyNoteFilter } from '../Note/NoteActions';
+import { bindActionCreators } from 'redux';
 
 
 export class App extends Component {
@@ -45,6 +47,8 @@ export class App extends Component {
           <Header
             dispatch={this.props.dispatch}
             auth_status={this.props.auth_status}
+            addMyNoteFilter={this.props.addMyNoteFilter}
+            removeMyNoteFilter={this.props.removeMyNoteFilter}
           />
           <div className={styles.container}>
             {this.props.children}
@@ -60,6 +64,8 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
   auth_status: PropTypes.string.isRequired,
+  addMyNoteFilter: PropTypes.func.isRequired,
+  removeMyNoteFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -67,4 +73,14 @@ const mapStateToProps = (state) => ({
   auth_status: state.auth.auth_status,
 });
 
-export default connect(mapStateToProps)(App);
+function mapDispatchToProp(dispatch) {
+  return {
+    ...bindActionCreators({
+      addMyNoteFilter,
+      removeMyNoteFilter
+    }, dispatch),
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(App);

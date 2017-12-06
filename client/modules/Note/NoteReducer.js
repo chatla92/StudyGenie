@@ -1,10 +1,22 @@
 
-import { ADD_NOTE, ADD_NOTES, DELETE_NOTE, UPVOTE, DOWNVOTE } from './NoteActions';
+import { ADD_NOTE, ADD_NOTES, DELETE_NOTE, UPVOTE, DOWNVOTE, REMOVE_MYNOTE_FILTER, ADD_MYNOTE_FILTER } from './NoteActions';
 
-const initialState = { notes: [] };
+const initialState = { notes: [], filter: '' };
 
 const NoteReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_MYNOTE_FILTER:
+      return {
+        ...state,
+        filter: 'mynotes'
+      };
+
+    case REMOVE_MYNOTE_FILTER:
+      return {
+        ...state,
+        filter: ''
+      };
+
     case ADD_NOTE :
       return {
         notes: [action.note, ...state.notes],
