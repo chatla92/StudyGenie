@@ -1,34 +1,5 @@
 
 import { ADD_NOTE, ADD_NOTES, DELETE_NOTE, UPVOTE, DOWNVOTE } from './NoteActions';
-const dummyNotes = [{
-  title: 'String',
-  content: 'Ipsum vero ab sequi tenetur labore vero amet facilis tempora tempora eos. Neque aliquid cum quam porro sunt sint, ducimus. Sunt neque odit non quia eveniet magnam. Eum facilis blanditiis.Ipsum vero ab sequi tenetur labore vero amet facilis tempora tempora eos. Neque aliquid cum quam porro sunt sint, ducimus. Sunt neque odit non quia eveniet magnam. Eum facilis blanditiis.',
-  owner: 'Tinu Tomson',
-  isPrivate: true,
-  isEditable: true,
-  LastModified: 1481544700,
-  cuid: 12345,
-  meta: {
-    tags: [100, 101, 102],
-    fav: [1001, 1002, 1003, 1004],
-    upvote: [1001, 1002, 1003, 1004],
-    downvote: [],
-  },
-}, {
-  title: 'Second String',
-  content: 'Ipsum vero ab sequi tenetur labore vero amet facilis tempora tempora eos. Neque aliquid cum quam porro sunt sint, ducimus. Sunt neque odit non quia eveniet magnam. Eum facilis blanditiis.',
-  owner: 'Sravan Samudra',
-  cuid: 12346,
-  isPrivate: true,
-  isEditable: true,
-  LastModified: 1481544732,
-  meta: {
-    tags: [100, 101, 102],
-    fav: [1001, 1002, 1003, 1004],
-    upvote: [1001, 1002, 1003, 1004],
-    downvote: [],
-  },
-}];
 
 const initialState = { notes: [] };
 
@@ -41,7 +12,7 @@ const NoteReducer = (state = initialState, action) => {
 
     case ADD_NOTES :
       const notes  = action.payload.map(note => {
-        note._source.id = note._id;
+        note._source.id = parseInt(note._id);
         return note._source;
       })
       return {
@@ -50,7 +21,7 @@ const NoteReducer = (state = initialState, action) => {
 
     case DELETE_NOTE :
       return {
-        notes: state.notes.filter(note => note.cuid !== action.cuid),
+        notes: state.notes.filter(note => note.id !== action.id),
       };
 
     case UPVOTE:
@@ -62,7 +33,7 @@ const NoteReducer = (state = initialState, action) => {
             // Use below commented code to implement click toggle (upvote when clicked first time, downvote when clicked again)
             // let upvotes = note.
             // if note.meta.upvotes.contains(username) {
-            
+
             // }
             return {
               ...note,
@@ -104,8 +75,8 @@ const NoteReducer = (state = initialState, action) => {
 // Get all notes
 export const getNotes = state => state.notebook.notes;
 
-// Get note by cuid
-export const getNote = (state, cuid) => state.notebook.notes.filter(note => note.cuid === cuid)[0];
+// Get note by id
+export const getNote = (state, id) => state.notebook.notes.filter(note => note.id === id)[0];
 
 // Export Reducer
 export default NoteReducer;

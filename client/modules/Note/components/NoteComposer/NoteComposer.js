@@ -58,9 +58,9 @@ class NoteComposer extends Component {
     });
   }
 
-  handleContentChange = (e) => {
+  handleContentChange = (content) => {
     this.setState({
-      content: e.target.value,
+      content,
     });
   }
 
@@ -110,7 +110,7 @@ class NoteComposer extends Component {
             onChange={this.handleTagsChange}
             placeholder="Tags"
           />
-          <Editor content={''} />
+          <Editor content={''} onChange={this.handleContentChange} />
         </DialogContent>
         <DialogActions>
           <FormControlLabel

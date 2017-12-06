@@ -91,6 +91,7 @@ NoteGridPage.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
   dispatch: PropTypes.func.isRequired,
 };

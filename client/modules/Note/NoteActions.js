@@ -65,11 +65,13 @@ export const addNotes = createAction(
 // Export Actions
 export function fetchNotes({pageNumber, contentQuery, tagQuery}) {
   let query = {}
+  query.filter = {}
   if (contentQuery) {
-    query.contentQuery = contentQuery
+    query.filter.content = contentQuery
   } else if(tagQuery) {
-    query.tagQuery = tagQuery
+    query.filter.tags = tagQuery
   }
+
   return (dispatch) => {
     return callApi(`note/getNotes/${pageNumber}`, 'post', query).then(response => {
       dispatch(addNotes(response.result));
@@ -78,21 +80,21 @@ export function fetchNotes({pageNumber, contentQuery, tagQuery}) {
 
 }
 
-export function fetchNote(cuid) {
+export function fetchNote(id) {
   return (dispatch) => {
-    return callApi(`notes/${cuid}`).then(res => dispatch(addNote(res.result)));
+    return callApi(`notes/${id}`).then(res => dispatch(addNote(res.result)));
   };
 }
 
-export function deleteNote(cuid) {
+export function deleteNote(id) {
   return {
     type: DELETE_NOTE,
-    cuid,
+    id,
   };
 }
 
-export function deleteNoteRequest(cuid) {
+export function deleteNoteRequest(id) {
   return (dispatch) => {
-    return callApi(`notes/${cuid}`, 'delete').then(() => dispatch(deleteNote(cuid)));
+    return callApi(`notes/${id}`, 'delete').then(() => dispatch(deleteNote(id)));
   };
 }

@@ -89,11 +89,10 @@ export function register(username, fullname, password) {
   };
 }
 
-export function requestPassword(username, fullname, password) {
+export function requestPassword(username) {
   return (dispatch) => {
     return callApi('/auth/requestPassword', 'post', {
       username,
-      password,
     }).then(response => {
       dispatch(requestPasswordSuccessful(response.result));
     }, err => {

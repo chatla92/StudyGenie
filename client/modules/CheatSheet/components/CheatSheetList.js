@@ -51,7 +51,10 @@ class CheatSheetList extends Component {
 CheatSheetList.propTypes = {
   cheatsheets: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    owner: PropTypes.string.isRequired,
+    owner: PropTypes.shape({
+      fullname: PropTypes.string,
+      username: PropTypes.string,
+    }),
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
   })).isRequired,

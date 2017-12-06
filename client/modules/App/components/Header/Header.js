@@ -134,7 +134,8 @@ class Header extends React.Component {
           <Typography type="title" color="inherit" style={titleStyle}>
             Study Genie
           </Typography>
-          {auth_status === AUTH_STAT.AUTHENTICATED ? <Form dispatch={this.props.dispatch} /> : null}
+          <Form dispatch={this.props.dispatch} />
+          {/* auth_status === AUTH_STAT.AUTHENTICATED ? <Form dispatch={this.props.dispatch} /> : null */}
           <Drawer open={this.state.isDrawerOpen} onRequestClose={this.toggleDrawer(false)}>
             <div
               tabIndex={0}

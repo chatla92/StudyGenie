@@ -16,11 +16,11 @@ function NoteList(props) {
       <List className={styles.gridList}>
       {
         props.notes.map(note => (
-          <ListItem key={note.cuid}
+          <ListItem key={note.id}
             <NoteGridItem
               note={note}
-              key={note.cuid}
-              onDelete={() => props.handleDeleteNote(note.cuid)}
+              key={note.id}
+              onDelete={() => props.handleDeleteNote(note.id)}
               requestEditor={props.requestViewer}
             />
           </ListItem>
@@ -34,11 +34,14 @@ function NoteList(props) {
 
 NoteList.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
-    owner: PropTypes.string.isRequired,
+    owner: PropTypes.shape({
+      fullname: PropTypes.string,
+      username: PropTypes.string,
+    }),
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     isPrivate: PropTypes.bool.isRequired,
-    cuid: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
   requestComposer: PropTypes.func.isRequired,

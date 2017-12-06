@@ -5,7 +5,7 @@ import AutoComplete from '../components/autocomplete';
 import AutoContent from '../components/autocontent';
 import Button from 'material-ui/Button';
 
-import NoteActions from '../modules/Note/NoteActions';
+import { fetchNotes } from '../modules/Note/NoteActions';
 
 const styles = theme => ({
   container: {
@@ -30,25 +30,25 @@ class SimpleSelect extends React.Component {
     tagQuery : '',
   };
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleAutoContent(e) {
+  handleContentChange = (contentQuery) => {
     this.setState({
-      contentQuery: e.target.value,
+      contentQuery,
     })
   }
 
-  handleAutoContent(e) {
+  handleTagChange = (tagQuery) => {
     this.setState({
-      tagQuery: e.target.value,
+      tagQuery,
     })
   }
 
   search = () => {
     const { tagQuery, contentQuery } = this.state;
-    this.props.dispatch(NoteActions.fetchNotes({pageNumber: 1, contentQuery, tagQuery}));
+    console.log("contentQuery")
+    console.log(contentQuery);
+    console.log("tagQuery");
+    console.log(tagQuery)
+    this.props.dispatch(fetchNotes({pageNumber: 1, contentQuery, tagQuery}));
   }
 
   render() {
@@ -56,12 +56,12 @@ class SimpleSelect extends React.Component {
 
     return (
       <form className={classes.container} autoComplete="off">
-        <AutoContent onChange={this.handleAutoContent}/>
-        <AutoComplete />
+        <AutoContent onAutoContentChange={this.handleContentChange}/>
+        <AutoComplete onAutoCompleteChange={this.handleTagChange}/>
         <Button
           raised
           onClick={this.search}
-          color="secondary"
+          color="contrast"
           className={classes.button}>Search</Button>
       </form>
     );

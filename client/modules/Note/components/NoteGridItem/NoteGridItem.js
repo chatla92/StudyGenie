@@ -97,11 +97,14 @@ class NoteGridItem extends React.Component {
 
 NoteGridItem.propTypes = {
   note: PropTypes.shape({
-    owner: PropTypes.string.isRequired,
+    owner: PropTypes.shape({
+      fullname: PropTypes.string,
+      username: PropTypes.string,
+    }),
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    isPrivate: PropTypes.bool.isRequired,
-    cuid: PropTypes.number.isRequired,
+    isPrivate: PropTypes.bool,
+    id: PropTypes.number.isRequired,
     LastModified: PropTypes.number.isRequired,
   }).isRequired,
   requestEditor: PropTypes.func,
