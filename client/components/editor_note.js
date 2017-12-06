@@ -29,6 +29,7 @@ export default class Editor extends Component {
         evt.editor.resize("100%", 300);
         document.getElementById("cke_editor1").style.marginTop = "58px";
         document.getElementsByClassName("p10")[0].style.width = "100%";
+        document.getElementsByClassName("cke_editable")[0].innerHTML=this.state.content;
       }
 
     onBlur(evt){
@@ -46,7 +47,7 @@ export default class Editor extends Component {
               activeClass="p10"
               content={this.state.content}
               events={{
-                "instanceReady": this.onResizer,
+                "instanceReady": this.onResizer(data),
                 "blur": this.onBlur,
                 "afterPaste": this.afterPaste,
                 "change": this.onChange,

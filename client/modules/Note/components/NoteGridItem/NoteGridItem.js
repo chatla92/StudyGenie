@@ -79,9 +79,10 @@ class NoteGridItem extends React.Component {
                 <ThumbDown />
               </Badge>
             </IconButton>
-            <IconButton>
+          { /*<IconButton>
               <ShareIcon />
-            </IconButton>
+            </IconButton>*/
+          }
             <IconButton>
               <ModeEditIcon onClick={() => { this.props.requestEditor(true, this.props.note); }} />
             </IconButton>

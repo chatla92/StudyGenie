@@ -31,6 +31,7 @@ class NoteViewer extends Component {
   render() {
     const title = this.props.openedNote==null ? '' : this.props.openedNote.title;
     const content = this.props.openedNote==null ? '' : this.props.openedNote.content;
+    console.log("content = " + content);
     const tags = this.props.openedNote==null ? [] : this.props.openedNote.meta.tags;
     return (
       <Dialog
@@ -52,9 +53,6 @@ class NoteViewer extends Component {
         <ChipInput
             value={tags}
          />
-          <ChipInput
-            placeholder="Share with"
-          />
           <Editor content={content} />
         </DialogContent>
         <DialogActions>
@@ -62,7 +60,7 @@ class NoteViewer extends Component {
             Cancel
           </Button>
           <Button onClick={this.handleSubmit} color="primary">
-            Edit Note
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
