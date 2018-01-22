@@ -1,202 +1,37 @@
-![](http://res.cloudinary.com/hashnode/image/upload/w_200/v1466495663/static_imgs/mern/v2/mernio-logo.png)
+### DEMO
+https://youtu.be/pwXGxLL78HY
 
-# mern-starter
-![title](https://travis-ci.org/Hashnode/mern-starter.svg?branch=v2.0.0)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![Discuss on Hashnode](
-https://hashnode.github.io/badges/mern.svg)](https://hashnode.com/n/mern)
+### SETUP
+1. Install mongoDB and run. Use this [mongoDB documentation link](https://docs.mongodb.com/manual/installation/) for reference
 
+2. Install nodejs and npm package. Use this [Nodejs documentation link](https://nodejs.org/en/download/) for reference
 
-MERN is a scaffolding tool which makes it easy to build isomorphic apps using Mongo, Express, React and NodeJS. It minimises the setup time and gets you up to speed using proven technologies.
+3. Run the following two scripts importAuth.js and importUser.js present in server/importutil folder. The following are the commands
 
-- [Website](http://mern.io)
-- [Documentation](http://mern.io/documentation.html)
-- [Discussions](https://hashnode.com/n/mern)
+   * *```  node <path_to_Studygenie>/server/importUtil/importUser.js```*
 
-## Quickstart
+   *  *```  node <path_to_Studygenie>/server/importUtil/importAuth.js```*
 
-```
-  npm install -g mern-cli
-  mern init your_new_app
-  cd your_new_app
-  npm install
-  npm start
-```
+   **Note: You have to manually exit after running each of the above commands by entering 'ctrl+C' when the script displays 'done' on the terminal**
 
-**Note : Please make sure your MongoDB is running.** For MongoDB installation guide see [this](https://docs.mongodb.org/v3.0/installation/). Also `npm3` is required to install dependencies properly.
+4. Install elastic search in your local computer. Use this [Elasticsearch documentation link](https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html)
 
-## Available Commands
+5. Run ```curl -XPUT 'http://localhost:9200/studygenie'``` from terminal of a linux machine. If you are using a remote elastic search server, use the corresponding url for elasticsearch
 
-1. `npm run start` - starts the development server with hot reloading enabled
+6. Run the following python script to load data into elasticsearch
+python /path/to/Studygenie/server/importUtil/es_load.py. The above command loads our collected data on to the elasticsearch server.
 
-2. `npm run bs` - bundles the code and starts the production server
+7. Initial Database setup for notes data and user accounts is done. Now on to the server setup.
 
-3. `npm run test` - start the test runner
+8. Go to the source code folder and run ```npm install && npm start```
 
-4. `npm run watch:test` - start the test runner with watch mode
+9. The server starts on port 8000. Access the application using 'http://localhost:8000/'
 
-5. `npm run cover` - generates test coverage report
+### USAGE
+1. On the login page use the following credentials
+  * usename: ```user22@gmail.com```
+  * password: ```pass22```
 
-6. `npm run lint` - runs linter to check for lint errors
+2. As the previous search history of this user is more inclned to "Java", you would have more of java notes compared to others.
 
-## File Structure
-
-### Webpack Configs
-
-MERN uses Webpack for bundling modules. There are four types of Webpack configs provided `webpack.config.dev.js` (for development), `webpack.config.prod.js` (for production), `webpack.config.server.js` (for bundling server in production) and `webpack.config.babel.js` (for [babel-plugin-webpack-loaders](https://github.com/istarkov/babel-plugin-webpack-loaders) for server rendering of assets included through webpack).
-
-The Webpack configuration is minimal and beginner-friendly. You can customise and add more features to it for production build.
-
-### Server
-
-MERN uses express web framework. Our app sits in server.js where we check for NODE_ENV.
-
-If NODE_ENV is development, we apply Webpack middlewares for bundling and Hot Module Replacement.
-
-### Client
-
-Client directory contains all the shared components, routes, modules.
-
-#### components
-This folder contains all the common components which are used throughout the project.
-
-#### index.js
-Index.js simply does client side rendering using the data provided from `window.__INITIAL_STATE__`.
-
-#### modules
-Modules are the way of organising different domain-specific modules in the project. A typical module contains the following
-```
-| - Post
-  | - __tests__ // all the tests for this module goes here
-      | - components // Sub components of this module
-          | - Post.spec.js
-          | - PostList.spec.js
-          | - PostItem.spec.js
-          | - PostImage.spec.js
-      | - pages
-          | - PostPage.spec.js
-          | - PostViewPage.spec.js
-      | - PostReducer.spec.js
-      | - PostActions.spec.js
-  | - components // Sub components of this module
-      | - Post.js
-      | - PostList.js
-      | - PostItem.js
-      | - PostImage.js
-  | - pages // React Router Pages from this module
-      | - PostPage
-          | - PostPage.js
-          | - PostPage.css
-      | - PostViewPage
-          | - PostViewPage.js
-          | - PostViewPage.css
-  | - PostReducer.js
-  | - PostActions.js
-```
-
-## Misc
-
-### Importing Assets
-Assets can be kept where you want and can be imported into your js files or css files. Those fill be served by webpack in development mode and copied to the dist folder during production.
-
-### ES6 support
-We use babel to transpile code in both server and client with `stage-0` plugin. So, you can use both ES6 and experimental ES7 features.
-
-### Docker
-There are docker configurations for both development and production.
-
-To run docker for development,
-```
-docker-compose -f docker-compose-development.yml build
-docker-compose -f docker-compose-development.yml up
-```
-
-To run docker for production,
-```
-docker-compose build
-docker-compose up
-```
-
-### Make your MERN
-In this version, we enabled the `mern-cli` to clone not only this project but also the variants of `mern-starter` like one project with MaterialUI or JWT auth. To make your version of MERN, follow these steps
-
-1. Clone this project
-    ```
-    git clone https://github.com/Hashnode/mern-starter
-    ```
-
-2. Make your changes. Add a package, add authentication, modify the file structure, replace Redux with MobX or anything else.
-
-3. In this version, we also added code generators. Blueprints for those generators are located at `config/blueprints`, and config is located at `mern.json`. Make sure to edit them if necessary after your made modifications in the previous step. There is a section below which explains how to modify generators.
-
-4. Next clone `mern-cli` project
-    ```
-    git clone https://github.com/Hashnode/mern-cli
-    ```
-
-5. Add your project details to `variants.json` in the cloned project and send a pull request.
-
-### Modifying Generators
-
-#### mern.json
-It contains a blueprints array. Each object in it is the config for a generator. A blueprint config contains the name, description, usage, and files array. An example blueprint config
-```
-{
-  "name": "dumb-s",
-  "description": "Generates a dumb react component in shared components",
-  "usage": "dumb-s [component-name]",
-  "files": [
-    {
-      "blueprint-path": "config/blueprints/dumb-component.ejs",
-      "target-path": "client/components/<%= helpers.capitalize(name) %>.js"
-    }
-  ]
-}
-```
-
-A file object contains
-
-1. `blueprint-path` - location of the blueprint file
-
-2. `target-path` - location where the file should be generated
-
-3. `parent-path` - optional parameter, used if you want to generate the file inside an already existing folder in your project.
-
-Also, `target-path` supports [ejs](https://github.com/mde/ejs) and the following variables will be passed while rendering,
-
-1. `name` - `<component-name>` input from user
-
-2. `parent` - in particular special cases where you need to generate files inside an already existing folder, you can obtain this parent variable from the user. A config using that will look like,
-    ```
-    {
-      "name": "dumb-m",
-      "description": "Generates a dumb react component in a module directory",
-      "usage": "dumb-m <module-name>/<component-name>",
-      "files": [
-        {
-          "blueprint-path": "config/blueprints/dumb-component.ejs",
-          "parent-path": "client/modules/<%= helpers.capitalize(parent) %>",
-          "target-path": "components/<%= helpers.capitalize(name) %>/<%= helpers.capitalize(name) %>.js"
-        }
-      ]
-    }
-    ```
-    Here, notice the usage. In `<module-name>/<component-name>`, `<module-name>` will be passed as `parent` and `<component-name>` will be passed as `<name>`.
-
-3. `helpers` - an helper object is passed which include common utility functions. For now, it contains `capitalize`. If you want to add more, send a PR to [mern-cli](https://github.com/Hashnode/mern-cli).
-
-#### Blueprint files
-Blueprints are basically [ejs](https://github.com/mde/ejs) templates which are rendered with the same three variables(`name`, optional `parent` and `helpers` object) as above.
-
-### Caveats
-
-#### FOUC (Flash of Unstyled Content)
-To make the hot reloading of CSS work, we are not extracting CSS in development. Ideally, during server rendering, we will be extracting CSS, and we will get a .css file, and we can use it in the html template. That's what we are doing in production.
-
-In development, after all scripts get loaded, react loads the CSS as BLOBs. That's why there is a second of FOUC in development.
-
-#### Client and Server Markup Mismatch
-This warning is visible only on development and totally harmless. This occurs to hash difference in `react-router`. To solve it, react router docs asks you to use `match` function. If we use `match`, `react-hot-reloader` stops working.
-
-## License
-MERN is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+3. To see how other functionalities work, please view the following youtube video https://youtu.be/u9yXoSEe8jU
